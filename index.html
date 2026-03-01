@@ -1,4 +1,4 @@
- <!doctype html>
+<!doctype html>
 <html lang="es">
 <head>
   <meta charset="utf-8" />
@@ -126,9 +126,12 @@
       color:#333;
       transition:transform .12s ease;
       touch-action: manipulation;
+      user-select:none;
     }
     .btn:hover{ transform: translateY(-1px); }
     .btn.primary{ border-color:#d9d9ff; }
+    .btn.dark{ background:#1f1f1f; color:#fff; border-color:#1f1f1f; }
+    .btn.soft{ background:#f6f7ff; border-color:#e7e8ff; }
 
     .chip{
       display:inline-block;
@@ -152,7 +155,12 @@
       border:1px solid rgba(255,255,255,.8);
       border-radius:14px; padding:10px 12px;
       color:#3a3a3a;
+      display:flex;
+      justify-content:space-between;
+      gap:10px;
+      align-items:center;
     }
+    .cap small{ color:#666; }
     .car-controls{ display:flex; justify-content:space-between; align-items:center; margin-top:12px; gap:10px; }
     .dots{ display:flex; gap:8px; justify-content:center; flex:1; }
     .dot{
@@ -204,6 +212,13 @@
       display:block;
       opacity:1;
       transform: translateY(0);
+    }
+
+    /* separador suave */
+    .divider{
+      height:1px;
+      background:linear-gradient(90deg, transparent, #e7e7f6, transparent);
+      margin:14px 0;
     }
 
     @media (prefers-reduced-motion: reduce){
@@ -276,8 +291,13 @@
       <div><button type="button" onclick="forcePlayMarcha()">Activar sonido</button></div>
     </div>
 
-    <!-- opcional: botón para abrir tu Canva (por si quieres) -->
-    <div style="margin-top:14px">
+    <div style="margin-top:14px; display:flex; gap:10px; flex-wrap:wrap; justify-content:center;">
+      <!-- Botón solicitado: abre el mismo enlace (por si alguien quiere “abrir en nueva pestaña”) -->
+      <a class="btn soft" target="_blank" rel="noopener" href="https://adelili7.github.io/nuestraboda/">
+        Abrir este enlace
+      </a>
+
+      <!-- opcional: abrir tu Canva -->
       <a class="btn" target="_blank" rel="noopener" href="https://bodaerick.my.canva.site/nuestraboda#inicio">
         Abrir versión Canva
       </a>
@@ -286,24 +306,45 @@
 
   <!-- SECCIONES (ocultas hasta clic) -->
   <main class="wrap" id="siteSections">
+
+    <!-- Frase bíblica -->
     <section class="section" id="biblia">
       <h2 class="title">“Lo que Dios ha unido, que no lo separe el hombre.”</h2>
       <p class="sub"><strong>Mateo 19:6</strong></p>
       <span class="chip">Bienvenidos a nuestra boda</span>
     </section>
 
+    <!-- Galería: Mejores momentos -->
     <section class="section" id="momentos">
       <h2 class="title">Mejores momentos de los novios</h2>
       <p class="sub">“Tu amor es lo que he anhelado y el regalo que Dios me ha dado”.</p>
 
       <div class="carousel" id="car1">
         <div class="track">
-          <div class="slide"><img src="momento1.jpg" alt="Momento 1"><div class="cap">Momento 1</div></div>
-          <div class="slide"><img src="momento2.jpg" alt="Momento 2"><div class="cap">Momento 2</div></div>
-          <div class="slide"><img src="momento3.jpg" alt="Momento 3"><div class="cap">Momento 3</div></div>
-          <div class="slide"><img src="momento4.jpg" alt="Momento 4"><div class="cap">Momento 4</div></div>
-          <div class="slide"><img src="momento5.jpg" alt="Momento 5"><div class="cap">Momento 5</div></div>
-          <div class="slide"><img src="momento6.jpg" alt="Momento 6"><div class="cap">Momento 6</div></div>
+          <div class="slide">
+            <img src="momento1.jpg" alt="Momento 1">
+            <div class="cap"><strong>Momento 1</strong><small>Erick & Esther</small></div>
+          </div>
+          <div class="slide">
+            <img src="momento2.jpg" alt="Momento 2">
+            <div class="cap"><strong>Momento 2</strong><small>Erick & Esther</small></div>
+          </div>
+          <div class="slide">
+            <img src="momento3.jpg" alt="Momento 3">
+            <div class="cap"><strong>Momento 3</strong><small>Erick & Esther</small></div>
+          </div>
+          <div class="slide">
+            <img src="momento4.jpg" alt="Momento 4">
+            <div class="cap"><strong>Momento 4</strong><small>Erick & Esther</small></div>
+          </div>
+          <div class="slide">
+            <img src="momento5.jpg" alt="Momento 5">
+            <div class="cap"><strong>Momento 5</strong><small>Erick & Esther</small></div>
+          </div>
+          <div class="slide">
+            <img src="momento6.jpg" alt="Momento 6">
+            <div class="cap"><strong>Momento 6</strong><small>Erick & Esther</small></div>
+          </div>
         </div>
       </div>
 
@@ -312,8 +353,17 @@
         <div class="dots" id="dots-car1"></div>
         <button class="btn" type="button" onclick="carNext('car1')">⟶</button>
       </div>
+
+      <div class="divider"></div>
+
+      <div style="display:flex; gap:10px; flex-wrap:wrap;">
+        <button class="btn" type="button" onclick="toggleAutoplay()"><span id="autoLabel">▶︎ Autoplay</span></button>
+        <button class="btn" type="button" onclick="carGo('car1',0)">Volver al inicio</button>
+      </div>
+      <p class="sub" style="margin-top:10px;">Tip: en celular puedes deslizar para cambiar la foto.</p>
     </section>
 
+    <!-- RSVP -->
     <section class="section" id="rsvp">
       <h2 class="title">Confirmación de asistencia</h2>
       <p class="sub">Confirma tu asistencia y número de invitados. Se guardará automáticamente en nuestra lista.</p>
@@ -358,9 +408,10 @@
       </form>
     </section>
 
+    <!-- Buenos deseos -->
     <section class="section" id="deseos">
       <h2 class="title">Sección de buenos deseos</h2>
-      <p class="sub">Déjanos un mensaje. Se guardará automáticamente y (si el endpoint lo permite) se mostrará aquí.</p>
+      <p class="sub">Déjanos un mensaje. Se guardará automáticamente en Google Sheets.</p>
 
       <form id="wishForm">
         <div class="field">
@@ -376,15 +427,16 @@
         <div class="status" id="wishStatus"></div>
       </form>
 
-      <div class="section" style="margin-top:16px; box-shadow:none;">
-        <h3 class="title" style="font-size:1.25rem;">Mensajes</h3>
-        <p class="sub" style="margin-top:-6px;">
-          Si no ves mensajes, el endpoint quizá no expone lectura por GET/JSON; aun así, sí guarda en Sheets.
-        </p>
-        <div id="wishFeed" style="display:flex; flex-direction:column; gap:10px;"></div>
-      </div>
+      <div class="divider"></div>
+
+      <h3 class="title" style="font-size:1.25rem;">Mensajes en tiempo real</h3>
+      <p class="sub" style="margin-top:-6px;">
+        Si no aparecen mensajes, tu endpoint quizá no expone lectura por GET/JSON; aun así, los guarda en Sheets.
+      </p>
+      <div id="wishFeed" style="display:flex; flex-direction:column; gap:10px;"></div>
     </section>
 
+    <!-- Vestimenta -->
     <section class="section" id="vestimenta">
       <h2 class="title">Tipo de vestimenta formal</h2>
       <p class="sub">Te recomendamos la siguiente paleta de colores; <strong>dejemos el blanco para la novia.</strong></p>
@@ -413,9 +465,10 @@
       </div>
     </section>
 
+    <!-- Galería colaborativa -->
     <section class="section" id="colaborativa">
       <h2 class="title">Galería colaborativa</h2>
-      <p class="sub">Sube tus fotos o videos para capturar momentos desde diferentes perspectivas.</p>
+      <p class="sub">Sube tus fotos o videos y construyamos una galería con momentos desde diferentes perspectivas.</p>
 
       <div class="row">
         <div class="col">
@@ -432,6 +485,7 @@
       </div>
     </section>
 
+    <!-- WhatsApp novios -->
     <section class="section" id="whatsapp">
       <h2 class="title">Contacta a los novios</h2>
       <p class="sub">Para dudas rápidas, aquí estamos.</p>
@@ -447,6 +501,7 @@
       </div>
     </section>
 
+    <!-- Compartir -->
     <section class="section" id="compartir">
       <h2 class="title">Comparte la invitación</h2>
       <p class="sub">Facilita que tus invitados la compartan en WhatsApp, Facebook o Instagram.</p>
@@ -458,13 +513,21 @@
       </div>
       <div class="status" id="copyStatus"></div>
       <div class="status" style="margin-top:6px;">Para Instagram: copia el link y pégalo en tu bio o mensaje.</div>
+
+      <div class="divider"></div>
+
+      <a class="btn soft" target="_blank" rel="noopener" href="https://adelili7.github.io/nuestraboda/">
+        Abrir enlace https://adelili7.github.io/nuestraboda/
+      </a>
     </section>
 
+    <!-- Cierre -->
     <section class="section" id="cierre">
       <h2 class="title">Con amor eterno Esther y Erick</h2>
       <p class="sub">Gracias por acompañarnos en este día tan especial.</p>
       <img class="img-round" src="momento7.jpg" alt="Momento 7">
     </section>
+
   </main>
 
   <script>
@@ -477,19 +540,25 @@
     const ringButton = document.getElementById("ringButton");
     const sections = document.getElementById("siteSections");
 
+    // Autoplay de carrusel
+    let autoTimer = null;
+    let autoOn = false;
+
     // Intento autoplay (puede fallar en móviles)
     document.addEventListener("DOMContentLoaded", async () => {
       try { await marcha?.play(); } catch(e) {}
-      // Si entran con #algo (por ejemplo desde un link), mostramos secciones
+
+      initCarousel("car1");
+      setupShare();
+      loadWishFeed();
+      setInterval(loadWishFeed, 12000);
+
+      // Si entran con #algo, mostramos secciones y bajamos
       if (location.hash && sections) {
         sections.classList.add("visible");
         const el = document.querySelector(location.hash);
         if (el) el.scrollIntoView({behavior:"smooth"});
       }
-      initCarousel("car1");
-      setupShare();
-      loadWishFeed();
-      setInterval(loadWishFeed, 12000);
     });
 
     async function forcePlayMarcha(){
@@ -504,7 +573,6 @@
       if (sections && !sections.classList.contains("visible")) {
         sections.classList.add("visible");
       }
-
       const next = document.querySelector("#biblia");
       if (next) next.scrollIntoView({ behavior:"smooth" });
     }
@@ -532,6 +600,7 @@
         dotsWrap.appendChild(d);
       }
 
+      // swipe touch
       let startX=0, dx=0, touching=false;
       root.addEventListener("touchstart",(e)=>{ touching=true; startX=e.touches[0].clientX; dx=0; },{passive:true});
       root.addEventListener("touchmove",(e)=>{ if(!touching) return; dx=e.touches[0].clientX-startX; },{passive:true});
@@ -552,9 +621,24 @@
     function carNext(id){ const st = carState[id]; if(!st) return; carGo(id, st.idx+1); }
     function carPrev(id){ const st = carState[id]; if(!st) return; carGo(id, st.idx-1); }
 
-    // Exponer para onclick
+    // Export para botones onclick
     window.carNext = carNext;
     window.carPrev = carPrev;
+    window.carGo = carGo;
+
+    function toggleAutoplay(){
+      autoOn = !autoOn;
+      const lbl = document.getElementById("autoLabel");
+      if (autoOn){
+        lbl.textContent = "⏸ Autoplay";
+        autoTimer = setInterval(()=>carNext("car1"), 3500);
+      } else {
+        lbl.textContent = "▶︎ Autoplay";
+        clearInterval(autoTimer);
+        autoTimer = null;
+      }
+    }
+    window.toggleAutoplay = toggleAutoplay;
 
     // ===== RSVP =====
     document.getElementById("rsvpForm")?.addEventListener("submit", async (e)=>{
@@ -596,6 +680,8 @@
       if (!wrap) return;
 
       try{
+        // Para “tiempo real”: tu Apps Script debe soportar GET y devolver JSON.
+        // Intento estándar: ?action=list
         const res = await fetch(WISH_ENDPOINT + "?action=list", { method:"GET" });
         if (!res.ok) throw new Error("HTTP "+res.status);
         const data = await res.json();
@@ -620,7 +706,7 @@
           wrap.appendChild(card);
         });
       }catch(e){
-        // si tu endpoint no ofrece GET/JSON, no hacemos nada
+        // si no hay GET/JSON, no rompemos nada
       }
     }
 
@@ -632,17 +718,19 @@
       const fb = document.getElementById("shareFB");
       if (wa) wa.href = `https://wa.me/?text=${shareText}%20${encodeURIComponent(inviteUrl)}`;
       if (fb) fb.href = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(inviteUrl)}`;
-      window.copyInvite = async function(){
-        const st = document.getElementById("copyStatus");
-        try{
-          await navigator.clipboard.writeText(inviteUrl);
-          st.textContent = "Link copiado ✅ (puedes pegarlo en WhatsApp/Instagram).";
-        }catch(e){
-          st.textContent = "No pude copiar automáticamente. Copia manual: " + inviteUrl;
-        }
+    }
+
+    window.copyInvite = async function(){
+      const inviteUrl = location.href.split("#")[0];
+      const st = document.getElementById("copyStatus");
+      try{
+        await navigator.clipboard.writeText(inviteUrl);
+        st.textContent = "Link copiado ✅ (puedes pegarlo en WhatsApp/Instagram).";
+      }catch(e){
+        st.textContent = "No pude copiar automáticamente. Copia manual: " + inviteUrl;
       }
     }
   </script>
 
 </body>
-</html>
+</html> 
