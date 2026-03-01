@@ -1,0 +1,627 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Boda Erick & Esther</title>
+
+  <style>
+    :root{
+      --txt:#4a4a4a;
+      --muted:#7a7a7a;
+      --card:#ffffff;
+      --line:#ececec;
+      --shadow: 0 10px 30px rgba(0,0,0,.08);
+      --accent:#a8b6ff;
+    }
+    *{ box-sizing:border-box; }
+    body{
+      margin:0;
+      color:var(--txt);
+      background: #fbfbfd;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    }
+
+    /* ======= PORTADA ======= */
+    .cover{
+      min-height:100vh;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      text-align:center;
+      padding:28px 18px;
+      position:relative;
+      overflow:hidden;
+      background:
+        radial-gradient(1100px 600px at 20% 15%, rgba(168,182,255,.18), transparent 60%),
+        radial-gradient(900px 550px at 80% 85%, rgba(242,168,198,.18), transparent 60%),
+        #fbfbfd;
+    }
+
+    .ring-title{
+      font-family:"Playfair Display","Georgia",serif;
+      font-size:2.2rem;
+      margin:18px 0 4px;
+      color:#6b6b6b;
+    }
+    .ring-hint{
+      margin:0;
+      font-size:0.95rem;
+      letter-spacing:.3px;
+      color:#8a8a8a;
+    }
+    .ring-btn{
+      cursor:pointer;
+      width:190px;
+      user-select:none;
+      -webkit-tap-highlight-color:transparent;
+      animation:pulse 2.5s infinite ease-in-out;
+    }
+    @keyframes pulse{
+      0%,100%{ transform:scale(1); filter:drop-shadow(0 0 6px rgba(143,170,255,.6)); }
+      50%{ transform:scale(1.06); filter:drop-shadow(0 0 18px rgba(143,170,255,.9)); }
+    }
+
+    .sound-help{
+      margin-top:18px;
+      font-size:0.9rem;
+      color:#666;
+      opacity:.95;
+    }
+    .sound-help button{
+      margin-top:10px;
+      border:1px solid #ddd;
+      background:#fff;
+      padding:10px 14px;
+      border-radius:999px;
+      cursor:pointer;
+    }
+
+    /* ======= CONTENEDOR SECCIONES ======= */
+    .wrap{ max-width:980px; margin:0 auto; padding:12px 18px 80px; }
+    .section{
+      background:var(--card);
+      border:1px solid var(--line);
+      border-radius:22px;
+      box-shadow:var(--shadow);
+      padding:22px;
+      margin:18px 0;
+    }
+    .title{
+      font-family:"Playfair Display","Georgia",serif;
+      font-size:1.8rem;
+      margin:0 0 10px;
+    }
+    .sub{
+      color:var(--muted);
+      margin:0 0 14px;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      line-height:1.5;
+    }
+    .row{ display:flex; gap:16px; flex-wrap:wrap; align-items:stretch; }
+    .col{ flex:1 1 280px; }
+    .btn{
+      display:inline-flex;
+      gap:10px;
+      align-items:center;
+      justify-content:center;
+      border:1px solid var(--line);
+      background:#fff;
+      padding:12px 14px;
+      border-radius:999px;
+      cursor:pointer;
+      text-decoration:none;
+      color:#333;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      transition:transform .12s ease;
+    }
+    .btn:hover{ transform: translateY(-1px); }
+    .btn.primary{ border-color:#d9d9ff; }
+
+    .chip{
+      display:inline-block;
+      padding:8px 12px;
+      border-radius:999px;
+      border:1px solid var(--line);
+      margin:6px 8px 0 0;
+      font-size:.9rem;
+      color:var(--muted);
+      background:#fff;
+    }
+
+    /* ======= CARRUSEL ======= */
+    .carousel{ position:relative; overflow:hidden; border-radius:18px; border:1px solid var(--line); background:#f9f9fb; }
+    .track{ display:flex; transition:transform .55s ease; will-change:transform; }
+    .slide{ min-width:100%; aspect-ratio: 16/10; display:flex; align-items:center; justify-content:center; position:relative; }
+    .slide img{ width:100%; height:100%; object-fit:cover; display:block; }
+    .cap{
+      position:absolute; left:14px; right:14px; bottom:12px;
+      background:rgba(255,255,255,.78); backdrop-filter: blur(6px);
+      border:1px solid rgba(255,255,255,.8);
+      border-radius:14px; padding:10px 12px;
+      color:#3a3a3a;
+    }
+    .car-controls{ display:flex; justify-content:space-between; align-items:center; margin-top:12px; gap:10px; }
+    .dots{ display:flex; gap:8px; justify-content:center; flex:1; }
+    .dot{
+      width:9px; height:9px; border-radius:99px;
+      border:1px solid #d9d9d9; background:#fff; cursor:pointer;
+    }
+    .dot.active{ background:var(--accent); border-color:var(--accent); }
+
+    /* ======= FORM ======= */
+    .field{ display:flex; flex-direction:column; gap:6px; margin:10px 0; }
+    .field label{ font-size:.92rem; color:var(--muted); }
+    .field input, .field select, .field textarea{
+      border:1px solid var(--line);
+      border-radius:14px;
+      padding:12px 12px;
+      font-size:1rem;
+      outline:none;
+      background:#fff;
+    }
+    .field textarea{ min-height:110px; resize:vertical; }
+    .status{ margin-top:10px; color:var(--muted); }
+
+    /* ======= PALETA ======= */
+    .palette{ display:flex; gap:10px; flex-wrap:wrap; margin-top:10px; }
+    .sw{
+      width:44px; height:44px; border-radius:14px;
+      border:1px solid rgba(0,0,0,.08);
+      box-shadow:0 6px 16px rgba(0,0,0,.06);
+    }
+
+    /* ======= IMG ======= */
+    .img-round{
+      width:100%;
+      border-radius:18px;
+      border:1px solid var(--line);
+      box-shadow:var(--shadow);
+      display:block;
+    }
+
+    /* ======= SHARE ======= */
+    .share-row{ display:flex; gap:10px; flex-wrap:wrap; }
+
+    /* Respeta accesibilidad */
+    @media (prefers-reduced-motion: reduce){
+      .ring-btn{ animation:none; }
+      .track{ transition:none; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ======= AUDIO =======
+    Nota: En móviles, algunos navegadores bloquean autoplay hasta el primer toque.
+    Por eso incluimos el botón "Activar sonido".
+  -->
+  <audio id="marchaNupcial" autoplay loop>
+    <source src="marcha_nupcial.mp3" type="audio/mpeg">
+  </audio>
+
+  <!-- Audio que se reproduce al dar clic al anillo -->
+  <audio id="audioClick">
+    <source src="unmundodiferente.mp3" type="audio/mpeg">
+  </audio>
+
+  <!-- ======= PORTADA (Anillo 2D animado) ======= -->
+  <section class="cover" id="portada">
+
+    <svg class="ring-btn" viewBox="0 0 200 200" role="button" aria-label="Abrir invitación" onclick="ringAction()">
+      <defs>
+        <linearGradient id="silverGlow" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#ffffff"/>
+          <stop offset="45%" stop-color="#e6e6e6"/>
+          <stop offset="70%" stop-color="#bfbfbf"/>
+          <stop offset="100%" stop-color="#f7f7f7"/>
+        </linearGradient>
+
+        <radialGradient id="blueDiamond">
+          <stop offset="0%" stop-color="#eef5ff"/>
+          <stop offset="65%" stop-color="#79aaff"/>
+          <stop offset="100%" stop-color="#1f43b8"/>
+        </radialGradient>
+
+        <filter id="sparkle" x="-40%" y="-40%" width="180%" height="180%">
+          <feGaussianBlur stdDeviation="2" result="blur"/>
+          <feMerge>
+            <feMergeNode in="blur"/>
+            <feMergeNode in="SourceGraphic"/>
+          </feMerge>
+        </filter>
+      </defs>
+
+      <!-- Aro -->
+      <circle cx="100" cy="118" r="55" fill="none" stroke="url(#silverGlow)" stroke-width="14"/>
+
+      <!-- Diamante -->
+      <polygon points="100,22 132,56 100,92 68,56"
+        fill="url(#blueDiamond)"
+        style="filter: drop-shadow(0 0 10px rgba(122,162,255,.95));"
+      />
+
+      <!-- Destellos animados -->
+      <g filter="url(#sparkle)">
+        <path d="M100 6 L103 16 L113 19 L103 22 L100 32 L97 22 L87 19 L97 16 Z" fill="#ffffff" opacity="0.9">
+          <animate attributeName="opacity" values="0.1;0.95;0.2" dur="1.8s" repeatCount="indefinite"/>
+        </path>
+        <path d="M155 45 L157 52 L164 54 L157 56 L155 63 L153 56 L146 54 L153 52 Z" fill="#ffffff" opacity="0.85">
+          <animate attributeName="opacity" values="0.2;0.9;0.2" dur="2.2s" repeatCount="indefinite"/>
+        </path>
+      </g>
+    </svg>
+
+    <h1 class="ring-title">¡Sí, acepto!</h1>
+    <p class="ring-hint">Da clic en el anillo para abrir</p>
+
+    <div class="sound-help">
+      Si no escuchas música (por configuración del teléfono), toca aquí:
+      <div>
+        <button type="button" onclick="forcePlayMarcha()">Activar sonido</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======= SECCIONES (después de la portada) ======= -->
+  <main class="wrap" id="inicio">
+
+    <!-- Frase bíblica -->
+    <section class="section" id="biblia">
+      <h2 class="title">“Lo que Dios ha unido, que no lo separe el hombre.”</h2>
+      <p class="sub"><strong>Mateo 19:6</strong></p>
+      <span class="chip">Bienvenidos a nuestra boda</span>
+    </section>
+
+    <!-- Galería: Mejores momentos -->
+    <section class="section" id="momentos">
+      <h2 class="title">Mejores momentos de los novios</h2>
+      <p class="sub">“Tu amor es lo que he anhelado y el regalo que Dios me ha dado”.</p>
+
+      <div class="carousel" id="car1">
+        <div class="track">
+          <!-- Cambia estos src por las URLs reales o rutas correctas -->
+          <div class="slide"><img src="momento1.jpg" alt="Momento 1"><div class="cap">Momento 1</div></div>
+          <div class="slide"><img src="momento2.jpg" alt="Momento 2"><div class="cap">Momento 2</div></div>
+          <div class="slide"><img src="momento3.jpg" alt="Momento 3"><div class="cap">Momento 3</div></div>
+          <div class="slide"><img src="momento4.jpg" alt="Momento 4"><div class="cap">Momento 4</div></div>
+          <div class="slide"><img src="momento5.jpg" alt="Momento 5"><div class="cap">Momento 5</div></div>
+          <div class="slide"><img src="momento6.jpg" alt="Momento 6"><div class="cap">Momento 6</div></div>
+        </div>
+      </div>
+
+      <div class="car-controls">
+        <button class="btn" type="button" onclick="carPrev('car1')">⟵</button>
+        <div class="dots" id="dots-car1"></div>
+        <button class="btn" type="button" onclick="carNext('car1')">⟶</button>
+      </div>
+    </section>
+
+    <!-- RSVP -->
+    <section class="section" id="rsvp">
+      <h2 class="title">Confirmación de asistencia</h2>
+      <p class="sub">Confirma tu asistencia y número de invitados. Se guardará automáticamente en nuestra lista.</p>
+
+      <form id="rsvpForm">
+        <div class="row">
+          <div class="col">
+            <div class="field">
+              <label>Nombre completo</label>
+              <input name="nombre" required placeholder="Tu nombre"/>
+            </div>
+          </div>
+          <div class="col">
+            <div class="field">
+              <label>WhatsApp / Teléfono</label>
+              <input name="telefono" placeholder="+52..."/>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col">
+            <div class="field">
+              <label>¿Asistirás?</label>
+              <select name="asistencia" required>
+                <option value="" selected disabled>Selecciona una opción</option>
+                <option value="Sí">Sí</option>
+                <option value="No">No</option>
+              </select>
+            </div>
+          </div>
+          <div class="col">
+            <div class="field">
+              <label>Número de invitados (incluyéndote)</label>
+              <input name="invitados" type="number" min="1" max="10" value="1" required />
+            </div>
+          </div>
+        </div>
+
+        <button class="btn primary" type="submit">Confirmar</button>
+        <div class="status" id="rsvpStatus"></div>
+      </form>
+    </section>
+
+    <!-- Buenos deseos -->
+    <section class="section" id="deseos">
+      <h2 class="title">Sección de buenos deseos</h2>
+      <p class="sub">Déjanos un mensaje. Se guardará automáticamente y (si el endpoint lo permite) se mostrará aquí.</p>
+
+      <form id="wishForm">
+        <div class="field">
+          <label>Tu nombre</label>
+          <input name="nombre" required placeholder="Tu nombre"/>
+        </div>
+        <div class="field">
+          <label>Tu mensaje</label>
+          <textarea name="mensaje" required placeholder="Escribe tus buenos deseos..."></textarea>
+        </div>
+
+        <button class="btn primary" type="submit">Enviar deseo</button>
+        <div class="status" id="wishStatus"></div>
+      </form>
+
+      <div class="section" style="margin-top:16px; box-shadow:none;">
+        <h3 class="title" style="font-size:1.25rem;">Mensajes</h3>
+        <p class="sub" style="margin-top:-6px;">
+          Si no ves mensajes, el endpoint quizá no expone lectura por GET/JSON; aun así, sí guarda en Sheets.
+        </p>
+        <div id="wishFeed" style="display:flex; flex-direction:column; gap:10px;"></div>
+      </div>
+    </section>
+
+    <!-- Vestimenta -->
+    <section class="section" id="vestimenta">
+      <h2 class="title">Tipo de vestimenta formal</h2>
+      <p class="sub">
+        Te recomendamos la siguiente paleta de colores; <strong>dejemos el blanco para la novia.</strong>
+      </p>
+
+      <div class="row">
+        <div class="col">
+          <img class="img-round" src="vestimenta_formal.jpg" alt="Vestimenta formal">
+        </div>
+        <div class="col">
+          <div class="palette" aria-label="Paleta de colores recomendada">
+            <div class="sw" title="Azul" style="background:#1f4fa3"></div>
+            <div class="sw" title="Celeste" style="background:#8fc5ff"></div>
+            <div class="sw" title="Gris" style="background:#8e8e8e"></div>
+            <div class="sw" title="Verde" style="background:#2e8b57"></div>
+            <div class="sw" title="Beige" style="background:#d9c7a3"></div>
+            <div class="sw" title="Plateado" style="background:linear-gradient(135deg,#f5f5f5,#bdbdbd,#f0f0f0)"></div>
+            <div class="sw" title="Rosa" style="background:#f2a8c6"></div>
+          </div>
+
+          <div style="margin-top:14px">
+            <span class="chip">Formal</span>
+            <span class="chip">Elegante</span>
+            <span class="chip">Sin blanco</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Galería colaborativa -->
+    <section class="section" id="colaborativa">
+      <h2 class="title">Galería colaborativa</h2>
+      <p class="sub">Sube tus fotos o videos para capturar momentos desde diferentes perspectivas.</p>
+
+      <div class="row">
+        <div class="col">
+          <img class="img-round" src="momento6.jpg" alt="Momento 6">
+        </div>
+        <div class="col">
+          <div style="border-radius:18px; overflow:hidden; border:1px solid var(--line); box-shadow:var(--shadow); background:#fff;">
+            <iframe
+              src="https://docs.google.com/forms/d/e/1FAIpQLSfDX9Ky8YrQ962Uxh5ibEYGDk2WsyyVUxUPC09IcwrBKlHx7A/viewform?usp=header"
+              width="100%" height="520" frameborder="0" marginheight="0" marginwidth="0">
+            </iframe>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- WhatsApp novios -->
+    <section class="section" id="whatsapp">
+      <h2 class="title">Contacta a los novios</h2>
+      <p class="sub">Para dudas rápidas, aquí estamos.</p>
+      <div class="row">
+        <a class="btn primary" target="_blank" rel="noopener"
+           href="https://wa.me/527341361227?text=Hola%20Esther%2C%20tengo%20una%20duda%20sobre%20la%20boda%20%F0%9F%92%8D">
+          WhatsApp Esther (+52 7341361227)
+        </a>
+        <a class="btn primary" target="_blank" rel="noopener"
+           href="https://wa.me/12504606724?text=Hola%20Erick%2C%20tengo%20una%20duda%20sobre%20la%20boda%20%F0%9F%92%8D">
+          WhatsApp Erick (+1 250 460 6724)
+        </a>
+      </div>
+    </section>
+
+    <!-- Compartir -->
+    <section class="section" id="compartir">
+      <h2 class="title">Comparte la invitación</h2>
+      <p class="sub">Ayúdanos a difundir la noticia.</p>
+
+      <div class="share-row">
+        <a class="btn" target="_blank" rel="noopener" id="shareWA">Compartir en WhatsApp</a>
+        <a class="btn" target="_blank" rel="noopener" id="shareFB">Compartir en Facebook</a>
+        <button class="btn" type="button" onclick="copyInvite()">Copiar link</button>
+      </div>
+      <div class="status" id="copyStatus"></div>
+    </section>
+
+    <!-- Cierre -->
+    <section class="section" id="cierre">
+      <h2 class="title">Con amor eterno Esther y Erick</h2>
+      <p class="sub">Gracias por acompañarnos en este día tan especial.</p>
+      <img class="img-round" src="momento7.jpg" alt="Momento 7">
+    </section>
+
+  </main>
+
+  <script>
+    // ======= ENDPOINTS (tus Google Apps Script) =======
+    const RSVP_ENDPOINT  = "https://script.google.com/macros/s/AKfycbyDEgVJzj-vGvwxFE1eqTmKb4pO4__lXB9gX8gMKGc2yGhlzR15AFPY8vQMvnjoNs01Vg/exec";
+    const WISH_ENDPOINT  = "https://script.google.com/macros/s/AKfycbwY2G6aHz1-W9Sk3CUspgJYNf2EhEchr_gNk4mvaZS4wXn7sKIfIV3Qy-Wje2UCKdgC/exec";
+
+    const marcha = document.getElementById("marchaNupcial");
+    const clickAudio = document.getElementById("audioClick");
+
+    async function tryAutoPlay(){
+      if (!marcha) return;
+      try { await marcha.play(); } catch(e) { /* Autoplay puede bloquearse */ }
+    }
+    document.addEventListener("DOMContentLoaded", tryAutoPlay);
+
+    async function forcePlayMarcha(){
+      if (!marcha) return;
+      try { await marcha.play(); } catch(e) {}
+    }
+
+    // Acción del anillo:
+    // 1) Pausa marcha nupcial
+    // 2) Reproduce unmundodiferente.mp3
+    // 3) Baja a las secciones (frase bíblica)
+    async function ringAction(){
+      try { if (marcha) marcha.pause(); } catch(e) {}
+      try { if (clickAudio) await clickAudio.play(); } catch(e) {}
+
+      const next = document.querySelector("#biblia");
+      if (next) next.scrollIntoView({ behavior:"smooth" });
+    }
+
+    // ======= Carrusel =======
+    const carState = {};
+    function initCarousel(id){
+      const root = document.getElementById(id);
+      if (!root) return;
+      const track = root.querySelector(".track");
+      const slides = root.querySelectorAll(".slide");
+      const dotsWrap = document.getElementById("dots-"+id);
+
+      carState[id] = { idx:0, track, slidesCount: slides.length };
+
+      dotsWrap.innerHTML = "";
+      for (let i=0;i<slides.length;i++){
+        const d=document.createElement("button");
+        d.className="dot"+(i===0?" active":"");
+        d.type="button";
+        d.addEventListener("click", ()=>carGo(id,i));
+        dotsWrap.appendChild(d);
+      }
+
+      // swipe touch
+      let startX=0, dx=0, touching=false;
+      root.addEventListener("touchstart",(e)=>{ touching=true; startX=e.touches[0].clientX; dx=0; },{passive:true});
+      root.addEventListener("touchmove",(e)=>{ if(!touching) return; dx=e.touches[0].clientX-startX; },{passive:true});
+      root.addEventListener("touchend",()=>{ touching=false; if (Math.abs(dx)>40){ dx<0?carNext(id):carPrev(id); } });
+    }
+
+    function carRender(id){
+      const st = carState[id]; if(!st) return;
+      st.track.style.transform = `translateX(${-st.idx*100}%)`;
+      const dots = document.querySelectorAll("#dots-"+id+" .dot");
+      dots.forEach((d,i)=>d.classList.toggle("active", i===st.idx));
+    }
+    function carGo(id, idx){
+      const st = carState[id]; if(!st) return;
+      st.idx = (idx + st.slidesCount) % st.slidesCount;
+      carRender(id);
+    }
+    function carNext(id){ const st = carState[id]; if(!st) return; carGo(id, st.idx+1); }
+    function carPrev(id){ const st = carState[id]; if(!st) return; carGo(id, st.idx-1); }
+
+    document.addEventListener("DOMContentLoaded", ()=>initCarousel("car1"));
+
+    // ======= RSVP submit =======
+    document.getElementById("rsvpForm")?.addEventListener("submit", async (e)=>{
+      e.preventDefault();
+      const status = document.getElementById("rsvpStatus");
+      status.textContent = "Enviando…";
+
+      const fd = new FormData(e.target);
+      try{
+        const res = await fetch(RSVP_ENDPOINT, { method:"POST", body: fd });
+        if (!res.ok) throw new Error("HTTP "+res.status);
+        status.textContent = "¡Listo! Tu confirmación fue registrada. 💍";
+        e.target.reset();
+      }catch(err){
+        status.textContent = "No se pudo enviar. Intenta de nuevo o revisa tu conexión.";
+      }
+    });
+
+    // ======= Wishes submit =======
+    document.getElementById("wishForm")?.addEventListener("submit", async (e)=>{
+      e.preventDefault();
+      const status = document.getElementById("wishStatus");
+      status.textContent = "Enviando…";
+
+      const fd = new FormData(e.target);
+      try{
+        const res = await fetch(WISH_ENDPOINT, { method:"POST", body: fd });
+        if (!res.ok) throw new Error("HTTP "+res.status);
+        status.textContent = "¡Gracias! Tu mensaje fue guardado. ✨";
+        e.target.reset();
+        loadWishFeed();
+      }catch(err){
+        status.textContent = "No se pudo enviar. Intenta de nuevo.";
+      }
+    });
+
+    // ======= Wish feed (si tu endpoint soporta GET y devuelve JSON) =======
+    async function loadWishFeed(){
+      const wrap = document.getElementById("wishFeed");
+      if (!wrap) return;
+      try{
+        // Intento típico: ?action=list (si tu Apps Script lo soporta)
+        const res = await fetch(WISH_ENDPOINT + "?action=list", { method:"GET" });
+        if (!res.ok) throw new Error("HTTP "+res.status);
+        const data = await res.json();
+
+        const rows = Array.isArray(data) ? data : (data.data || []);
+        if (!rows.length) return;
+
+        wrap.innerHTML = "";
+        rows.slice(-25).reverse().forEach(r=>{
+          const card = document.createElement("div");
+          card.style.border = "1px solid var(--line)";
+          card.style.borderRadius = "16px";
+          card.style.padding = "12px";
+          card.style.background = "#fff";
+          card.innerHTML = `
+            <div style="font-weight:600; margin-bottom:6px;">
+              ${(r.nombre || r.name || "Invitado")}
+            </div>
+            <div style="color:#555;">
+              ${(r.mensaje || r.message || "")}
+            </div>
+          `;
+          wrap.appendChild(card);
+        });
+      }catch(e){
+        // Si no soporta GET/JSON, no rompemos nada.
+      }
+    }
+    setInterval(loadWishFeed, 12000);
+    document.addEventListener("DOMContentLoaded", loadWishFeed);
+
+    // ======= Share buttons =======
+    const inviteUrl = location.href.split("#")[0];
+    const shareText = encodeURIComponent("¡Estás invitado a nuestra boda! 💍✨");
+    document.getElementById("shareWA").href = `https://wa.me/?text=${shareText}%20${encodeURIComponent(inviteUrl)}`;
+    document.getElementById("shareFB").href = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(inviteUrl)}`;
+
+    async function copyInvite(){
+      const st = document.getElementById("copyStatus");
+      try{
+        await navigator.clipboard.writeText(inviteUrl);
+        st.textContent = "Link copiado ✅ (puedes pegarlo en WhatsApp/Instagram).";
+      }catch(e){
+        st.textContent = "No pude copiar automáticamente. Copia manual: " + inviteUrl;
+      }
+    }
+  </script>
+</body>
+</html>
