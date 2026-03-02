@@ -8,16 +8,16 @@
   <style>
     :root{
       --bg:#fbfbfd;
-      --txt:#2f2f2f;
-      --muted:#6f6f6f;
-      --line:rgba(20,20,20,.08);
-      --shadow: 0 14px 34px rgba(0,0,0,.12);
-      --softshadow: 0 10px 24px rgba(0,0,0,.10);
+      --txt:#1f1f1f;
+      --muted:#3e3e3e;
+      --line:rgba(20,20,20,.10);
+      --shadow: 0 16px 38px rgba(0,0,0,.14);
+      --softshadow: 0 12px 28px rgba(0,0,0,.12);
       --accent:#8aa0ff;
 
-      /* ✅ Mobile-first: libro alto, casi pantalla completa */
+      /* ✅ Mobile-first: altura estable con svh */
       --bookW:min(980px, calc(100vw - 16px));
-      --bookH: calc(100vh - 150px);
+      --bookH: calc(100svh - 160px);
     }
 
     *{ box-sizing:border-box; }
@@ -45,31 +45,26 @@
       align-items:center;
       justify-content:center;
       gap:10px;
-      border:1px solid rgba(0,0,0,.10);
-      background:rgba(255,255,255,.92);
+      border:1px solid rgba(0,0,0,.12);
+      background:rgba(255,255,255,.94);
       backdrop-filter: blur(10px);
       padding:12px 14px;
       border-radius:999px;
       cursor:pointer;
       text-decoration:none;
-      color:#222;
+      color:#111;
       box-shadow: var(--softshadow);
       user-select:none;
       transition:transform .12s ease, box-shadow .12s ease;
       touch-action: manipulation;
       white-space:nowrap;
     }
-    .btn:hover{ transform: translateY(-1px); box-shadow: 0 14px 32px rgba(0,0,0,.14); }
-    .btn.dark{
-      background:#111; color:#fff; border-color:#111;
-      box-shadow: 0 14px 34px rgba(0,0,0,.24);
-    }
-    .btn.soft{ background:rgba(246,247,255,.94); border-color:rgba(231,232,255,.94); }
-
-    /* ✅ En móvil: botones ocupan ancho completo */
+    .btn:hover{ transform: translateY(-1px); box-shadow: 0 18px 36px rgba(0,0,0,.16); }
+    .btn.dark{ background:#111; color:#fff; border-color:#111; box-shadow: 0 18px 40px rgba(0,0,0,.26); }
+    .btn.soft{ background:rgba(246,247,255,.96); border-color:rgba(231,232,255,.96); }
     .btn.block{ width:100%; }
 
-    /* ====== PORTADA ====== */
+    /* ====== PORTADA (SIN fondo1) ====== */
     .cover{
       min-height:100vh;
       display:flex;
@@ -106,7 +101,6 @@
       50%{ transform:scale(1.065); }
     }
 
-    /* ✅ Tipografía fluida móvil */
     .cover-title{
       font-family:"Playfair Display","Georgia",serif;
       font-size: clamp(1.9rem, 6vw, 2.6rem);
@@ -143,11 +137,11 @@
       gap:10px;
       flex-wrap:wrap;
       justify-content:center;
-      width:min(520px, 100%);
+      width:min(560px, 100%);
     }
-    .quick-links a{ flex: 1 1 180px; }
+    .quick-links a, .quick-links button{ flex: 1 1 220px; }
     @media (max-width: 420px){
-      .quick-links a{ flex: 1 1 100%; }
+      .quick-links a, .quick-links button{ flex: 1 1 100%; }
     }
 
     /* ====== CONTENEDOR LIBRO ====== */
@@ -158,7 +152,6 @@
       z-index:20;
     }
 
-    /* ✅ Topbar en móvil: se acomoda */
     .book-topbar{
       max-width: var(--bookW);
       margin: 0 auto 10px;
@@ -172,12 +165,12 @@
       display:flex; gap:10px; flex-wrap:wrap; align-items:center;
     }
     .badge{
-      color:#555;
+      color:#333;
       font-size:.92rem;
       padding:10px 14px;
       border-radius:999px;
-      border:1px solid rgba(0,0,0,.10);
-      background:rgba(255,255,255,.92);
+      border:1px solid rgba(0,0,0,.12);
+      background:rgba(255,255,255,.94);
       backdrop-filter: blur(10px);
       box-shadow: var(--softshadow);
     }
@@ -202,29 +195,30 @@
       background:#fff;
     }
 
-    /* ✅ Fondo en páginas (NO portada) */
+    /* ✅ fondo1.jpg en páginas (no portada) */
     .face{
       position:absolute; inset:0;
       backface-visibility:hidden;
       padding:14px;
       overflow:auto;
       -webkit-overflow-scrolling: touch;
+      padding-bottom: 92px; /* ✅ para que navbar sticky no tape contenido */
 
-      background-image: image-set(
-        url("fondo1.webp") type("image/webp"),
-        url("fondo1.jpg") type("image/jpeg")
-      );
+      background-image: url("fondo1.jpg");
       background-size: cover;
       background-position: center;
       background-repeat:no-repeat;
     }
+
+    /* ✅ velo fuerte para legibilidad */
     .face::before{
       content:"";
       position:absolute; inset:0;
-      background: rgba(255,255,255,.84);
-      backdrop-filter: blur(1px);
+      background: rgba(255,255,255,.92);
+      backdrop-filter: blur(2px);
       z-index:0;
     }
+
     .content{
       position:relative;
       z-index:1;
@@ -232,6 +226,7 @@
       flex-direction:column;
       gap:12px;
       min-height:100%;
+      padding-bottom: 8px;
     }
 
     .back{ transform: rotateY(180deg); }
@@ -241,72 +236,79 @@
     h2,h3{
       font-family:"Playfair Display","Georgia",serif;
       margin:0;
-      color:#2f2f2f;
+      color:#1f1f1f;
       letter-spacing:.2px;
+      text-shadow: 0 1px 0 rgba(255,255,255,.45);
     }
     h2{ font-size: clamp(1.25rem, 4.6vw, 1.75rem); }
     h3{ font-size: clamp(1.05rem, 4vw, 1.35rem); }
-    p{ margin:0; color:var(--muted); line-height:1.55; font-size: clamp(.95rem, 3.6vw, 1.05rem); }
-    strong{ color:#333; }
+
+    p{
+      margin:0;
+      color:#343434;
+      line-height:1.55;
+      font-size: clamp(.95rem, 3.6vw, 1.05rem);
+      text-shadow: 0 1px 0 rgba(255,255,255,.35);
+    }
+    strong{ color:#111; }
 
     .panel{
-      border:1px solid rgba(0,0,0,.08);
+      border:1px solid rgba(0,0,0,.12);
       border-radius:18px;
-      background: rgba(255,255,255,.80);
-      backdrop-filter: blur(10px);
-      box-shadow: 0 10px 22px rgba(0,0,0,.07);
-      padding:12px;
+      background: rgba(255,255,255,.96);
+      box-shadow: 0 14px 30px rgba(0,0,0,.10);
+      padding:14px;
     }
 
     .chip{
       display:inline-block;
       padding:8px 12px;
       border-radius:999px;
-      border:1px solid rgba(0,0,0,.08);
+      border:1px solid rgba(0,0,0,.10);
       font-size:.9rem;
-      color:#616161;
-      background:rgba(255,255,255,.86);
-      backdrop-filter: blur(8px);
+      color:#4b4b4b;
+      background:rgba(255,255,255,.92);
       margin:6px 8px 0 0;
     }
 
     .divider{
       height:1px;
-      background:linear-gradient(90deg, transparent, rgba(120,120,160,.25), transparent);
-      margin:8px 0;
+      background:linear-gradient(90deg, transparent, rgba(120,120,160,.28), transparent);
+      margin:10px 0;
     }
 
     .row{ display:flex; gap:12px; flex-wrap:wrap; align-items:stretch; }
     .col{ flex:1 1 260px; }
 
-    /* ===== Carrusel (✅ móvil) ===== */
+    /* ===== Carrusel (Mejores momentos) ===== */
     .carousel{
       position:relative;
       overflow:hidden;
       border-radius:18px;
-      border:1px solid rgba(0,0,0,.10);
+      border:1px solid rgba(0,0,0,.12);
       background:#f6f7fb;
     }
     .track{ display:flex; transition:transform .55s ease; will-change:transform; }
     .slide{ min-width:100%; position:relative; }
     .slide-media{
       width:100%;
-      height: 300px; /* móvil */
+      height: 300px;
       display:block;
       object-fit:cover;
     }
     @media (min-width: 680px){
-      .slide-media{ height: 360px; }
+      .slide-media{ height: 380px; }
     }
     .cap{
       position:absolute; left:10px; right:10px; bottom:10px;
-      background:rgba(255,255,255,.84); backdrop-filter: blur(12px);
+      background:rgba(255,255,255,.88); backdrop-filter: blur(12px);
       border:1px solid rgba(255,255,255,.95);
       border-radius:14px; padding:10px 12px;
-      color:#333; display:flex; justify-content:space-between; gap:10px; align-items:center;
+      display:flex; justify-content:space-between; gap:10px; align-items:center;
       font-size:.95rem;
+      color:#111;
     }
-    .cap small{ color:#666; }
+    .cap small{ color:#555; }
 
     .car-controls{
       display:flex;
@@ -322,84 +324,62 @@
 
     /* ===== Formularios ===== */
     .field{ display:flex; flex-direction:column; gap:6px; margin:10px 0 0; }
-    .field label{ font-size:.92rem; color:#606060; }
+    .field label{ font-size:.92rem; color:#333; }
     .field input, .field select, .field textarea{
-      border:1px solid rgba(0,0,0,.10);
+      border:1px solid rgba(0,0,0,.12);
       border-radius:14px;
       padding:12px 12px;
       font-size:1rem;
       outline:none;
-      background:rgba(255,255,255,.92);
-      backdrop-filter: blur(8px);
+      background:rgba(255,255,255,.98);
       width:100%;
+      color:#111;
     }
     .field textarea{ min-height:120px; resize:vertical; }
-    .status{ margin-top:10px; color:#666; }
+    .status{ margin-top:10px; color:#333; }
 
     /* ===== Paleta ===== */
     .palette{ display:flex; gap:10px; flex-wrap:wrap; margin-top:10px; }
-    .sw{
-      width:42px; height:42px; border-radius:14px;
-      border:1px solid rgba(0,0,0,.10);
-      box-shadow:0 6px 16px rgba(0,0,0,.06);
-    }
+    .sw{ width:42px; height:42px; border-radius:14px; border:1px solid rgba(0,0,0,.12); box-shadow:0 6px 16px rgba(0,0,0,.08); }
 
     /* ===== Imágenes ===== */
     .img-round{
       width:100%;
       border-radius:18px;
-      border:1px solid rgba(0,0,0,.10);
+      border:1px solid rgba(0,0,0,.12);
       box-shadow: var(--softshadow);
       display:block;
     }
 
     /* ===== Buenos deseos ===== */
-    .wish-head{
-      display:flex; gap:10px; flex-wrap:wrap;
-      align-items:center; justify-content:space-between;
-    }
+    .wish-head{ display:flex; gap:10px; flex-wrap:wrap; align-items:center; justify-content:space-between; }
     .hint-pill{
       font-size:.85rem;
-      color:#555;
+      color:#333;
       padding:8px 12px;
       border-radius:999px;
-      border:1px solid rgba(0,0,0,.10);
-      background:rgba(246,247,255,.88);
-      backdrop-filter: blur(10px);
+      border:1px solid rgba(0,0,0,.12);
+      background:rgba(246,247,255,.96);
     }
-    .counter{ font-size:.85rem; color:#666; }
-    .wish-grid{
-      display:grid;
-      grid-template-columns: 1fr; /* móvil */
-      gap:10px;
-      margin-top:8px;
-    }
-    @media (min-width: 820px){
-      .wish-grid{ grid-template-columns: 1fr 1fr; }
-    }
+    .counter{ font-size:.85rem; color:#444; }
+    .wish-grid{ display:grid; grid-template-columns: 1fr; gap:10px; margin-top:8px; }
+    @media (min-width: 820px){ .wish-grid{ grid-template-columns: 1fr 1fr; } }
     .wish-card{
-      border:1px solid rgba(0,0,0,.10);
+      border:1px solid rgba(0,0,0,.12);
       border-radius:18px;
       padding:12px;
-      background: rgba(255,255,255,.84);
-      backdrop-filter: blur(10px);
-      box-shadow: 0 8px 18px rgba(0,0,0,.06);
+      background: rgba(255,255,255,.96);
+      box-shadow: 0 10px 22px rgba(0,0,0,.08);
     }
-    .wish-card .top{
-      display:flex;
-      justify-content:space-between;
-      gap:10px;
-      align-items:baseline;
-      margin-bottom:6px;
-    }
-    .wish-card .name{ font-weight:800; color:#333; }
-    .wish-card .date{ font-size:.8rem; color:#777; white-space:nowrap; }
-    .wish-card .msg{ color:#555; line-height:1.45; white-space:pre-wrap; word-break:break-word; }
+    .wish-card .top{ display:flex; justify-content:space-between; gap:10px; align-items:baseline; margin-bottom:6px; }
+    .wish-card .name{ font-weight:900; color:#111; }
+    .wish-card .date{ font-size:.8rem; color:#555; white-space:nowrap; }
+    .wish-card .msg{ color:#222; line-height:1.45; white-space:pre-wrap; word-break:break-word; }
 
     .skeleton{
       border-radius:18px;
-      border:1px solid rgba(0,0,0,.08);
-      background: linear-gradient(90deg, #f3f3f6 25%, #ffffff 37%, #f3f3f6 63%);
+      border:1px solid rgba(0,0,0,.10);
+      background: linear-gradient(90deg, #f1f1f5 25%, #ffffff 37%, #f1f1f5 63%);
       background-size: 400% 100%;
       animation: shimmer 1.2s ease infinite;
       height: 92px;
@@ -408,20 +388,17 @@
 
     /* ===== Destello al pasar página ===== */
     .sparkle-flash{
-      position:fixed;
-      inset:0;
-      pointer-events:none;
-      opacity:0;
+      position:fixed; inset:0; pointer-events:none; opacity:0;
       background:
-        radial-gradient(420px 240px at 25% 40%, rgba(255,255,255,.8), transparent 62%),
-        radial-gradient(470px 280px at 75% 60%, rgba(255,220,235,.55), transparent 60%),
-        radial-gradient(520px 320px at 50% 50%, rgba(200,220,255,.50), transparent 62%);
+        radial-gradient(420px 240px at 25% 40%, rgba(255,255,255,.85), transparent 62%),
+        radial-gradient(470px 280px at 75% 60%, rgba(255,235,200,.45), transparent 60%),
+        radial-gradient(520px 320px at 50% 50%, rgba(200,220,255,.55), transparent 62%);
       z-index: 9998;
       transition: opacity 220ms ease;
     }
     .sparkle-flash.on{ opacity:1; }
 
-    /* ✅ Nav sticky en móvil (siempre visible) */
+    /* ===== Navbar sticky ===== */
     .navbar{
       max-width: var(--bookW);
       margin: 10px auto 0;
@@ -436,16 +413,15 @@
       z-index: 30;
       padding: 8px;
       border-radius: 18px;
-      background: rgba(255,255,255,.75);
+      background: rgba(255,255,255,.84);
       backdrop-filter: blur(12px);
-      border:1px solid rgba(0,0,0,.08);
-      box-shadow: 0 12px 28px rgba(0,0,0,.12);
+      border:1px solid rgba(0,0,0,.10);
+      box-shadow: 0 14px 30px rgba(0,0,0,.12);
     }
 
-    /* ✅ Ajustes extra para pantallas muy pequeñas */
     @media (max-width: 360px){
-      .face{ padding:12px; }
-      .panel{ padding:10px; border-radius:16px; }
+      .face{ padding:12px; padding-bottom: 96px; }
+      .panel{ padding:12px; border-radius:16px; }
       .btn{ padding:11px 12px; }
       .slide-media{ height: 260px; }
     }
@@ -523,9 +499,14 @@
       <div><button type="button" id="soundBtn">Activar sonido</button></div>
     </div>
 
+    <!-- ✅ Botones pedidos cerca del anillo -->
     <div class="quick-links">
-      <a class="btn soft block" href="https://adelili7.github.io/nuestraboda/" target="_self" rel="noopener">Abrir GitHub</a>
-      <a class="btn block" href="https://bodaerick.my.canva.site/nuestraboda" target="_blank" rel="noopener">Abrir versión Canva</a>
+      <a class="btn soft block" href="https://adelili7.github.io/nuestraboda/" target="_self" rel="noopener">
+        Abrir GitHub
+      </a>
+      <a class="btn block" href="https://bodaerick.my.canva.site/nuestraboda" target="_blank" rel="noopener">
+        Clic en esta invitación (Canva)
+      </a>
     </div>
   </section>
 
@@ -621,16 +602,9 @@
                   <input name="invitados" type="number" min="1" max="10" value="1" required />
                 </div>
 
-                <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:12px;">
-                  <button class="btn dark block" type="submit">Confirmar</button>
-                </div>
-
+                <button class="btn dark block" type="submit">Confirmar</button>
                 <div class="status" id="rsvpStatus"></div>
               </form>
-
-              <p style="margin-top:10px; font-size:.92rem;">
-                Si aún no conectas RSVP, pega tu URL /exec en <strong>RSVP_WEBAPP</strong> dentro del script.
-              </p>
             </div>
           </div>
         </div>
@@ -652,8 +626,8 @@
                   <input name="nombre" id="wishName" required placeholder="Tu nombre"/>
                 </div>
                 <div class="field">
-                  <label>¿De parte de quién?</label>
-                  <input name="de" id="wishFrom" placeholder="Familia / Amigos / etc. (opcional)"/>
+                  <label>¿De parte de quién? (opcional)</label>
+                  <input name="de" id="wishFrom" placeholder="Familia / Amigos / etc."/>
                 </div>
                 <div class="field">
                   <label>Tu mensaje</label>
@@ -669,11 +643,24 @@
               </form>
 
               <div class="divider"></div>
-              <h3>Mensajes</h3>
+
+              <div class="row" style="gap:10px;">
+                <a class="btn soft block" target="_blank" rel="noopener"
+                   href="https://script.google.com/macros/s/AKfycbwY2G6aHz1-W9Sk3CUspgJYNf2EhEchr_gNk4mvaZS4wXn7sKIfIV3Qy-Wje2UCKdgC/exec">
+                  Descargar / Ver mensajes
+                </a>
+              </div>
+
+              <div class="divider"></div>
+              <h3>Mensajes en tiempo real</h3>
               <div class="wish-grid" id="wishFeed">
                 <div class="skeleton"></div>
                 <div class="skeleton"></div>
               </div>
+
+              <p style="margin-top:10px; font-size:.92rem;">
+                Nota: Para que aparezcan en tiempo real, tu Apps Script debe responder JSON por GET (ver “action=listWishes”).
+              </p>
             </div>
           </div>
         </div>
@@ -687,6 +674,7 @@
               <h2>Tipo de vestimenta formal</h2>
               <p>Te recomendamos la siguiente paleta de colores; <strong>dejemos el blanco para la novia.</strong></p>
             </div>
+
             <div class="panel">
               <img class="img-round" src="vestimenta_formal.jpg" alt="Vestimenta formal">
               <div class="divider"></div>
@@ -736,9 +724,6 @@
               <button class="btn soft block" type="button" id="copyBtn">Copiar link</button>
 
               <div class="status" id="copyStatus"></div>
-
-              <div class="divider"></div>
-              <a class="btn block" href="https://bodaerick.my.canva.site/nuestraboda" target="_blank" rel="noopener">Abrir versión Canva</a>
             </div>
           </div>
         </div>
@@ -770,7 +755,6 @@
           </div>
         </div>
       </div>
-
     </div>
 
     <div class="navbar">
@@ -781,10 +765,12 @@
 
   <script>
     /***********************
-     * CONFIG ENDPOINTS
+     * ENDPOINTS (YA INTEGRADOS)
      ***********************/
-    const WISH_WEBAPP = "https://script.google.com/macros/s/AKfycbycclsBpSIa1J8IW2MRcSflm0GLCQ9CwY9aOcXt-r2cXtDU2hveS4trtrz-FeczYvmxzg/exec";
-    const RSVP_WEBAPP = ""; // pega tu /exec aquí
+    const RSVP_WEBAPP = "https://script.google.com/macros/s/AKfycbwJ7HydZZ9mlLbaUZHjo6X2Pc0bVKMI7-WBNmxRNWGh_u_EC4hDQeMO5tcxjjqP4pme2g/exec";
+
+    // ✅ Guardar deseos:
+    const WISH_WEBAPP = "https://script.google.com/macros/s/AKfycbwYzbEn329_cruOu9LXCk07h24mLwg3kqH0GdlYfRpaNsdbILL0AF35HT1WpFjkGQ1tIg/exec";
 
     const cover = document.getElementById("cover");
     const bookWrap = document.getElementById("bookWrap");
@@ -803,6 +789,7 @@
 
     document.addEventListener("DOMContentLoaded", async ()=>{
       try { await marcha?.play(); } catch(e) {}
+
       initCarousel();
       setupShare();
       initParticles();
@@ -911,7 +898,6 @@
     function initCarousel(){
       carSlides = Array.from(document.querySelectorAll("#car1 .slide"));
       dotsWrap.innerHTML = "";
-
       carSlides.forEach((_, i)=>{
         const d = document.createElement("button");
         d.className = "dot" + (i===0 ? " active":"");
@@ -919,7 +905,6 @@
         d.addEventListener("click", ()=>carGo(i));
         dotsWrap.appendChild(d);
       });
-
       carDots = Array.from(dotsWrap.querySelectorAll(".dot"));
       carPrevBtn.addEventListener("click", ()=>carGo(carIdx-1));
       carNextBtn.addEventListener("click", ()=>carGo(carIdx+1));
@@ -931,7 +916,6 @@
       root.addEventListener("touchmove",(e)=>{ if(!touching) return; dx=e.touches[0].clientX-startX; },{passive:true});
       root.addEventListener("touchend",()=>{ touching=false; if (Math.abs(dx)>40){ dx<0?carGo(carIdx+1):carGo(carIdx-1); } });
     }
-
     function carGo(i){
       if (!carSlides.length) return;
       carIdx = (i + carSlides.length) % carSlides.length;
@@ -940,7 +924,7 @@
     }
 
     /***********************
-     * FALLBACK IMÁGENES
+     * FALLBACK IMÁGENES (por .jpeg o espacios)
      ***********************/
     function attachImageFallbacks(){
       const imgs = document.querySelectorAll("img.moment");
@@ -961,17 +945,17 @@
     }
 
     /***********************
-     * RSVP
+     * RSVP (conectado)
      ***********************/
     document.getElementById("rsvpForm")?.addEventListener("submit", async (e)=>{
       e.preventDefault();
       const status = document.getElementById("rsvpStatus");
       status.textContent = "Enviando…";
-      if (!RSVP_WEBAPP){
-        status.textContent = "Falta conectar el link /exec del RSVP en el código (RSVP_WEBAPP).";
-        return;
-      }
+
       const fd = new FormData(e.target);
+      // Por si tu Apps Script requiere "action":
+      fd.append("action","rsvp");
+
       try{
         const res = await fetch(RSVP_WEBAPP, { method:"POST", body: fd });
         if (!res.ok) throw new Error("HTTP "+res.status);
@@ -983,7 +967,7 @@
     });
 
     /***********************
-     * BUENOS DESEOS
+     * BUENOS DESEOS (guardar + feed)
      ***********************/
     document.getElementById("wishForm")?.addEventListener("submit", async (e)=>{
       e.preventDefault();
@@ -993,12 +977,14 @@
       wishSendBtn.style.opacity = ".7";
 
       const fd = new FormData(e.target);
+      // Por si tu Apps Script requiere "action":
       fd.append("action","wish");
 
       try{
         const res = await fetch(WISH_WEBAPP, { method:"POST", body: fd });
         if (!res.ok) throw new Error("HTTP "+res.status);
 
+        // si tu script devuelve JSON:
         const data = await res.json().catch(()=>({ ok:true }));
         if (data.ok === false) throw new Error(data.error || "Error al guardar");
 
@@ -1015,12 +1001,21 @@
     });
 
     async function fetchWishList(){
-      const url = WISH_WEBAPP + "?action=listWishes&limit=30";
-      const res = await fetch(url);
-      if (!res.ok) throw new Error("HTTP " + res.status);
-      const json = await res.json();
-      const rows = Array.isArray(json.data) ? json.data : (Array.isArray(json.items) ? json.items : []);
-      return rows;
+      // Intento 1: tu script soporta action=listWishes
+      const url1 = WISH_WEBAPP + "?action=listWishes&limit=30";
+      const r1 = await fetch(url1);
+      if (r1.ok){
+        const j = await r1.json();
+        const rows = Array.isArray(j.data) ? j.data : (Array.isArray(j.items) ? j.items : []);
+        if (rows.length) return rows;
+      }
+
+      // Intento 2: tu script soporta GET simple (sin action)
+      const r2 = await fetch(WISH_WEBAPP);
+      if (!r2.ok) throw new Error("HTTP " + r2.status);
+      const j2 = await r2.json();
+      const rows2 = Array.isArray(j2.data) ? j2.data : (Array.isArray(j2.items) ? j2.items : []);
+      return rows2;
     }
 
     function normalizeWishRow(r){
@@ -1064,7 +1059,7 @@
           card.className="wish-card";
           card.innerHTML = `
             <div class="top">
-              <div class="name">${escapeHtml(w.name)}${w.from ? ` <span style="font-weight:600;color:#777">(${escapeHtml(w.from)})</span>`:""}</div>
+              <div class="name">${escapeHtml(w.name)}${w.from ? ` <span style="font-weight:700;color:#555">(${escapeHtml(w.from)})</span>`:""}</div>
               <div class="date">${w.dateStr ? escapeHtml(w.dateStr) : ""}</div>
             </div>
             <div class="msg">${escapeHtml(w.msg)}</div>
@@ -1075,7 +1070,7 @@
         wishLive.textContent = afterSend ? "¡Publicado!" : "Listo";
         if (afterSend) setTimeout(()=>wishLive.textContent="Listo", 1200);
       }catch(e){
-        wrap.innerHTML = `<div class="wish-card"><div class="name">Mensajes</div><div class="msg">Tu script debe responder JSON con action=listWishes.</div></div>`;
+        wrap.innerHTML = `<div class="wish-card"><div class="name">Mensajes</div><div class="msg">Tu Apps Script debe devolver JSON por GET para mostrar el feed.</div></div>`;
         wishLive.textContent = "Sin lectura";
       }
     }
@@ -1101,7 +1096,7 @@
         const copyStatus = document.getElementById("copyStatus");
         try{
           await navigator.clipboard.writeText(inviteUrl);
-          copyStatus.textContent = "Link copiado ✅";
+          copyStatus.textContent = "Link copiado ✅ (pégalo en Instagram/WhatsApp)";
         }catch(e){
           copyStatus.textContent = "No pude copiar automáticamente. Copia manual: " + inviteUrl;
         }
@@ -1116,10 +1111,10 @@
     let pW=0, pH=0, pDpr=1;
     let particles = [];
     const PARTICLE_COLORS = [
-      "rgba(125,170,255,0.85)",
-      "rgba(236,183,198,0.85)",
-      "rgba(255,255,255,0.90)",
-      "rgba(220,220,220,0.85)"
+      "rgba(59,130,246,0.85)",   // azul
+      "rgba(255,255,255,0.85)",  // blanco
+      "rgba(212,175,55,0.65)",   // dorado
+      "rgba(192,192,192,0.75)"   // plateado
     ];
 
     function pResize(){
@@ -1136,10 +1131,10 @@
       particles.push({
         x: Math.random()*pW,
         y: pH + Math.random()*80,
-        r: 1.5 + Math.random()*3.8,
-        vy: 0.4 + Math.random()*1.2,
-        vx: -0.4 + Math.random()*0.8,
-        a: 0.2 + Math.random()*0.7,
+        r: 1.6 + Math.random()*3.8,
+        vy: 0.45 + Math.random()*1.2,
+        vx: -0.35 + Math.random()*0.7,
+        a: 0.25 + Math.random()*0.7,
         col: PARTICLE_COLORS[Math.floor(Math.random()*PARTICLE_COLORS.length)],
         tw: Math.random()*Math.PI*2
       });
@@ -1147,30 +1142,33 @@
     function initParticles(){
       pResize();
       window.addEventListener("resize", pResize, {passive:true});
-      for(let i=0;i<70;i++) spawnParticle();
+      for(let i=0;i<80;i++) spawnParticle();
       function tick(){
         pCtx.clearRect(0,0,pW,pH);
-        const targetCount = coverParticlesMode ? 90 : 18;
+        const targetCount = coverParticlesMode ? 95 : 14;
         while(particles.length < targetCount) spawnParticle();
         while(particles.length > targetCount) particles.shift();
+
         for(let i=particles.length-1;i>=0;i--){
           const p = particles[i];
           p.tw += 0.03;
           p.x += p.vx + Math.sin(p.tw)*0.25;
           p.y -= p.vy;
           p.a *= 0.998;
+
           pCtx.globalAlpha = Math.max(0, Math.min(1, p.a));
           pCtx.fillStyle = p.col;
           pCtx.beginPath();
           pCtx.arc(p.x, p.y, p.r, 0, Math.PI*2);
           pCtx.fill();
+
           if (p.y < -60 || p.x < -60 || p.x > pW+60) particles[i] = {
             x: Math.random()*pW,
             y: pH + Math.random()*80,
-            r: 1.5 + Math.random()*3.8,
-            vy: 0.4 + Math.random()*1.2,
-            vx: -0.4 + Math.random()*0.8,
-            a: 0.2 + Math.random()*0.7,
+            r: 1.6 + Math.random()*3.8,
+            vy: 0.45 + Math.random()*1.2,
+            vx: -0.35 + Math.random()*0.7,
+            a: 0.25 + Math.random()*0.7,
             col: PARTICLE_COLORS[Math.floor(Math.random()*PARTICLE_COLORS.length)],
             tw: Math.random()*Math.PI*2
           };
@@ -1181,12 +1179,14 @@
     }
 
     /***********************
-     * CURSOR MÁGICO CORAZONES (azul, plata, dorado, verde)
+     * CURSOR MÁGICO CORAZONES
+     * ✅ azul, blanco, dorado, verde
      ***********************/
     const hCanvas = document.getElementById("heartsCanvas");
     const hCtx = hCanvas.getContext("2d");
     let hW=0, hH=0, hDpr=1;
-    const HEART_COLORS = ["#3b82f6", "#c0c0c0", "#d4af37", "#2ecc71"];
+
+    const HEART_COLORS = ["#3b82f6", "#ffffff", "#d4af37", "#2ecc71"]; // azul, blanco, dorado, verde
     const hearts = [];
     let lastX=null, lastY=null, lastT=0;
 
@@ -1221,13 +1221,14 @@
           life: 0.85 + Math.random()*0.7,
           age: 0,
           col: HEART_COLORS[Math.floor(Math.random()*HEART_COLORS.length)],
-          a: 0.78 + Math.random()*0.18
+          a: 0.80 + Math.random()*0.18
         });
       }
     }
     function initHeartTrail(){
       hResize();
       window.addEventListener("resize", hResize, {passive:true});
+
       function move(x,y){
         const now = performance.now();
         if (lastX===null){ lastX=x; lastY=y; lastT=now; addHearts(x,y,1); return; }
@@ -1245,6 +1246,7 @@
         if(!e.touches || !e.touches[0]) return;
         move(e.touches[0].clientX, e.touches[0].clientY);
       },{passive:true});
+
       function tick(){
         const dt=0.016;
         hCtx.clearRect(0,0,hW,hH);
@@ -1256,8 +1258,10 @@
           p.x += p.vx*60*dt;
           p.y += p.vy*60*dt;
           p.rot += p.vr*60*dt;
+
           const k = 1 - (p.age/p.life);
           const a = p.a * Math.max(0, Math.min(1, k));
+
           hCtx.save();
           hCtx.translate(p.x,p.y);
           hCtx.rotate(p.rot);
