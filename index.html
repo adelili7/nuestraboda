@@ -9,13 +9,14 @@
     :root{
       --bg:#fbfbfd;
       --txt:#171717;
-      --muted:#2f2f2f;
       --line:rgba(0,0,0,.12);
       --shadow: 0 18px 44px rgba(0,0,0,.16);
       --softshadow: 0 12px 28px rgba(0,0,0,.12);
       --accent:#7aa2ff;
-      --bookW:min(980px, calc(100vw - 16px));
-      --bookH: calc(100svh - 170px);
+
+      /* ✅ FORMATO VERTICAL TIPO INSTAGRAM */
+      --bookW: min(430px, calc(100vw - 16px));         /* ancho tipo “story” */
+      --bookH: min(calc(100svh - 190px), calc(var(--bookW) * 16 / 9)); /* 9:16 */
     }
 
     *{ box-sizing:border-box; }
@@ -140,9 +141,9 @@
       justify-content:center;
       width:min(620px, 100%);
     }
-    .quick-links a{ flex: 1 1 240px; }
+    .quick-links a, .quick-links button{ flex: 1 1 240px; }
     @media (max-width: 420px){
-      .quick-links a{ flex: 1 1 100%; }
+      .quick-links a, .quick-links button{ flex: 1 1 100%; }
     }
 
     /* Book wrapper */
@@ -176,7 +177,7 @@
       box-shadow: var(--softshadow);
     }
 
-    /* Flipbook (NO back faces -> NO espejo) */
+    /* Flipbook (sin espejo) */
     .book{
       width: var(--bookW);
       height: var(--bookH);
@@ -200,17 +201,19 @@
     .sheet.turning{ transition: transform 820ms cubic-bezier(.2,.85,.12,1); }
     .sheet.turned{ transform: rotateY(-180deg); }
 
-    /* Page content */
     .page{
       position:absolute; inset:0;
       padding:14px;
       overflow:auto;
       -webkit-overflow-scrolling: touch;
       padding-bottom: 92px; /* espacio para navbar sticky */
-      background-image: url("fondo1.jpg");
+
+      /* ✅ fondo real en tu repo */
+      background-image: url("fondo1.webp");
       background-size: cover;
       background-position: center;
       background-repeat:no-repeat;
+
       backface-visibility:hidden;
       -webkit-backface-visibility:hidden;
     }
@@ -231,7 +234,6 @@
       padding-bottom: 8px;
     }
 
-    /* Typography */
     h2,h3{
       font-family:"Playfair Display","Georgia",serif;
       margin:0;
@@ -239,8 +241,8 @@
       letter-spacing:.2px;
       text-shadow: 0 1px 0 rgba(255,255,255,.45);
     }
-    h2{ font-size: clamp(1.25rem, 4.6vw, 1.8rem); }
-    h3{ font-size: clamp(1.06rem, 4vw, 1.35rem); }
+    h2{ font-size: clamp(1.2rem, 4.4vw, 1.65rem); }
+    h3{ font-size: clamp(1.02rem, 3.8vw, 1.28rem); }
 
     p{
       margin:0;
@@ -249,7 +251,6 @@
       font-size: clamp(.98rem, 3.7vw, 1.06rem);
       text-shadow: 0 1px 0 rgba(255,255,255,.35);
     }
-    strong{ color:#0f0f0f; }
 
     .panel{
       border:1px solid rgba(0,0,0,.12);
@@ -259,34 +260,29 @@
       padding:14px;
     }
 
-    .chip{
-      display:inline-block;
-      padding:8px 12px;
-      border-radius:999px;
-      border:1px solid rgba(0,0,0,.10);
-      font-size:.9rem;
-      color:#333;
-      background:rgba(255,255,255,.92);
-      margin:6px 8px 0 0;
-    }
-
     .divider{
       height:1px;
       background:linear-gradient(90deg, transparent, rgba(120,120,160,.28), transparent);
       margin:10px 0;
     }
 
-    .row{ display:flex; gap:12px; flex-wrap:wrap; align-items:stretch; }
-    .col{ flex:1 1 260px; }
+    /* ✅ Imagen vertical bonita */
+    .img-round{
+      width:100%;
+      border-radius:18px;
+      border:1px solid rgba(0,0,0,.12);
+      box-shadow: var(--softshadow);
+      display:block;
+      object-fit:cover;
+    }
 
-    /* ✅ Carrusel ROBUSTO (scroll-snap + botones + puntos) */
+    /* Carrusel (scroll-snap) */
     .carousel{
       border-radius:18px;
       border:1px solid rgba(0,0,0,.12);
       overflow:hidden;
       background:#f6f7fb;
     }
-
     .snap{
       display:flex;
       overflow-x:auto;
@@ -304,14 +300,10 @@
     }
     .snap img{
       width:100%;
-      height: 300px;
+      height: min(56vh, 360px);
       object-fit:cover;
       display:block;
     }
-    @media (min-width: 680px){
-      .snap img{ height: 390px; }
-    }
-
     .cap{
       position:absolute; left:10px; right:10px; bottom:10px;
       background:rgba(255,255,255,.90); backdrop-filter: blur(12px);
@@ -364,8 +356,6 @@
     }
     .counter{ font-size:.85rem; color:#333; }
     .wish-grid{ display:grid; grid-template-columns:1fr; gap:10px; margin-top:8px; }
-    @media (min-width: 820px){ .wish-grid{ grid-template-columns:1fr 1fr; } }
-
     .wish-card{
       border:1px solid rgba(0,0,0,.12);
       border-radius:18px;
@@ -387,18 +377,6 @@
       height: 92px;
     }
     @keyframes shimmer{ 0%{ background-position: 100% 0; } 100%{ background-position: 0 0; } }
-
-    /* Palette */
-    .palette{ display:flex; gap:10px; flex-wrap:wrap; margin-top:10px; }
-    .sw{ width:42px; height:42px; border-radius:14px; border:1px solid rgba(0,0,0,.12); box-shadow:0 6px 16px rgba(0,0,0,.08); }
-
-    .img-round{
-      width:100%;
-      border-radius:18px;
-      border:1px solid rgba(0,0,0,.12);
-      box-shadow: var(--softshadow);
-      display:block;
-    }
 
     /* Sparkle flash */
     .sparkle-flash{
@@ -512,8 +490,9 @@
       <div><button type="button" id="soundBtn">Activar sonido</button></div>
     </div>
 
-    <!-- Botones portada solicitados -->
+    <!-- ✅ NUEVO: pausar/reanudar marcha nupcial -->
     <div class="quick-links">
+      <button class="btn soft block" type="button" id="toggleMusicBtn">⏸ Pausar marcha nupcial</button>
       <a class="btn soft block" href="https://adelili7.github.io/nuestraboda/" target="_self" rel="noopener">
         Abrir GitHub
       </a>
@@ -537,27 +516,31 @@
     </div>
 
     <div class="book" id="book">
-      <!-- Sheet 1: Biblia -->
-      <div class="sheet turning" data-i="0" style="z-index:60">
+      <!-- Sheet 1: Biblia + ✅ momento1.jpg -->
+      <div class="sheet turning" data-i="0" style="z-index:80">
         <div class="page">
           <div class="content">
             <div class="panel">
               <h2>“Lo que Dios ha unido, que no lo separe el hombre.”</h2>
               <p><strong>Mateo 19:6</strong></p>
               <div class="divider"></div>
-              <span class="chip">Bienvenidos a nuestra boda</span>
-              <span class="chip">Flipbook</span>
-              <span class="chip">Con amor</span>
+              <p>Bienvenidos a nuestra boda 💍✨</p>
             </div>
+
+            <!-- ✅ agregado -->
             <div class="panel">
-              <p>Usa <strong>Anterior / Siguiente</strong> para avanzar y retroceder. ✨</p>
+              <img class="img-round" src="momento1.jpg" alt="Momento 1 (portada interna)">
+            </div>
+
+            <div class="panel">
+              <p>Usa <strong>Anterior / Siguiente</strong> para avanzar y retroceder.</p>
             </div>
           </div>
         </div>
       </div>
 
       <!-- Sheet 2: Carrusel -->
-      <div class="sheet turning" data-i="1" style="z-index:59">
+      <div class="sheet turning" data-i="1" style="z-index:79">
         <div class="page">
           <div class="content">
             <div class="panel">
@@ -584,7 +567,7 @@
               </div>
 
               <p style="margin-top:8px; font-size:.93rem; color:#333;">
-                Tip: también puedes deslizar con el dedo (swipe) en el carrusel.
+                Puedes deslizar con el dedo para ver más fotos.
               </p>
             </div>
           </div>
@@ -592,7 +575,7 @@
       </div>
 
       <!-- Sheet 3: RSVP -->
-      <div class="sheet turning" data-i="2" style="z-index:58">
+      <div class="sheet turning" data-i="2" style="z-index:78">
         <div class="page">
           <div class="content">
             <div class="panel">
@@ -632,7 +615,7 @@
       </div>
 
       <!-- Sheet 4: Buenos deseos -->
-      <div class="sheet turning" data-i="3" style="z-index:57">
+      <div class="sheet turning" data-i="3" style="z-index:77">
         <div class="page">
           <div class="content">
             <div class="panel">
@@ -680,17 +663,13 @@
                 <div class="skeleton"></div>
                 <div class="skeleton"></div>
               </div>
-
-              <p style="margin-top:10px; font-size:.92rem;">
-                Nota: para mostrar el feed, tu Apps Script debe devolver JSON por GET (action=listWishes).
-              </p>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- Sheet 5: Vestimenta + WhatsApp + Compartir -->
-      <div class="sheet turning" data-i="4" style="z-index:56">
+      <!-- Sheet 5: Vestimenta (✅ sin vestimenta_formal.jpg, ahora momento8.jpg) -->
+      <div class="sheet turning" data-i="4" style="z-index:76">
         <div class="page">
           <div class="content">
             <div class="panel">
@@ -699,17 +678,19 @@
             </div>
 
             <div class="panel">
-              <img class="img-round" src="vestimenta_formal.jpg" alt="Vestimenta formal">
+              <!-- ✅ nuevo: momento8.jpg (SUBIRLO AL REPO) -->
+              <img class="img-round" src="momento8.jpg" alt="Vestimenta / inspiración (momento8)">
               <div class="divider"></div>
+
               <h3>Paleta sugerida</h3>
-              <div class="palette">
-                <div class="sw" title="Azul" style="background:#1f4fa3"></div>
-                <div class="sw" title="Celeste" style="background:#8fc5ff"></div>
-                <div class="sw" title="Gris" style="background:#8e8e8e"></div>
-                <div class="sw" title="Verde" style="background:#2e8b57"></div>
-                <div class="sw" title="Beige" style="background:#d9c7a3"></div>
-                <div class="sw" title="Plateado" style="background:linear-gradient(135deg,#f5f5f5,#bdbdbd,#f0f0f0)"></div>
-                <div class="sw" title="Rosa" style="background:#f2a8c6"></div>
+              <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:10px;">
+                <div title="Azul" style="width:42px;height:42px;border-radius:14px;border:1px solid rgba(0,0,0,.12);background:#1f4fa3;box-shadow:0 6px 16px rgba(0,0,0,.08)"></div>
+                <div title="Celeste" style="width:42px;height:42px;border-radius:14px;border:1px solid rgba(0,0,0,.12);background:#8fc5ff;box-shadow:0 6px 16px rgba(0,0,0,.08)"></div>
+                <div title="Gris" style="width:42px;height:42px;border-radius:14px;border:1px solid rgba(0,0,0,.12);background:#8e8e8e;box-shadow:0 6px 16px rgba(0,0,0,.08)"></div>
+                <div title="Verde" style="width:42px;height:42px;border-radius:14px;border:1px solid rgba(0,0,0,.12);background:#2e8b57;box-shadow:0 6px 16px rgba(0,0,0,.08)"></div>
+                <div title="Beige" style="width:42px;height:42px;border-radius:14px;border:1px solid rgba(0,0,0,.12);background:#d9c7a3;box-shadow:0 6px 16px rgba(0,0,0,.08)"></div>
+                <div title="Plateado" style="width:42px;height:42px;border-radius:14px;border:1px solid rgba(0,0,0,.12);background:linear-gradient(135deg,#f5f5f5,#bdbdbd,#f0f0f0);box-shadow:0 6px 16px rgba(0,0,0,.08)"></div>
+                <div title="Rosa" style="width:42px;height:42px;border-radius:14px;border:1px solid rgba(0,0,0,.12);background:#f2a8c6;box-shadow:0 6px 16px rgba(0,0,0,.08)"></div>
               </div>
             </div>
 
@@ -748,7 +729,7 @@
       </div>
 
       <!-- Sheet 6: Cierre -->
-      <div class="sheet turning" data-i="5" style="z-index:55">
+      <div class="sheet turning" data-i="5" style="z-index:75">
         <div class="page">
           <div class="content">
             <div class="panel">
@@ -779,9 +760,7 @@
   </section>
 
   <script>
-    /***********************
-     * ENDPOINTS (tus links)
-     ***********************/
+    // ENDPOINTS
     const RSVP_WEBAPP = "https://script.google.com/macros/s/AKfycbwJ7HydZZ9mlLbaUZHjo6X2Pc0bVKMI7-WBNmxRNWGh_u_EC4hDQeMO5tcxjjqP4pme2g/exec";
     const WISH_WEBAPP = "https://script.google.com/macros/s/AKfycbwYzbEn329_cruOu9LXCk07h24mLwg3kqH0GdlYfRpaNsdbILL0AF35HT1WpFjkGQ1tIg/exec";
 
@@ -789,6 +768,8 @@
     const bookWrap = document.getElementById("bookWrap");
     const ringButton = document.getElementById("ringButton");
     const soundBtn = document.getElementById("soundBtn");
+    const toggleMusicBtn = document.getElementById("toggleMusicBtn");
+
     const marcha = document.getElementById("marchaNupcial");
     const clickAudio = document.getElementById("audioClick");
     const sparkleFlash = document.getElementById("sparkleFlash");
@@ -799,6 +780,30 @@
     const wishSendBtn = document.getElementById("wishSendBtn");
 
     let coverParticlesMode = true;
+
+    // ✅ Botón pause / play
+    let isPaused = false;
+    function updateMusicLabel(){
+      toggleMusicBtn.textContent = isPaused ? "▶ Reanudar marcha nupcial" : "⏸ Pausar marcha nupcial";
+    }
+    updateMusicLabel();
+
+    toggleMusicBtn.addEventListener("click", async ()=>{
+      try{
+        if (marcha.paused){
+          await marcha.play();
+          isPaused = false;
+        }else{
+          marcha.pause();
+          isPaused = true;
+        }
+        updateMusicLabel();
+      }catch(e){
+        // Si el navegador bloquea, usa "Activar sonido"
+        isPaused = marcha.paused;
+        updateMusicLabel();
+      }
+    });
 
     document.addEventListener("DOMContentLoaded", async ()=>{
       try { await marcha?.play(); } catch(e) {}
@@ -825,11 +830,11 @@
     });
 
     soundBtn.addEventListener("click", async ()=>{
-      try { await marcha?.play(); } catch(e) {}
+      try { await marcha?.play(); isPaused = false; updateMusicLabel(); } catch(e) {}
     });
 
     async function openFromCover(){
-      try { marcha?.pause(); } catch(e) {}
+      try { marcha?.pause(); isPaused = true; updateMusicLabel(); } catch(e) {}
       try { await clickAudio?.play(); } catch(e) {}
       cover.style.display = "none";
       bookWrap.style.display = "block";
@@ -840,11 +845,9 @@
     ringButton.addEventListener("click", (e)=>{ e.preventDefault(); openFromCover(); }, {passive:false});
     ringButton.addEventListener("touchend", (e)=>{ e.preventDefault(); openFromCover(); }, {passive:false});
 
-    /***********************
-     * FLIPBOOK (sin espejo)
-     ***********************/
+    // FLIPBOOK
     const sheets = Array.from(document.querySelectorAll(".sheet"));
-    let current = 0; // índice de hoja actual (0..)
+    let current = 0;
     const prevBtn = document.getElementById("prevBtn");
     const nextBtn = document.getElementById("nextBtn");
     const pageIndicator = document.getElementById("pageIndicator");
@@ -855,7 +858,6 @@
       nextBtn.addEventListener("click", flipNext);
       backToCover.addEventListener("click", (e)=>{ e.preventDefault(); resetToCover(); });
 
-      // Asegura estado inicial
       sheets.forEach(s => s.classList.remove("turned"));
       current = 0;
       updateNav();
@@ -868,7 +870,7 @@
       bookWrap.style.display = "none";
       cover.style.display = "flex";
       coverParticlesMode = true;
-      try { marcha?.play(); } catch(e) {}
+      try { marcha?.play(); isPaused=false; updateMusicLabel(); } catch(e) {}
       window.scrollTo({top:0, behavior:"instant"});
     }
 
@@ -879,7 +881,6 @@
 
     function flipNext(){
       if (current >= sheets.length) return;
-      // voltea la hoja actual
       sheets[current].classList.add("turned");
       flashSparkle();
       current++;
@@ -901,9 +902,7 @@
       nextBtn.disabled = (current === sheets.length);
     }
 
-    /***********************
-     * Carrusel scroll-snap + dots + botones
-     ***********************/
+    // CARRUSEL
     let carIdx = 0;
     const snap = document.getElementById("snap1");
     const items = Array.from(snap.querySelectorAll(".item"));
@@ -924,7 +923,6 @@
       carPrevBtn.addEventListener("click", ()=> goTo(carIdx - 1));
       carNextBtn.addEventListener("click", ()=> goTo(carIdx + 1));
 
-      // Actualiza dot al hacer scroll manual
       let ticking = false;
       snap.addEventListener("scroll", ()=>{
         if (ticking) return;
@@ -952,9 +950,7 @@
       dots.forEach((d, i)=> d.classList.toggle("active", i===carIdx));
     }
 
-    /***********************
-     * RSVP
-     ***********************/
+    // RSVP
     document.getElementById("rsvpForm")?.addEventListener("submit", async (e)=>{
       e.preventDefault();
       const status = document.getElementById("rsvpStatus");
@@ -973,9 +969,7 @@
       }
     });
 
-    /***********************
-     * BUENOS DESEOS (guardar + feed)
-     ***********************/
+    // BUENOS DESEOS
     document.getElementById("wishForm")?.addEventListener("submit", async (e)=>{
       e.preventDefault();
       const status = document.getElementById("wishStatus");
@@ -1003,7 +997,6 @@
     });
 
     async function fetchWishList(){
-      // intento estándar
       const url = WISH_WEBAPP + "?action=listWishes&limit=30";
       const res = await fetch(url);
       if (!res.ok) throw new Error("HTTP " + res.status);
@@ -1078,9 +1071,7 @@
         .replaceAll("'","&#039;");
     }
 
-    /***********************
-     * SHARE
-     ***********************/
+    // SHARE
     function setupShare(){
       const inviteUrl = location.href.split("#")[0];
       const shareText = encodeURIComponent("¡Estás invitado a nuestra boda! 💍✨");
@@ -1097,9 +1088,7 @@
       });
     }
 
-    /***********************
-     * PARTÍCULAS PORTADA
-     ***********************/
+    // PARTÍCULAS PORTADA
     const pCanvas = document.getElementById("particlesCanvas");
     const pCtx = pCanvas.getContext("2d");
     let pW=0, pH=0, pDpr=1;
@@ -1139,7 +1128,7 @@
       for(let i=0;i<80;i++) spawnParticle();
       function tick(){
         pCtx.clearRect(0,0,pW,pH);
-        const targetCount = coverParticlesMode ? 95 : 12;
+        const targetCount = coverParticlesMode ? 95 : 10;
         while(particles.length < targetCount) spawnParticle();
         while(particles.length > targetCount) particles.shift();
 
@@ -1172,14 +1161,10 @@
       requestAnimationFrame(tick);
     }
 
-    /***********************
-     * CURSOR MÁGICO CORAZONES
-     * azul, blanco, dorado, verde
-     ***********************/
+    // CURSOR MÁGICO CORAZONES
     const hCanvas = document.getElementById("heartsCanvas");
     const hCtx = hCanvas.getContext("2d");
     let hW=0, hH=0, hDpr=1;
-
     const HEART_COLORS = ["#3b82f6", "#ffffff", "#d4af37", "#2ecc71"];
     const hearts = [];
     let lastX=null, lastY=null, lastT=0;
