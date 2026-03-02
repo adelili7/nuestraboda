@@ -1,29 +1,41 @@
-<!doctype html>
+ <!doctype html>
 <html lang="es">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
   <title>Nuestra Boda — Erick & Esther</title>
 
   <style>
     :root{
-      --txt:#4a4a4a;
-      --muted:#7a7a7a;
-      --card:#ffffff;
-      --line:#ececec;
-      --shadow: 0 10px 30px rgba(0,0,0,.08);
-      --accent:#a8b6ff;
       --bg:#fbfbfd;
+      --txt:#404040;
+      --muted:#6f6f6f;
+      --line:#ececec;
+      --shadow: 0 10px 30px rgba(0,0,0,.10);
+      --accent:#a8b6ff;
+
+      --bookW:min(980px, calc(100vw - 24px));
+      --bookH:min(720px, calc(100vh - 90px));
     }
     *{ box-sizing:border-box; }
     body{
       margin:0;
+      background:var(--bg);
       color:var(--txt);
-      background: var(--bg);
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      font-family: system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      overflow-x:hidden;
     }
 
-    /* ===== PORTADA ===== */
+    /* ====== EFECTOS (CANVAS) ====== */
+    #particlesCanvas, #heartsCanvas{
+      position:fixed; inset:0;
+      width:100vw; height:100vh;
+      pointer-events:none;
+      z-index:9999;
+    }
+    #heartsCanvas{ z-index:10000; }
+
+    /* ====== PORTADA (SIN FONDO) ====== */
     .cover{
       min-height:100vh;
       display:flex;
@@ -38,41 +50,40 @@
         radial-gradient(1100px 600px at 20% 15%, rgba(168,182,255,.18), transparent 60%),
         radial-gradient(900px 550px at 80% 85%, rgba(242,168,198,.18), transparent 60%),
         var(--bg);
+      z-index:10;
     }
+
     .ring-hit{
-      border:0;
-      background:transparent;
-      padding:0;
-      margin:0;
+      border:0; background:transparent;
+      padding:0; margin:0;
       cursor:pointer;
-      -webkit-tap-highlight-color: transparent;
+      -webkit-tap-highlight-color:transparent;
       touch-action: manipulation;
     }
-    .ring-btn{
-      width:200px;
+    .ring-svg{
+      width:210px;
       display:block;
       user-select:none;
       animation:pulse 2.5s infinite ease-in-out;
-      pointer-events:none; /* el click lo toma el button */
+      pointer-events:none;
+      filter: drop-shadow(0 0 16px rgba(143,170,255,.65));
     }
     @keyframes pulse{
-      0%,100%{ transform:scale(1); filter:drop-shadow(0 0 6px rgba(143,170,255,.6)); }
-      50%{ transform:scale(1.06); filter:drop-shadow(0 0 18px rgba(143,170,255,.9)); }
+      0%,100%{ transform:scale(1); }
+      50%{ transform:scale(1.06); }
     }
-    .ring-title{
+
+    .cover-title{
       font-family:"Playfair Display","Georgia",serif;
-      font-size:2.25rem;
+      font-size:2.35rem;
       margin:18px 0 6px;
-      color:#6b6b6b;
-    }
-    .ring-hint{
-      margin:0;
-      font-size:1rem;
+      color:#666;
       letter-spacing:.2px;
-      color:#8a8a8a;
     }
+    .cover-sub{ margin:0 0 10px; color:#8a8a8a; }
+
     .sound-help{
-      margin-top:18px;
+      margin-top:14px;
       font-size:.92rem;
       color:#666;
       opacity:.95;
@@ -89,49 +100,121 @@
       touch-action: manipulation;
     }
 
-    /* ===== SECCIONES ===== */
-    .wrap{ max-width:980px; margin:0 auto; padding:12px 18px 80px; }
-    .section{
-      background:var(--card);
-      border:1px solid var(--line);
-      border-radius:22px;
-      box-shadow:var(--shadow);
-      padding:22px;
-      margin:18px 0;
+    .quick-links{
+      margin-top:14px;
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      justify-content:center;
     }
-    .title{
-      font-family:"Playfair Display","Georgia",serif;
-      font-size:1.8rem;
-      margin:0 0 10px;
-    }
-    .sub{
-      color:var(--muted);
-      margin:0 0 14px;
-      line-height:1.55;
-    }
-    .row{ display:flex; gap:16px; flex-wrap:wrap; align-items:stretch; }
-    .col{ flex:1 1 280px; }
 
+    /* ====== BOTONES ====== */
     .btn{
       display:inline-flex;
       gap:10px;
       align-items:center;
       justify-content:center;
-      border:1px solid var(--line);
-      background:#fff;
+      border:1px solid rgba(0,0,0,.08);
+      background:rgba(255,255,255,.9);
+      backdrop-filter: blur(8px);
       padding:12px 14px;
       border-radius:999px;
       cursor:pointer;
       text-decoration:none;
-      color:#333;
+      color:#222;
+      box-shadow: 0 10px 24px rgba(0,0,0,.10);
+      user-select:none;
       transition:transform .12s ease;
       touch-action: manipulation;
-      user-select:none;
+      white-space:nowrap;
     }
     .btn:hover{ transform: translateY(-1px); }
-    .btn.primary{ border-color:#d9d9ff; }
-    .btn.dark{ background:#1f1f1f; color:#fff; border-color:#1f1f1f; }
-    .btn.soft{ background:#f6f7ff; border-color:#e7e8ff; }
+    .btn.dark{ background:#111; color:#fff; border-color:#111; box-shadow: 0 12px 28px rgba(0,0,0,.22); }
+    .btn.soft{ background:rgba(246,247,255,.92); border-color:rgba(231,232,255,.92); }
+
+    /* ====== CONTENEDOR LIBRO ====== */
+    .book-wrap{
+      display:none;
+      padding:18px 12px 30px;
+      z-index:20;
+      position:relative;
+    }
+    .book-topbar{
+      max-width: var(--bookW);
+      margin: 0 auto 12px;
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      align-items:center;
+      justify-content:space-between;
+    }
+    .book-topbar .left, .book-topbar .right{
+      display:flex; gap:10px; flex-wrap:wrap; align-items:center;
+    }
+    .badge{
+      color:#555;
+      font-size:.92rem;
+      padding:10px 14px;
+      border-radius:999px;
+      border:1px solid rgba(0,0,0,.08);
+      background:rgba(255,255,255,.9);
+      backdrop-filter: blur(8px);
+      box-shadow: 0 10px 24px rgba(0,0,0,.08);
+    }
+
+    /* ====== FLIPBOOK ====== */
+    .book{
+      width: var(--bookW);
+      height: var(--bookH);
+      margin: 0 auto;
+      position:relative;
+      perspective: 2000px;
+    }
+    .page{
+      position:absolute;
+      inset:0;
+      transform-style: preserve-3d;
+      transform-origin: left center;
+      border-radius:22px;
+      box-shadow: var(--shadow);
+      background:#fff;
+      border:1px solid var(--line);
+      overflow:hidden;
+    }
+
+    /* ✅ Fondo en TODAS las páginas del libro (NO portada) */
+    .face{
+      position:absolute; inset:0;
+      backface-visibility:hidden;
+      padding:22px;
+      overflow:auto;
+      -webkit-overflow-scrolling: touch;
+
+      background-image: url("fondo1.jpg");
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+    /* capa para legibilidad del texto */
+    .face::before{
+      content:"";
+      position:absolute; inset:0;
+      background: rgba(255,255,255,.80);
+      backdrop-filter: blur(1px);
+      z-index:0;
+    }
+    .face > *{ position:relative; z-index:1; }
+
+    .back{ transform: rotateY(180deg); }
+    .page.turning{ transition: transform 800ms cubic-bezier(.2,.85,.12,1); }
+    .page.turned{ transform: rotateY(-180deg); }
+
+    h2,h3{
+      font-family:"Playfair Display","Georgia",serif;
+      margin:0 0 10px;
+      color:#3f3f3f;
+    }
+    p{ margin: 0 0 12px; color: var(--muted); line-height:1.6; }
 
     .chip{
       display:inline-block;
@@ -143,33 +226,34 @@
       color:var(--muted);
       background:#fff;
     }
+    .row{ display:flex; gap:16px; flex-wrap:wrap; align-items:stretch; }
+    .col{ flex:1 1 280px; }
 
-    /* ===== CARRUSEL ===== */
+    .divider{
+      height:1px;
+      background:linear-gradient(90deg, transparent, #e7e7f6, transparent);
+      margin:14px 0;
+    }
+
+    /* ===== Carrusel ===== */
     .carousel{ position:relative; overflow:hidden; border-radius:18px; border:1px solid var(--line); background:#f9f9fb; }
     .track{ display:flex; transition:transform .55s ease; will-change:transform; }
-    .slide{ min-width:100%; aspect-ratio: 16/10; display:flex; align-items:center; justify-content:center; position:relative; }
+    .slide{ min-width:100%; aspect-ratio: 16/10; position:relative; }
     .slide img{ width:100%; height:100%; object-fit:cover; display:block; }
     .cap{
       position:absolute; left:14px; right:14px; bottom:12px;
-      background:rgba(255,255,255,.78); backdrop-filter: blur(6px);
+      background:rgba(255,255,255,.80); backdrop-filter: blur(6px);
       border:1px solid rgba(255,255,255,.8);
       border-radius:14px; padding:10px 12px;
-      color:#3a3a3a;
-      display:flex;
-      justify-content:space-between;
-      gap:10px;
-      align-items:center;
+      color:#333; display:flex; justify-content:space-between; gap:10px; align-items:center;
     }
     .cap small{ color:#666; }
     .car-controls{ display:flex; justify-content:space-between; align-items:center; margin-top:12px; gap:10px; }
     .dots{ display:flex; gap:8px; justify-content:center; flex:1; }
-    .dot{
-      width:9px; height:9px; border-radius:99px;
-      border:1px solid #d9d9d9; background:#fff; cursor:pointer;
-    }
+    .dot{ width:9px; height:9px; border-radius:99px; border:1px solid #d9d9d9; background:#fff; cursor:pointer; }
     .dot.active{ background:var(--accent); border-color:var(--accent); }
 
-    /* ===== FORMS ===== */
+    /* ===== Formularios ===== */
     .field{ display:flex; flex-direction:column; gap:6px; margin:10px 0; }
     .field label{ font-size:.92rem; color:var(--muted); }
     .field input, .field select, .field textarea{
@@ -180,56 +264,113 @@
       outline:none;
       background:#fff;
     }
-    .field textarea{ min-height:110px; resize:vertical; }
+    .field textarea{ min-height:120px; resize:vertical; }
     .status{ margin-top:10px; color:var(--muted); }
 
-    /* ===== PALETA ===== */
+    /* ===== Paleta ===== */
     .palette{ display:flex; gap:10px; flex-wrap:wrap; margin-top:10px; }
-    .sw{
-      width:44px; height:44px; border-radius:14px;
-      border:1px solid rgba(0,0,0,.08);
-      box-shadow:0 6px 16px rgba(0,0,0,.06);
-    }
+    .sw{ width:44px; height:44px; border-radius:14px; border:1px solid rgba(0,0,0,.08); box-shadow:0 6px 16px rgba(0,0,0,.06); }
 
-    .img-round{
-      width:100%;
+    /* ===== Imágenes ===== */
+    .img-round{ width:100%; border-radius:18px; border:1px solid var(--line); box-shadow: var(--shadow); display:block; }
+
+    /* ===== Buenos deseos (bonito) ===== */
+    .wish-head{
+      display:flex; gap:10px; flex-wrap:wrap;
+      align-items:center; justify-content:space-between;
+      margin-top:2px;
+    }
+    .hint-pill{
+      font-size:.85rem;
+      color:#555;
+      padding:8px 12px;
+      border-radius:999px;
+      border:1px solid rgba(0,0,0,.08);
+      background:rgba(246,247,255,.80);
+    }
+    .counter{ font-size:.85rem; color:#666; }
+    .wish-grid{
+      display:grid;
+      grid-template-columns: 1fr;
+      gap:10px;
+      margin-top:10px;
+    }
+    @media (min-width: 780px){
+      .wish-grid{ grid-template-columns: 1fr 1fr; }
+    }
+    .wish-card{
+      border:1px solid var(--line);
+      border-radius:18px;
+      padding:12px 12px;
+      background:linear-gradient(180deg,#fff, #fbfbff);
+      box-shadow: 0 8px 18px rgba(0,0,0,.05);
+    }
+    .wish-card .top{
+      display:flex;
+      justify-content:space-between;
+      gap:10px;
+      align-items:baseline;
+      margin-bottom:6px;
+    }
+    .wish-card .name{ font-weight:800; color:#444; }
+    .wish-card .date{ font-size:.8rem; color:#777; white-space:nowrap; }
+    .wish-card .msg{
+      color:#555; line-height:1.45;
+      white-space:pre-wrap; word-break:break-word;
+    }
+    .skeleton{
       border-radius:18px;
       border:1px solid var(--line);
-      box-shadow:var(--shadow);
-      display:block;
+      background: linear-gradient(90deg, #f3f3f6 25%, #ffffff 37%, #f3f3f6 63%);
+      background-size: 400% 100%;
+      animation: shimmer 1.2s ease infinite;
+      height: 92px;
+    }
+    @keyframes shimmer{
+      0%{ background-position: 100% 0; }
+      100%{ background-position: 0 0; }
     }
 
-    .share-row{ display:flex; gap:10px; flex-wrap:wrap; }
-
-    /* ===== REVELADO (oculto hasta click) ===== */
-    #siteSections{
-      display:none;
+    /* ===== Destello al pasar página ===== */
+    .sparkle-flash{
+      position:fixed;
+      inset:0;
+      pointer-events:none;
       opacity:0;
-      transform: translateY(8px);
-      transition: opacity .35s ease, transform .35s ease;
+      background:
+        radial-gradient(400px 200px at 25% 40%, rgba(255,255,255,.8), transparent 60%),
+        radial-gradient(450px 250px at 75% 60%, rgba(255,220,230,.65), transparent 60%),
+        radial-gradient(500px 280px at 50% 50%, rgba(210,220,255,.55), transparent 60%);
+      z-index: 9998;
+      transition: opacity 220ms ease;
     }
-    #siteSections.visible{
-      display:block;
-      opacity:1;
-      transform: translateY(0);
-    }
+    .sparkle-flash.on{ opacity:1; }
 
-    /* separador suave */
-    .divider{
-      height:1px;
-      background:linear-gradient(90deg, transparent, #e7e7f6, transparent);
-      margin:14px 0;
+    /* ===== Navegación ===== */
+    .navbar{
+      max-width: var(--bookW);
+      margin: 12px auto 0;
+      display:flex;
+      justify-content:space-between;
+      gap:10px;
+      flex-wrap:wrap;
+      align-items:center;
     }
 
     @media (prefers-reduced-motion: reduce){
-      .ring-btn{ animation:none; }
+      .page.turning{ transition:none; }
       .track{ transition:none; }
-      #siteSections{ transition:none; }
+      .sparkle-flash{ display:none; }
     }
   </style>
 </head>
 
 <body>
+  <div class="sparkle-flash" id="sparkleFlash"></div>
+
+  <!-- Efectos -->
+  <canvas id="particlesCanvas"></canvas>
+  <canvas id="heartsCanvas"></canvas>
 
   <!-- Audio -->
   <audio id="marchaNupcial" autoplay loop>
@@ -240,9 +381,9 @@
   </audio>
 
   <!-- PORTADA -->
-  <section class="cover" id="portada">
+  <section class="cover" id="cover">
     <button class="ring-hit" id="ringButton" type="button" aria-label="Abrir invitación">
-      <svg class="ring-btn" viewBox="0 0 200 200" aria-hidden="true">
+      <svg class="ring-svg" viewBox="0 0 200 200" aria-hidden="true">
         <defs>
           <linearGradient id="silverGlow" x1="0%" y1="0%" x2="100%" y2="100%">
             <stop offset="0%" stop-color="#ffffff"/>
@@ -250,13 +391,11 @@
             <stop offset="70%" stop-color="#bfbfbf"/>
             <stop offset="100%" stop-color="#f7f7f7"/>
           </linearGradient>
-
           <radialGradient id="blueDiamond">
             <stop offset="0%" stop-color="#eef5ff"/>
             <stop offset="65%" stop-color="#79aaff"/>
             <stop offset="100%" stop-color="#1f43b8"/>
           </radialGradient>
-
           <filter id="sparkle" x="-40%" y="-40%" width="180%" height="180%">
             <feGaussianBlur stdDeviation="2" result="blur"/>
             <feMerge>
@@ -271,7 +410,6 @@
           fill="url(#blueDiamond)"
           style="filter: drop-shadow(0 0 10px rgba(122,162,255,.95));"
         />
-
         <g filter="url(#sparkle)">
           <path d="M100 6 L103 16 L113 19 L103 22 L100 32 L97 22 L87 19 L97 16 Z" fill="#ffffff" opacity="0.9">
             <animate attributeName="opacity" values="0.1;0.95;0.2" dur="1.8s" repeatCount="indefinite"/>
@@ -283,372 +421,443 @@
       </svg>
     </button>
 
-    <h1 class="ring-title">¡Sí, acepto!</h1>
-    <p class="ring-hint">Da clic en el anillo para abrir</p>
+    <h1 class="cover-title">¡Sí, acepto!</h1>
+    <p class="cover-sub">Da clic en el anillo para abrir</p>
 
     <div class="sound-help">
       Si no escuchas música (por configuración del teléfono), toca aquí:
-      <div><button type="button" onclick="forcePlayMarcha()">Activar sonido</button></div>
+      <div><button type="button" id="soundBtn">Activar sonido</button></div>
     </div>
 
-    <div style="margin-top:14px; display:flex; gap:10px; flex-wrap:wrap; justify-content:center;">
-      <!-- Botón solicitado: abre el mismo enlace (por si alguien quiere “abrir en nueva pestaña”) -->
-      <a class="btn soft" target="_blank" rel="noopener" href="https://adelili7.github.io/nuestraboda/">
-        Abrir este enlace
-      </a>
-
-      <!-- opcional: abrir tu Canva -->
-      <a class="btn" target="_blank" rel="noopener" href="https://bodaerick.my.canva.site/nuestraboda#inicio">
-        Abrir versión Canva
-      </a>
+    <div class="quick-links">
+      <a class="btn soft" href="https://adelili7.github.io/nuestraboda/" target="_self" rel="noopener">Abrir GitHub</a>
+      <a class="btn" href="https://bodaerick.my.canva.site/nuestraboda" target="_blank" rel="noopener">Abrir versión Canva</a>
     </div>
   </section>
 
-  <!-- SECCIONES (ocultas hasta clic) -->
-  <main class="wrap" id="siteSections">
+  <!-- LIBRO -->
+  <section class="book-wrap" id="bookWrap">
+    <div class="book-topbar">
+      <div class="left">
+        <span class="badge" id="pageIndicator">Página 1</span>
+      </div>
+      <div class="right">
+        <a class="btn soft" href="https://adelili7.github.io/nuestraboda/" target="_self" rel="noopener">Volver a GitHub</a>
+        <a class="btn" href="https://bodaerick.my.canva.site/nuestraboda" target="_blank" rel="noopener">Abrir Canva</a>
+        <a class="btn dark" href="#cover" id="backToCover">⟵ Portada</a>
+      </div>
+    </div>
 
-    <!-- Frase bíblica -->
-    <section class="section" id="biblia">
-      <h2 class="title">“Lo que Dios ha unido, que no lo separe el hombre.”</h2>
-      <p class="sub"><strong>Mateo 19:6</strong></p>
-      <span class="chip">Bienvenidos a nuestra boda</span>
-    </section>
+    <div class="book" id="book">
 
-    <!-- Galería: Mejores momentos -->
-    <section class="section" id="momentos">
-      <h2 class="title">Mejores momentos de los novios</h2>
-      <p class="sub">“Tu amor es lo que he anhelado y el regalo que Dios me ha dado”.</p>
-
-      <div class="carousel" id="car1">
-        <div class="track">
-          <div class="slide">
-            <img src="momento1.jpg" alt="Momento 1">
-            <div class="cap"><strong>Momento 1</strong><small>Erick & Esther</small></div>
-          </div>
-          <div class="slide">
-            <img src="momento2.jpg" alt="Momento 2">
-            <div class="cap"><strong>Momento 2</strong><small>Erick & Esther</small></div>
-          </div>
-          <div class="slide">
-            <img src="momento3.jpg" alt="Momento 3">
-            <div class="cap"><strong>Momento 3</strong><small>Erick & Esther</small></div>
-          </div>
-          <div class="slide">
-            <img src="momento4.jpg" alt="Momento 4">
-            <div class="cap"><strong>Momento 4</strong><small>Erick & Esther</small></div>
-          </div>
-          <div class="slide">
-            <img src="momento5.jpg" alt="Momento 5">
-            <div class="cap"><strong>Momento 5</strong><small>Erick & Esther</small></div>
-          </div>
-          <div class="slide">
-            <img src="momento6.jpg" alt="Momento 6">
-            <div class="cap"><strong>Momento 6</strong><small>Erick & Esther</small></div>
-          </div>
+      <!-- Página 1 -->
+      <div class="page turning" data-page="1">
+        <div class="face front">
+          <h2>“Lo que Dios ha unido, que no lo separe el hombre.”</h2>
+          <p><strong>Mateo 19:6</strong></p>
+          <span class="chip">Bienvenidos a nuestra boda</span>
+          <div class="divider"></div>
+          <p>Usa Anterior/Siguiente para pasar páginas como libro real ✨</p>
         </div>
-      </div>
 
-      <div class="car-controls">
-        <button class="btn" type="button" onclick="carPrev('car1')">⟵</button>
-        <div class="dots" id="dots-car1"></div>
-        <button class="btn" type="button" onclick="carNext('car1')">⟶</button>
-      </div>
+        <div class="face back">
+          <h2>Mejores momentos de los novios</h2>
+          <p>“Tu amor es lo que he anhelado y el regalo que Dios me ha dado”.</p>
 
-      <div class="divider"></div>
-
-      <div style="display:flex; gap:10px; flex-wrap:wrap;">
-        <button class="btn" type="button" onclick="toggleAutoplay()"><span id="autoLabel">▶︎ Autoplay</span></button>
-        <button class="btn" type="button" onclick="carGo('car1',0)">Volver al inicio</button>
-      </div>
-      <p class="sub" style="margin-top:10px;">Tip: en celular puedes deslizar para cambiar la foto.</p>
-    </section>
-
-    <!-- RSVP -->
-    <section class="section" id="rsvp">
-      <h2 class="title">Confirmación de asistencia</h2>
-      <p class="sub">Confirma tu asistencia y número de invitados. Se guardará automáticamente en nuestra lista.</p>
-
-      <form id="rsvpForm">
-        <div class="row">
-          <div class="col">
-            <div class="field">
-              <label>Nombre completo</label>
-              <input name="nombre" required placeholder="Tu nombre"/>
+          <div class="carousel" id="car1">
+            <div class="track">
+              <div class="slide"><img src="momento1.jpg" alt="Momento 1"><div class="cap"><strong>Momento 1</strong><small>Erick & Esther</small></div></div>
+              <div class="slide"><img src="momento2.jpg" alt="Momento 2"><div class="cap"><strong>Momento 2</strong><small>Erick & Esther</small></div></div>
+              <div class="slide"><img src="momento3.jpg" alt="Momento 3"><div class="cap"><strong>Momento 3</strong><small>Erick & Esther</small></div></div>
+              <div class="slide"><img src="momento4.jpg" alt="Momento 4"><div class="cap"><strong>Momento 4</strong><small>Erick & Esther</small></div></div>
+              <div class="slide"><img src="momento5.jpg" alt="Momento 5"><div class="cap"><strong>Momento 5</strong><small>Erick & Esther</small></div></div>
+              <div class="slide"><img src="momento6.jpg" alt="Momento 6"><div class="cap"><strong>Momento 6</strong><small>Erick & Esther</small></div></div>
             </div>
           </div>
-          <div class="col">
+
+          <div class="car-controls">
+            <button class="btn" type="button" id="carPrev">⟵</button>
+            <div class="dots" id="dots-car1"></div>
+            <button class="btn" type="button" id="carNext">⟶</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Página 2 -->
+      <div class="page turning" data-page="2">
+        <div class="face front">
+          <h2>Confirmación de asistencia</h2>
+          <p>Confirma tu asistencia y número de invitados. Se guardará automáticamente en nuestra lista.</p>
+
+          <form id="rsvpForm">
+            <div class="row">
+              <div class="col">
+                <div class="field">
+                  <label>Nombre completo</label>
+                  <input name="nombre" required placeholder="Tu nombre"/>
+                </div>
+              </div>
+              <div class="col">
+                <div class="field">
+                  <label>WhatsApp / Teléfono</label>
+                  <input name="telefono" placeholder="+52..."/>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col">
+                <div class="field">
+                  <label>¿Asistirás?</label>
+                  <select name="asistencia" required>
+                    <option value="" selected disabled>Selecciona</option>
+                    <option value="Sí">Sí</option>
+                    <option value="No">No</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col">
+                <div class="field">
+                  <label>Número de invitados (incluyéndote)</label>
+                  <input name="invitados" type="number" min="1" max="10" value="1" required />
+                </div>
+              </div>
+            </div>
+
+            <button class="btn dark" type="submit">Confirmar</button>
+            <div class="status" id="rsvpStatus"></div>
+          </form>
+
+          <div class="divider"></div>
+          <p style="font-size:.92rem;">
+            Si aún no conectas el endpoint RSVP, pega tu URL /exec en <strong>RSVP_WEBAPP</strong> (en el script).
+          </p>
+        </div>
+
+        <div class="face back">
+          <div class="wish-head">
+            <h2 style="margin:0;">Buenos deseos</h2>
+            <span class="hint-pill">Se guardan en Google Sheets ✨</span>
+          </div>
+          <p>Déjanos un mensaje bonito. ¡Nos encantará leerlo!</p>
+
+          <form id="wishForm">
+            <div class="row">
+              <div class="col">
+                <div class="field">
+                  <label>Tu nombre</label>
+                  <input name="nombre" id="wishName" required placeholder="Tu nombre"/>
+                </div>
+              </div>
+              <div class="col">
+                <div class="field">
+                  <label>¿De parte de quién?</label>
+                  <input name="de" id="wishFrom" placeholder="Familia / Amigos / etc. (opcional)"/>
+                </div>
+              </div>
+            </div>
+
             <div class="field">
-              <label>WhatsApp / Teléfono</label>
-              <input name="telefono" placeholder="+52..."/>
+              <label>Tu mensaje</label>
+              <textarea name="mensaje" id="wishMsg" required maxlength="220" placeholder="Escribe tus buenos deseos..."></textarea>
+              <div class="wish-head" style="margin-top:6px;">
+                <span class="counter" id="msgCount">0/220</span>
+                <span class="counter" id="wishLive">Actualizando…</span>
+              </div>
+            </div>
+
+            <button class="btn dark" type="submit" id="wishSendBtn">Enviar deseo</button>
+            <div class="status" id="wishStatus"></div>
+          </form>
+
+          <div class="divider"></div>
+          <h3>Mensajes</h3>
+          <div class="wish-grid" id="wishFeed">
+            <div class="skeleton"></div>
+            <div class="skeleton"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Página 3 -->
+      <div class="page turning" data-page="3">
+        <div class="face front">
+          <h2>Tipo de vestimenta formal</h2>
+          <p>Te recomendamos la siguiente paleta de colores; <strong>dejemos el blanco para la novia.</strong></p>
+
+          <div class="row">
+            <div class="col">
+              <img class="img-round" src="vestimenta_formal.jpg" alt="Vestimenta formal">
+            </div>
+            <div class="col">
+              <div class="palette">
+                <div class="sw" title="Azul" style="background:#1f4fa3"></div>
+                <div class="sw" title="Celeste" style="background:#8fc5ff"></div>
+                <div class="sw" title="Gris" style="background:#8e8e8e"></div>
+                <div class="sw" title="Verde" style="background:#2e8b57"></div>
+                <div class="sw" title="Beige" style="background:#d9c7a3"></div>
+                <div class="sw" title="Plateado" style="background:linear-gradient(135deg,#f5f5f5,#bdbdbd,#f0f0f0)"></div>
+                <div class="sw" title="Rosa" style="background:#f2a8c6"></div>
+              </div>
+
+              <div style="margin-top:14px">
+                <span class="chip">Formal</span>
+                <span class="chip">Elegante</span>
+                <span class="chip">Sin blanco</span>
+              </div>
             </div>
           </div>
         </div>
 
-        <div class="row">
-          <div class="col">
-            <div class="field">
-              <label>¿Asistirás?</label>
-              <select name="asistencia" required>
-                <option value="" selected disabled>Selecciona una opción</option>
-                <option value="Sí">Sí</option>
-                <option value="No">No</option>
-              </select>
-            </div>
-          </div>
-          <div class="col">
-            <div class="field">
-              <label>Número de invitados (incluyéndote)</label>
-              <input name="invitados" type="number" min="1" max="10" value="1" required />
-            </div>
-          </div>
-        </div>
+        <div class="face back">
+          <h2>Contacta a los novios</h2>
+          <p>Para dudas rápidas, aquí estamos.</p>
 
-        <button class="btn primary" type="submit">Confirmar</button>
-        <div class="status" id="rsvpStatus"></div>
-      </form>
-    </section>
+          <div class="row">
+            <a class="btn dark" target="_blank" rel="noopener"
+               href="https://wa.me/527341361227?text=Hola%20Esther%2C%20tengo%20una%20duda%20sobre%20la%20boda%20%F0%9F%92%8D">
+              WhatsApp Esther (+52 7341361227)
+            </a>
 
-    <!-- Buenos deseos -->
-    <section class="section" id="deseos">
-      <h2 class="title">Sección de buenos deseos</h2>
-      <p class="sub">Déjanos un mensaje. Se guardará automáticamente en Google Sheets.</p>
-
-      <form id="wishForm">
-        <div class="field">
-          <label>Tu nombre</label>
-          <input name="nombre" required placeholder="Tu nombre"/>
-        </div>
-        <div class="field">
-          <label>Tu mensaje</label>
-          <textarea name="mensaje" required placeholder="Escribe tus buenos deseos..."></textarea>
-        </div>
-
-        <button class="btn primary" type="submit">Enviar deseo</button>
-        <div class="status" id="wishStatus"></div>
-      </form>
-
-      <div class="divider"></div>
-
-      <h3 class="title" style="font-size:1.25rem;">Mensajes en tiempo real</h3>
-      <p class="sub" style="margin-top:-6px;">
-        Si no aparecen mensajes, tu endpoint quizá no expone lectura por GET/JSON; aun así, los guarda en Sheets.
-      </p>
-      <div id="wishFeed" style="display:flex; flex-direction:column; gap:10px;"></div>
-    </section>
-
-    <!-- Vestimenta -->
-    <section class="section" id="vestimenta">
-      <h2 class="title">Tipo de vestimenta formal</h2>
-      <p class="sub">Te recomendamos la siguiente paleta de colores; <strong>dejemos el blanco para la novia.</strong></p>
-
-      <div class="row">
-        <div class="col">
-          <img class="img-round" src="vestimenta_formal.jpg" alt="Vestimenta formal">
-        </div>
-        <div class="col">
-          <div class="palette" aria-label="Paleta de colores recomendada">
-            <div class="sw" title="Azul" style="background:#1f4fa3"></div>
-            <div class="sw" title="Celeste" style="background:#8fc5ff"></div>
-            <div class="sw" title="Gris" style="background:#8e8e8e"></div>
-            <div class="sw" title="Verde" style="background:#2e8b57"></div>
-            <div class="sw" title="Beige" style="background:#d9c7a3"></div>
-            <div class="sw" title="Plateado" style="background:linear-gradient(135deg,#f5f5f5,#bdbdbd,#f0f0f0)"></div>
-            <div class="sw" title="Rosa" style="background:#f2a8c6"></div>
+            <a class="btn dark" target="_blank" rel="noopener"
+               href="https://wa.me/12504606724?text=Hola%20Erick%2C%20tengo%20una%20duda%20sobre%20la%20boda%20%F0%9F%92%8D">
+              WhatsApp Erick (+1 250 460 6724)
+            </a>
           </div>
 
-          <div style="margin-top:14px">
-            <span class="chip">Formal</span>
-            <span class="chip">Elegante</span>
-            <span class="chip">Sin blanco</span>
+          <div class="divider"></div>
+
+          <h2>Comparte la invitación</h2>
+          <p>WhatsApp / Facebook / Instagram (copia el link).</p>
+
+          <div class="row" style="gap:10px;">
+            <a class="btn soft" target="_blank" rel="noopener" id="shareWA">Compartir WhatsApp</a>
+            <a class="btn soft" target="_blank" rel="noopener" id="shareFB">Compartir Facebook</a>
+            <button class="btn soft" type="button" id="copyBtn">Copiar link</button>
           </div>
+          <div class="status" id="copyStatus"></div>
+
+          <div class="divider"></div>
+
+          <a class="btn" href="https://bodaerick.my.canva.site/nuestraboda" target="_blank" rel="noopener">Abrir versión Canva</a>
         </div>
       </div>
-    </section>
 
-    <!-- Galería colaborativa -->
-    <section class="section" id="colaborativa">
-      <h2 class="title">Galería colaborativa</h2>
-      <p class="sub">Sube tus fotos o videos y construyamos una galería con momentos desde diferentes perspectivas.</p>
-
-      <div class="row">
-        <div class="col">
-          <img class="img-round" src="momento6.jpg" alt="Momento 6">
+      <!-- Página 4 -->
+      <div class="page turning" data-page="4">
+        <div class="face front">
+          <h2 style="font-size:1.95rem;">Con amor eterno Esther y Erick</h2>
+          <p>Gracias por acompañarnos en este día tan especial.</p>
+          <img class="img-round" src="momento7.jpg" alt="Momento 7">
         </div>
-        <div class="col">
-          <div style="border-radius:18px; overflow:hidden; border:1px solid var(--line); box-shadow:var(--shadow); background:#fff;">
-            <iframe
-              src="https://docs.google.com/forms/d/e/1FAIpQLSfDX9Ky8YrQ962Uxh5ibEYGDk2WsyyVUxUPC09IcwrBKlHx7A/viewform?usp=header"
-              width="100%" height="520" frameborder="0" marginheight="0" marginwidth="0">
-            </iframe>
-          </div>
+        <div class="face back">
+          <h2>¡Nos vemos pronto!</h2>
+          <p>Gracias por ser parte de nuestra historia. 💍✨</p>
+          <a class="btn dark" href="#cover" id="endBackCover">Volver a Portada</a>
         </div>
       </div>
-    </section>
+    </div>
 
-    <!-- WhatsApp novios -->
-    <section class="section" id="whatsapp">
-      <h2 class="title">Contacta a los novios</h2>
-      <p class="sub">Para dudas rápidas, aquí estamos.</p>
-      <div class="row">
-        <a class="btn primary" target="_blank" rel="noopener"
-           href="https://wa.me/527341361227?text=Hola%20Esther%2C%20tengo%20una%20duda%20sobre%20la%20boda%20%F0%9F%92%8D">
-          WhatsApp Esther (+52 7341361227)
-        </a>
-        <a class="btn primary" target="_blank" rel="noopener"
-           href="https://wa.me/12504606724?text=Hola%20Erick%2C%20tengo%20una%20duda%20sobre%20la%20boda%20%F0%9F%92%8D">
-          WhatsApp Erick (+1 250 460 6724)
-        </a>
-      </div>
-    </section>
-
-    <!-- Compartir -->
-    <section class="section" id="compartir">
-      <h2 class="title">Comparte la invitación</h2>
-      <p class="sub">Facilita que tus invitados la compartan en WhatsApp, Facebook o Instagram.</p>
-
-      <div class="share-row">
-        <a class="btn" target="_blank" rel="noopener" id="shareWA">Compartir en WhatsApp</a>
-        <a class="btn" target="_blank" rel="noopener" id="shareFB">Compartir en Facebook</a>
-        <button class="btn" type="button" onclick="copyInvite()">Copiar link</button>
-      </div>
-      <div class="status" id="copyStatus"></div>
-      <div class="status" style="margin-top:6px;">Para Instagram: copia el link y pégalo en tu bio o mensaje.</div>
-
-      <div class="divider"></div>
-
-      <a class="btn soft" target="_blank" rel="noopener" href="https://adelili7.github.io/nuestraboda/">
-        Abrir enlace https://adelili7.github.io/nuestraboda/
-      </a>
-    </section>
-
-    <!-- Cierre -->
-    <section class="section" id="cierre">
-      <h2 class="title">Con amor eterno Esther y Erick</h2>
-      <p class="sub">Gracias por acompañarnos en este día tan especial.</p>
-      <img class="img-round" src="momento7.jpg" alt="Momento 7">
-    </section>
-
-  </main>
+    <div class="navbar">
+      <button class="btn" type="button" id="prevBtn">⟵ Anterior</button>
+      <button class="btn dark" type="button" id="nextBtn">Siguiente ⟶</button>
+    </div>
+  </section>
 
   <script>
-    // ===== ENDPOINTS (tus Google Apps Script) =====
-    const RSVP_ENDPOINT  = "https://script.google.com/macros/s/AKfycbyDEgVJzj-vGvwxFE1eqTmKb4pO4__lXB9gX8gMKGc2yGhlzR15AFPY8vQMvnjoNs01Vg/exec";
-    const WISH_ENDPOINT  = "https://script.google.com/macros/s/AKfycbwY2G6aHz1-W9Sk3CUspgJYNf2EhEchr_gNk4mvaZS4wXn7sKIfIV3Qy-Wje2UCKdgC/exec";
+    /***********************
+     * CONFIG ENDPOINTS
+     ***********************/
+    // ✅ Buenos deseos (TU URL)
+    const WISH_WEBAPP = "https://script.google.com/macros/s/AKfycbycclsBpSIa1J8IW2MRcSflm0GLCQ9CwY9aOcXt-r2cXtDU2hveS4trtrz-FeczYvmxzg/exec";
 
+    // ⚠️ RSVP: pega aquí TU URL /exec de RSVP cuando la tengas
+    const RSVP_WEBAPP = "";
+
+    const cover = document.getElementById("cover");
+    const bookWrap = document.getElementById("bookWrap");
+    const ringButton = document.getElementById("ringButton");
+    const soundBtn = document.getElementById("soundBtn");
     const marcha = document.getElementById("marchaNupcial");
     const clickAudio = document.getElementById("audioClick");
-    const ringButton = document.getElementById("ringButton");
-    const sections = document.getElementById("siteSections");
+    const sparkleFlash = document.getElementById("sparkleFlash");
 
-    // Autoplay de carrusel
-    let autoTimer = null;
-    let autoOn = false;
+    // Wishes UI
+    const wishMsg = document.getElementById("wishMsg");
+    const msgCount = document.getElementById("msgCount");
+    const wishLive = document.getElementById("wishLive");
+    const wishSendBtn = document.getElementById("wishSendBtn");
 
-    // Intento autoplay (puede fallar en móviles)
-    document.addEventListener("DOMContentLoaded", async () => {
+    document.addEventListener("DOMContentLoaded", async ()=>{
       try { await marcha?.play(); } catch(e) {}
 
-      initCarousel("car1");
+      initCarousel();
       setupShare();
-      loadWishFeed();
-      setInterval(loadWishFeed, 12000);
+      initParticles();
+      initHeartTrail();
+      initBook();
 
-      // Si entran con #algo, mostramos secciones y bajamos
-      if (location.hash && sections) {
-        sections.classList.add("visible");
-        const el = document.querySelector(location.hash);
-        if (el) el.scrollIntoView({behavior:"smooth"});
+      // contador de caracteres deseos
+      if (wishMsg && msgCount){
+        const upd = ()=> msgCount.textContent = `${wishMsg.value.length}/220`;
+        wishMsg.addEventListener("input", upd);
+        upd();
       }
+
+      // carga + refresh deseos
+      loadWishFeed(true);
+      setInterval(()=>loadWishFeed(false), 8000);
+
+      document.getElementById("endBackCover")?.addEventListener("click",(e)=>{
+        e.preventDefault();
+        resetToCover();
+      });
     });
 
-    async function forcePlayMarcha(){
+    soundBtn.addEventListener("click", async ()=>{
       try { await marcha?.play(); } catch(e) {}
-    }
+    });
 
-    // Click del anillo: revelar + audios + scroll
-    async function openInvitation(){
+    /***********************
+     * PORTADA -> ABRIR LIBRO
+     ***********************/
+    let coverParticlesMode = true;
+
+    async function openFromCover(){
       try { marcha?.pause(); } catch(e) {}
       try { await clickAudio?.play(); } catch(e) {}
 
-      if (sections && !sections.classList.contains("visible")) {
-        sections.classList.add("visible");
-      }
-      const next = document.querySelector("#biblia");
-      if (next) next.scrollIntoView({ behavior:"smooth" });
+      cover.style.display = "none";
+      bookWrap.style.display = "block";
+      coverParticlesMode = false;
+
+      updateNav();
+      window.scrollTo({top:0, behavior:"instant"});
+    }
+    ringButton.addEventListener("click", (e)=>{ e.preventDefault(); openFromCover(); }, {passive:false});
+    ringButton.addEventListener("touchend", (e)=>{ e.preventDefault(); openFromCover(); }, {passive:false});
+
+    /***********************
+     * FLIPBOOK
+     ***********************/
+    let currentIndex = 0;
+    let pages = [];
+    const prevBtn = document.getElementById("prevBtn");
+    const nextBtn = document.getElementById("nextBtn");
+    const pageIndicator = document.getElementById("pageIndicator");
+    const backToCover = document.getElementById("backToCover");
+
+    function initBook(){
+      pages = Array.from(document.querySelectorAll(".page"));
+      pages.forEach((p, i)=>{ p.style.zIndex = String(100 - i); });
+
+      prevBtn.addEventListener("click", ()=>flipPrev());
+      nextBtn.addEventListener("click", ()=>flipNext());
+
+      backToCover.addEventListener("click", (e)=>{
+        e.preventDefault();
+        resetToCover();
+      });
+
+      updateNav();
     }
 
-    ringButton.addEventListener("click", (e) => { e.preventDefault(); openInvitation(); }, { passive:false });
-    ringButton.addEventListener("touchend", (e) => { e.preventDefault(); openInvitation(); }, { passive:false });
+    function resetToCover(){
+      pages.forEach((p)=>p.classList.remove("turned"));
+      currentIndex = 0;
+      updateNav();
 
-    // ===== Carrusel =====
-    const carState = {};
-    function initCarousel(id){
-      const root = document.getElementById(id);
-      if (!root) return;
-      const track = root.querySelector(".track");
-      const slides = root.querySelectorAll(".slide");
-      const dotsWrap = document.getElementById("dots-"+id);
+      bookWrap.style.display = "none";
+      cover.style.display = "flex";
+      coverParticlesMode = true;
 
-      carState[id] = { idx:0, track, slidesCount: slides.length };
+      try { marcha?.play(); } catch(e) {}
+      window.scrollTo({top:0, behavior:"instant"});
+    }
 
+    function flashSparkle(){
+      sparkleFlash.classList.add("on");
+      setTimeout(()=>sparkleFlash.classList.remove("on"), 220);
+    }
+    function flipNext(){
+      if (currentIndex >= pages.length) return;
+      pages[currentIndex].classList.add("turned");
+      flashSparkle();
+      currentIndex++;
+      updateNav();
+    }
+    function flipPrev(){
+      if (currentIndex <= 0) return;
+      currentIndex--;
+      pages[currentIndex].classList.remove("turned");
+      flashSparkle();
+      updateNav();
+    }
+    function updateNav(){
+      pageIndicator.textContent = `Página ${Math.min(currentIndex+1, pages.length)}`;
+      prevBtn.disabled = (currentIndex === 0);
+      nextBtn.disabled = (currentIndex === pages.length);
+      prevBtn.style.opacity = prevBtn.disabled ? ".55" : "1";
+      nextBtn.style.opacity = nextBtn.disabled ? ".55" : "1";
+    }
+
+    /***********************
+     * CARRUSEL
+     ***********************/
+    let carIdx = 0;
+    let carSlides = [];
+    let carDots = [];
+    const carTrack = document.querySelector("#car1 .track");
+    const dotsWrap = document.getElementById("dots-car1");
+    const carPrevBtn = document.getElementById("carPrev");
+    const carNextBtn = document.getElementById("carNext");
+
+    function initCarousel(){
+      carSlides = Array.from(document.querySelectorAll("#car1 .slide"));
       dotsWrap.innerHTML = "";
-      for (let i=0;i<slides.length;i++){
-        const d=document.createElement("button");
-        d.className="dot"+(i===0?" active":"");
-        d.type="button";
-        d.addEventListener("click", ()=>carGo(id,i));
+
+      carSlides.forEach((_, i)=>{
+        const d = document.createElement("button");
+        d.className = "dot" + (i===0 ? " active":"");
+        d.type = "button";
+        d.addEventListener("click", ()=>carGo(i));
         dotsWrap.appendChild(d);
-      }
+      });
 
-      // swipe touch
+      carDots = Array.from(dotsWrap.querySelectorAll(".dot"));
+      carPrevBtn.addEventListener("click", ()=>carGo(carIdx-1));
+      carNextBtn.addEventListener("click", ()=>carGo(carIdx+1));
+
+      // swipe simple
       let startX=0, dx=0, touching=false;
-      root.addEventListener("touchstart",(e)=>{ touching=true; startX=e.touches[0].clientX; dx=0; },{passive:true});
+      const root = document.getElementById("car1");
+      root.addEventListener("touchstart",(e)=>{touching=true; startX=e.touches[0].clientX; dx=0;},{passive:true});
       root.addEventListener("touchmove",(e)=>{ if(!touching) return; dx=e.touches[0].clientX-startX; },{passive:true});
-      root.addEventListener("touchend",()=>{ touching=false; if (Math.abs(dx)>40){ dx<0?carNext(id):carPrev(id); } });
+      root.addEventListener("touchend",()=>{ touching=false; if (Math.abs(dx)>40){ dx<0?carGo(carIdx+1):carGo(carIdx-1); } });
+    }
+    function carGo(i){
+      if (!carSlides.length) return;
+      carIdx = (i + carSlides.length) % carSlides.length;
+      carTrack.style.transform = `translateX(${-carIdx*100}%)`;
+      carDots.forEach((d, idx)=>d.classList.toggle("active", idx===carIdx));
     }
 
-    function carRender(id){
-      const st = carState[id]; if(!st) return;
-      st.track.style.transform = `translateX(${-st.idx*100}%)`;
-      const dots = document.querySelectorAll("#dots-"+id+" .dot");
-      dots.forEach((d,i)=>d.classList.toggle("active", i===st.idx));
-    }
-    function carGo(id, idx){
-      const st = carState[id]; if(!st) return;
-      st.idx = (idx + st.slidesCount) % st.slidesCount;
-      carRender(id);
-    }
-    function carNext(id){ const st = carState[id]; if(!st) return; carGo(id, st.idx+1); }
-    function carPrev(id){ const st = carState[id]; if(!st) return; carGo(id, st.idx-1); }
-
-    // Export para botones onclick
-    window.carNext = carNext;
-    window.carPrev = carPrev;
-    window.carGo = carGo;
-
-    function toggleAutoplay(){
-      autoOn = !autoOn;
-      const lbl = document.getElementById("autoLabel");
-      if (autoOn){
-        lbl.textContent = "⏸ Autoplay";
-        autoTimer = setInterval(()=>carNext("car1"), 3500);
-      } else {
-        lbl.textContent = "▶︎ Autoplay";
-        clearInterval(autoTimer);
-        autoTimer = null;
-      }
-    }
-    window.toggleAutoplay = toggleAutoplay;
-
-    // ===== RSVP =====
+    /***********************
+     * RSVP
+     ***********************/
     document.getElementById("rsvpForm")?.addEventListener("submit", async (e)=>{
       e.preventDefault();
       const status = document.getElementById("rsvpStatus");
       status.textContent = "Enviando…";
-      const fd = new FormData(e.target);
 
+      if (!RSVP_WEBAPP){
+        status.textContent = "Falta conectar el link /exec del RSVP en el código (RSVP_WEBAPP).";
+        return;
+      }
+
+      const fd = new FormData(e.target);
       try{
-        const res = await fetch(RSVP_ENDPOINT, { method:"POST", body: fd });
+        const res = await fetch(RSVP_WEBAPP, { method:"POST", body: fd });
         if (!res.ok) throw new Error("HTTP "+res.status);
         status.textContent = "¡Listo! Tu confirmación fue registrada. 💍";
         e.target.reset();
@@ -657,80 +866,338 @@
       }
     });
 
-    // ===== Deseos =====
+    /***********************
+     * BUENOS DESEOS
+     ***********************/
     document.getElementById("wishForm")?.addEventListener("submit", async (e)=>{
       e.preventDefault();
       const status = document.getElementById("wishStatus");
       status.textContent = "Enviando…";
+      wishSendBtn.disabled = true;
+      wishSendBtn.style.opacity = ".7";
+
       const fd = new FormData(e.target);
+      fd.append("action", "wish");
 
       try{
-        const res = await fetch(WISH_ENDPOINT, { method:"POST", body: fd });
+        const res = await fetch(WISH_WEBAPP, { method:"POST", body: fd });
         if (!res.ok) throw new Error("HTTP "+res.status);
-        status.textContent = "¡Gracias! Tu mensaje fue guardado. ✨";
+
+        const data = await res.json().catch(()=>({ ok:true }));
+        if (data.ok === false) throw new Error(data.error || "Error al guardar");
+
+        status.textContent = "¡Gracias! Tu mensaje fue guardado ✨";
         e.target.reset();
-        loadWishFeed();
+        msgCount.textContent = "0/220";
+        await loadWishFeed(false, true);
       }catch(err){
         status.textContent = "No se pudo enviar. Intenta de nuevo.";
+      }finally{
+        wishSendBtn.disabled = false;
+        wishSendBtn.style.opacity = "1";
       }
     });
 
-    async function loadWishFeed(){
+    async function fetchWishList(){
+      const url = WISH_WEBAPP + "?action=listWishes&limit=30";
+      const res = await fetch(url, { method:"GET" });
+      if (!res.ok) throw new Error("HTTP " + res.status);
+      const json = await res.json();
+      const rows = Array.isArray(json.data) ? json.data : (Array.isArray(json.items) ? json.items : []);
+      return rows;
+    }
+
+    function normalizeWishRow(r){
+      const name = (r.nombre || r.name || "Invitado").toString();
+      const from = (r.de || r.from || "").toString();
+      const msg  = (r.mensaje || r.message || r.text || "").toString();
+      const rawDate = (r.fecha || r.date || r.timestamp || r.time || r.timestampISO || "");
+      let dateStr = "";
+      if (rawDate){
+        try{
+          const d = new Date(rawDate);
+          dateStr = isNaN(d.getTime())
+            ? String(rawDate)
+            : d.toLocaleString("es-MX", { dateStyle:"medium", timeStyle:"short" });
+        }catch(e){
+          dateStr = String(rawDate);
+        }
+      }
+      return { name, from, msg, dateStr };
+    }
+
+    async function loadWishFeed(firstLoad=false, afterSend=false){
       const wrap = document.getElementById("wishFeed");
       if (!wrap) return;
 
+      if (firstLoad){
+        wishLive.textContent = "Cargando…";
+        wrap.innerHTML = `<div class="skeleton"></div><div class="skeleton"></div>`;
+      } else {
+        wishLive.textContent = "Actualizando…";
+      }
+
       try{
-        // Para “tiempo real”: tu Apps Script debe soportar GET y devolver JSON.
-        // Intento estándar: ?action=list
-        const res = await fetch(WISH_ENDPOINT + "?action=list", { method:"GET" });
-        if (!res.ok) throw new Error("HTTP "+res.status);
-        const data = await res.json();
-        const rows = Array.isArray(data) ? data : (data.data || []);
-        if (!rows.length) return;
+        const rows = await fetchWishList();
+        const normalized = rows
+          .map(normalizeWishRow)
+          .filter(x => (x.msg || "").trim().length > 0);
+
+        const latest = normalized.slice(-30).reverse();
 
         wrap.innerHTML = "";
-        rows.slice(-25).reverse().forEach(r=>{
+        if (!latest.length){
+          wrap.innerHTML = `<div class="wish-card"><div class="name">Aún no hay mensajes</div><div class="msg">Sé el primero en dejar un buen deseo ✨</div></div>`;
+          wishLive.textContent = "Listo";
+          return;
+        }
+
+        latest.forEach(w=>{
           const card = document.createElement("div");
-          card.style.border = "1px solid var(--line)";
-          card.style.borderRadius = "16px";
-          card.style.padding = "12px";
-          card.style.background = "#fff";
+          card.className = "wish-card";
           card.innerHTML = `
-            <div style="font-weight:600; margin-bottom:6px;">
-              ${(r.nombre || r.name || "Invitado")}
+            <div class="top">
+              <div class="name">${escapeHtml(w.name)}${w.from ? ` <span style="font-weight:500;color:#777">(${escapeHtml(w.from)})</span>`:""}</div>
+              <div class="date">${w.dateStr ? escapeHtml(w.dateStr) : ""}</div>
             </div>
-            <div style="color:#555;">
-              ${(r.mensaje || r.message || "")}
-            </div>
+            <div class="msg">${escapeHtml(w.msg)}</div>
           `;
           wrap.appendChild(card);
         });
+
+        wishLive.textContent = afterSend ? "¡Publicado!" : "Listo";
+        if (afterSend) setTimeout(()=>wishLive.textContent="Listo", 1200);
       }catch(e){
-        // si no hay GET/JSON, no rompemos nada
+        wrap.innerHTML = `
+          <div class="wish-card">
+            <div class="name">Mensajes</div>
+            <div class="msg">
+              Se guardan al enviar, pero tu script debe devolver JSON por GET con <b>action=listWishes</b>.
+            </div>
+          </div>
+        `;
+        wishLive.textContent = "Sin lectura";
       }
     }
 
-    // ===== Share =====
+    function escapeHtml(str){
+      return String(str)
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#039;");
+    }
+
+    /***********************
+     * SHARE
+     ***********************/
     function setupShare(){
       const inviteUrl = location.href.split("#")[0];
       const shareText = encodeURIComponent("¡Estás invitado a nuestra boda! 💍✨");
       const wa = document.getElementById("shareWA");
       const fb = document.getElementById("shareFB");
-      if (wa) wa.href = `https://wa.me/?text=${shareText}%20${encodeURIComponent(inviteUrl)}`;
-      if (fb) fb.href = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(inviteUrl)}`;
+      const copyBtn = document.getElementById("copyBtn");
+      const copyStatus = document.getElementById("copyStatus");
+
+      wa.href = `https://wa.me/?text=${shareText}%20${encodeURIComponent(inviteUrl)}`;
+      fb.href = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(inviteUrl)}`;
+
+      copyBtn.addEventListener("click", async ()=>{
+        try{
+          await navigator.clipboard.writeText(inviteUrl);
+          copyStatus.textContent = "Link copiado ✅ (pégalo en Instagram/WhatsApp).";
+        }catch(e){
+          copyStatus.textContent = "No pude copiar automáticamente. Copia manual: " + inviteUrl;
+        }
+      });
     }
 
-    window.copyInvite = async function(){
-      const inviteUrl = location.href.split("#")[0];
-      const st = document.getElementById("copyStatus");
-      try{
-        await navigator.clipboard.writeText(inviteUrl);
-        st.textContent = "Link copiado ✅ (puedes pegarlo en WhatsApp/Instagram).";
-      }catch(e){
-        st.textContent = "No pude copiar automáticamente. Copia manual: " + inviteUrl;
+    /***********************
+     * PARTÍCULAS PORTADA
+     ***********************/
+    const pCanvas = document.getElementById("particlesCanvas");
+    const pCtx = pCanvas.getContext("2d");
+    let pW=0, pH=0, pDpr=1;
+    let particles = [];
+
+    const PARTICLE_COLORS = [
+      "rgba(125,170,255,0.85)",  // azul
+      "rgba(236,183,198,0.85)",  // rose gold
+      "rgba(255,255,255,0.90)",  // blanco
+      "rgba(220,220,220,0.85)"   // plateado
+    ];
+
+    function pResize(){
+      pDpr = Math.max(1, window.devicePixelRatio || 1);
+      pW = Math.floor(window.innerWidth);
+      pH = Math.floor(window.innerHeight);
+      pCanvas.width = Math.floor(pW * pDpr);
+      pCanvas.height = Math.floor(pH * pDpr);
+      pCanvas.style.width = pW+"px";
+      pCanvas.style.height = pH+"px";
+      pCtx.setTransform(pDpr,0,0,pDpr,0,0);
+    }
+    function spawnParticle(){
+      particles.push({
+        x: Math.random()*pW,
+        y: pH + Math.random()*80,
+        r: 1.5 + Math.random()*3.8,
+        vy: 0.4 + Math.random()*1.2,
+        vx: -0.4 + Math.random()*0.8,
+        a: 0.2 + Math.random()*0.7,
+        col: PARTICLE_COLORS[Math.floor(Math.random()*PARTICLE_COLORS.length)],
+        tw: Math.random()*Math.PI*2
+      });
+    }
+    function initParticles(){
+      pResize();
+      window.addEventListener("resize", pResize, {passive:true});
+      for(let i=0;i<70;i++) spawnParticle();
+
+      function tick(){
+        pCtx.clearRect(0,0,pW,pH);
+        const targetCount = coverParticlesMode ? 85 : 18;
+        while(particles.length < targetCount) spawnParticle();
+        while(particles.length > targetCount) particles.shift();
+
+        for(let i=particles.length-1;i>=0;i--){
+          const p = particles[i];
+          p.tw += 0.03;
+          p.x += p.vx + Math.sin(p.tw)*0.25;
+          p.y -= p.vy;
+          p.a *= 0.998;
+
+          pCtx.globalAlpha = Math.max(0, Math.min(1, p.a));
+          pCtx.fillStyle = p.col;
+          pCtx.beginPath();
+          pCtx.arc(p.x, p.y, p.r, 0, Math.PI*2);
+          pCtx.fill();
+
+          if (p.y < -60 || p.x < -60 || p.x > pW+60) particles[i] = {
+            x: Math.random()*pW,
+            y: pH + Math.random()*80,
+            r: 1.5 + Math.random()*3.8,
+            vy: 0.4 + Math.random()*1.2,
+            vx: -0.4 + Math.random()*0.8,
+            a: 0.2 + Math.random()*0.7,
+            col: PARTICLE_COLORS[Math.floor(Math.random()*PARTICLE_COLORS.length)],
+            tw: Math.random()*Math.PI*2
+          };
+        }
+        requestAnimationFrame(tick);
+      }
+      requestAnimationFrame(tick);
+    }
+
+    /***********************
+     * CURSOR MÁGICO CORAZONES
+     * (plata, rosa, dorado, verde)
+     ***********************/
+    const hCanvas = document.getElementById("heartsCanvas");
+    const hCtx = hCanvas.getContext("2d");
+    let hW=0, hH=0, hDpr=1;
+
+    const HEART_COLORS = ["#c0c0c0", "#ff4fa3", "#d4af37", "#2ecc71"];
+    const hearts = [];
+    let lastX=null, lastY=null, lastT=0;
+
+    function hResize(){
+      hDpr = Math.max(1, window.devicePixelRatio || 1);
+      hW = Math.floor(window.innerWidth);
+      hH = Math.floor(window.innerHeight);
+      hCanvas.width = Math.floor(hW * hDpr);
+      hCanvas.height = Math.floor(hH * hDpr);
+      hCanvas.style.width = hW+"px";
+      hCanvas.style.height = hH+"px";
+      hCtx.setTransform(hDpr,0,0,hDpr,0,0);
+    }
+    function heartPath(ctx, s){
+      ctx.beginPath();
+      ctx.moveTo(0, s*0.35);
+      ctx.bezierCurveTo(s*0.6, -s*0.15, s*0.95, s*0.35, 0, s);
+      ctx.bezierCurveTo(-s*0.95, s*0.35, -s*0.6, -s*0.15, 0, s*0.35);
+      ctx.closePath();
+    }
+    function addHearts(x,y, strength=1){
+      const count = Math.min(6, Math.max(1, Math.floor(strength*3)));
+      for(let i=0;i<count;i++){
+        hearts.push({
+          x: x + (Math.random()*4-2),
+          y: y + (Math.random()*4-2),
+          vx: (Math.random()*1.2-0.6),
+          vy: -(0.8 + Math.random()*1.2),
+          rot: (Math.random()*1.2-0.6),
+          vr: (Math.random()*0.08-0.04),
+          size: 8 + Math.random()*10,
+          life: 0.8 + Math.random()*0.6,
+          age: 0,
+          col: HEART_COLORS[Math.floor(Math.random()*HEART_COLORS.length)],
+          a: 0.75 + Math.random()*0.2
+        });
       }
     }
-  </script>
+    function initHeartTrail(){
+      hResize();
+      window.addEventListener("resize", hResize, {passive:true});
 
+      function move(x,y){
+        const now = performance.now();
+        if (lastX===null){
+          lastX=x; lastY=y; lastT=now;
+          addHearts(x,y,1);
+          return;
+        }
+        const dx=x-lastX, dy=y-lastY;
+        const dist=Math.hypot(dx,dy);
+        const speed = dist / Math.max(8, (now-lastT));
+        const steps = Math.max(1, Math.floor(dist/10));
+        for(let i=0;i<steps;i++){
+          const ix = lastX + dx*(i/steps);
+          const iy = lastY + dy*(i/steps);
+          addHearts(ix,iy, 1 + speed*10);
+        }
+        lastX=x; lastY=y; lastT=now;
+      }
+
+      window.addEventListener("mousemove",(e)=>move(e.clientX,e.clientY),{passive:true});
+      window.addEventListener("touchmove",(e)=>{
+        if(!e.touches || !e.touches[0]) return;
+        move(e.touches[0].clientX, e.touches[0].clientY);
+      },{passive:true});
+
+      function tick(){
+        const dt = 0.016;
+        hCtx.clearRect(0,0,hW,hH);
+
+        for(let i=hearts.length-1;i>=0;i--){
+          const p = hearts[i];
+          p.age += dt;
+          if (p.age >= p.life){ hearts.splice(i,1); continue; }
+
+          p.vy += 0.7*dt;
+          p.x += p.vx*60*dt;
+          p.y += p.vy*60*dt;
+          p.rot += p.vr*60*dt;
+
+          const k = 1 - (p.age/p.life);
+          const a = p.a * Math.max(0, Math.min(1, k));
+
+          hCtx.save();
+          hCtx.translate(p.x,p.y);
+          hCtx.rotate(p.rot);
+          hCtx.globalAlpha = a;
+          hCtx.shadowColor = p.col;
+          hCtx.shadowBlur = 10;
+          hCtx.fillStyle = p.col;
+          heartPath(hCtx, p.size*(0.7+0.6*k));
+          hCtx.fill();
+          hCtx.restore();
+        }
+        requestAnimationFrame(tick);
+      }
+      requestAnimationFrame(tick);
+    }
+  </script>
 </body>
-</html> 
+</html>
