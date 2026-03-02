@@ -1,23 +1,27 @@
- <!doctype html>
+<!doctype html>
 <html lang="es">
 <head>
   <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"/>
   <title>Nuestra Boda — Erick & Esther</title>
 
   <style>
     :root{
       --bg:#fbfbfd;
-      --txt:#404040;
+      --txt:#2f2f2f;
       --muted:#6f6f6f;
-      --line:#ececec;
-      --shadow: 0 10px 30px rgba(0,0,0,.10);
-      --accent:#a8b6ff;
+      --line:rgba(20,20,20,.08);
+      --shadow: 0 14px 34px rgba(0,0,0,.12);
+      --softshadow: 0 10px 24px rgba(0,0,0,.10);
+      --accent:#8aa0ff;
 
-      --bookW:min(980px, calc(100vw - 24px));
-      --bookH:min(720px, calc(100vh - 90px));
+      /* ✅ Mobile-first: libro alto, casi pantalla completa */
+      --bookW:min(980px, calc(100vw - 16px));
+      --bookH: calc(100vh - 150px);
     }
+
     *{ box-sizing:border-box; }
+    html,body{ height:100%; }
     body{
       margin:0;
       background:var(--bg);
@@ -35,7 +39,37 @@
     }
     #heartsCanvas{ z-index:10000; }
 
-    /* ====== PORTADA (SIN FONDO) ====== */
+    /* ====== BOTONES ====== */
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      border:1px solid rgba(0,0,0,.10);
+      background:rgba(255,255,255,.92);
+      backdrop-filter: blur(10px);
+      padding:12px 14px;
+      border-radius:999px;
+      cursor:pointer;
+      text-decoration:none;
+      color:#222;
+      box-shadow: var(--softshadow);
+      user-select:none;
+      transition:transform .12s ease, box-shadow .12s ease;
+      touch-action: manipulation;
+      white-space:nowrap;
+    }
+    .btn:hover{ transform: translateY(-1px); box-shadow: 0 14px 32px rgba(0,0,0,.14); }
+    .btn.dark{
+      background:#111; color:#fff; border-color:#111;
+      box-shadow: 0 14px 34px rgba(0,0,0,.24);
+    }
+    .btn.soft{ background:rgba(246,247,255,.94); border-color:rgba(231,232,255,.94); }
+
+    /* ✅ En móvil: botones ocupan ancho completo */
+    .btn.block{ width:100%; }
+
+    /* ====== PORTADA ====== */
     .cover{
       min-height:100vh;
       display:flex;
@@ -43,16 +77,15 @@
       align-items:center;
       justify-content:center;
       text-align:center;
-      padding:28px 18px;
+      padding:26px 16px;
       position:relative;
       overflow:hidden;
       background:
-        radial-gradient(1100px 600px at 20% 15%, rgba(168,182,255,.18), transparent 60%),
-        radial-gradient(900px 550px at 80% 85%, rgba(242,168,198,.18), transparent 60%),
+        radial-gradient(1100px 600px at 18% 15%, rgba(138,160,255,.20), transparent 60%),
+        radial-gradient(900px 550px at 82% 85%, rgba(242,168,198,.18), transparent 60%),
         var(--bg);
       z-index:10;
     }
-
     .ring-hit{
       border:0; background:transparent;
       padding:0; margin:0;
@@ -61,33 +94,37 @@
       touch-action: manipulation;
     }
     .ring-svg{
-      width:210px;
+      width: min(215px, 52vw);
       display:block;
       user-select:none;
-      animation:pulse 2.5s infinite ease-in-out;
+      animation:pulse 2.6s infinite ease-in-out;
       pointer-events:none;
-      filter: drop-shadow(0 0 16px rgba(143,170,255,.65));
+      filter: drop-shadow(0 0 18px rgba(120,150,255,.70));
     }
     @keyframes pulse{
       0%,100%{ transform:scale(1); }
-      50%{ transform:scale(1.06); }
+      50%{ transform:scale(1.065); }
     }
 
+    /* ✅ Tipografía fluida móvil */
     .cover-title{
       font-family:"Playfair Display","Georgia",serif;
-      font-size:2.35rem;
-      margin:18px 0 6px;
-      color:#666;
+      font-size: clamp(1.9rem, 6vw, 2.6rem);
+      margin:14px 0 6px;
+      color:#5b5b5b;
       letter-spacing:.2px;
     }
-    .cover-sub{ margin:0 0 10px; color:#8a8a8a; }
+    .cover-sub{
+      margin:0 0 10px;
+      color:#808080;
+      font-size: clamp(.95rem, 3.6vw, 1.05rem);
+    }
 
     .sound-help{
-      margin-top:14px;
-      font-size:.92rem;
+      margin-top:12px;
+      font-size: clamp(.92rem, 3.4vw, 1rem);
       color:#666;
-      opacity:.95;
-      max-width:520px;
+      max-width:560px;
       line-height:1.5;
     }
     .sound-help button{
@@ -106,42 +143,25 @@
       gap:10px;
       flex-wrap:wrap;
       justify-content:center;
+      width:min(520px, 100%);
     }
-
-    /* ====== BOTONES ====== */
-    .btn{
-      display:inline-flex;
-      gap:10px;
-      align-items:center;
-      justify-content:center;
-      border:1px solid rgba(0,0,0,.08);
-      background:rgba(255,255,255,.9);
-      backdrop-filter: blur(8px);
-      padding:12px 14px;
-      border-radius:999px;
-      cursor:pointer;
-      text-decoration:none;
-      color:#222;
-      box-shadow: 0 10px 24px rgba(0,0,0,.10);
-      user-select:none;
-      transition:transform .12s ease;
-      touch-action: manipulation;
-      white-space:nowrap;
+    .quick-links a{ flex: 1 1 180px; }
+    @media (max-width: 420px){
+      .quick-links a{ flex: 1 1 100%; }
     }
-    .btn:hover{ transform: translateY(-1px); }
-    .btn.dark{ background:#111; color:#fff; border-color:#111; box-shadow: 0 12px 28px rgba(0,0,0,.22); }
-    .btn.soft{ background:rgba(246,247,255,.92); border-color:rgba(231,232,255,.92); }
 
     /* ====== CONTENEDOR LIBRO ====== */
     .book-wrap{
       display:none;
-      padding:18px 12px 30px;
-      z-index:20;
+      padding:12px 8px 18px;
       position:relative;
+      z-index:20;
     }
+
+    /* ✅ Topbar en móvil: se acomoda */
     .book-topbar{
       max-width: var(--bookW);
-      margin: 0 auto 12px;
+      margin: 0 auto 10px;
       display:flex;
       gap:10px;
       flex-wrap:wrap;
@@ -156,10 +176,10 @@
       font-size:.92rem;
       padding:10px 14px;
       border-radius:999px;
-      border:1px solid rgba(0,0,0,.08);
-      background:rgba(255,255,255,.9);
-      backdrop-filter: blur(8px);
-      box-shadow: 0 10px 24px rgba(0,0,0,.08);
+      border:1px solid rgba(0,0,0,.10);
+      background:rgba(255,255,255,.92);
+      backdrop-filter: blur(10px);
+      box-shadow: var(--softshadow);
     }
 
     /* ====== FLIPBOOK ====== */
@@ -168,7 +188,7 @@
       height: var(--bookH);
       margin: 0 auto;
       position:relative;
-      perspective: 2000px;
+      perspective: 2200px;
     }
     .page{
       position:absolute;
@@ -177,133 +197,193 @@
       transform-origin: left center;
       border-radius:22px;
       box-shadow: var(--shadow);
-      background:#fff;
       border:1px solid var(--line);
       overflow:hidden;
+      background:#fff;
     }
 
-    /* ✅ Fondo en TODAS las páginas del libro (NO portada) */
+    /* ✅ Fondo en páginas (NO portada) */
     .face{
       position:absolute; inset:0;
       backface-visibility:hidden;
-      padding:22px;
+      padding:14px;
       overflow:auto;
       -webkit-overflow-scrolling: touch;
 
-      background-image: url("fondo1.jpg");
+      background-image: image-set(
+        url("fondo1.webp") type("image/webp"),
+        url("fondo1.jpg") type("image/jpeg")
+      );
       background-size: cover;
       background-position: center;
-      background-repeat: no-repeat;
+      background-repeat:no-repeat;
     }
-    /* capa para legibilidad del texto */
     .face::before{
       content:"";
       position:absolute; inset:0;
-      background: rgba(255,255,255,.80);
+      background: rgba(255,255,255,.84);
       backdrop-filter: blur(1px);
       z-index:0;
     }
-    .face > *{ position:relative; z-index:1; }
+    .content{
+      position:relative;
+      z-index:1;
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+      min-height:100%;
+    }
 
     .back{ transform: rotateY(180deg); }
-    .page.turning{ transition: transform 800ms cubic-bezier(.2,.85,.12,1); }
+    .page.turning{ transition: transform 820ms cubic-bezier(.2,.85,.12,1); }
     .page.turned{ transform: rotateY(-180deg); }
 
     h2,h3{
       font-family:"Playfair Display","Georgia",serif;
-      margin:0 0 10px;
-      color:#3f3f3f;
+      margin:0;
+      color:#2f2f2f;
+      letter-spacing:.2px;
     }
-    p{ margin: 0 0 12px; color: var(--muted); line-height:1.6; }
+    h2{ font-size: clamp(1.25rem, 4.6vw, 1.75rem); }
+    h3{ font-size: clamp(1.05rem, 4vw, 1.35rem); }
+    p{ margin:0; color:var(--muted); line-height:1.55; font-size: clamp(.95rem, 3.6vw, 1.05rem); }
+    strong{ color:#333; }
+
+    .panel{
+      border:1px solid rgba(0,0,0,.08);
+      border-radius:18px;
+      background: rgba(255,255,255,.80);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 10px 22px rgba(0,0,0,.07);
+      padding:12px;
+    }
 
     .chip{
       display:inline-block;
       padding:8px 12px;
       border-radius:999px;
-      border:1px solid var(--line);
-      margin:6px 8px 0 0;
+      border:1px solid rgba(0,0,0,.08);
       font-size:.9rem;
-      color:var(--muted);
-      background:#fff;
+      color:#616161;
+      background:rgba(255,255,255,.86);
+      backdrop-filter: blur(8px);
+      margin:6px 8px 0 0;
     }
-    .row{ display:flex; gap:16px; flex-wrap:wrap; align-items:stretch; }
-    .col{ flex:1 1 280px; }
 
     .divider{
       height:1px;
-      background:linear-gradient(90deg, transparent, #e7e7f6, transparent);
-      margin:14px 0;
+      background:linear-gradient(90deg, transparent, rgba(120,120,160,.25), transparent);
+      margin:8px 0;
     }
 
-    /* ===== Carrusel ===== */
-    .carousel{ position:relative; overflow:hidden; border-radius:18px; border:1px solid var(--line); background:#f9f9fb; }
+    .row{ display:flex; gap:12px; flex-wrap:wrap; align-items:stretch; }
+    .col{ flex:1 1 260px; }
+
+    /* ===== Carrusel (✅ móvil) ===== */
+    .carousel{
+      position:relative;
+      overflow:hidden;
+      border-radius:18px;
+      border:1px solid rgba(0,0,0,.10);
+      background:#f6f7fb;
+    }
     .track{ display:flex; transition:transform .55s ease; will-change:transform; }
-    .slide{ min-width:100%; aspect-ratio: 16/10; position:relative; }
-    .slide img{ width:100%; height:100%; object-fit:cover; display:block; }
+    .slide{ min-width:100%; position:relative; }
+    .slide-media{
+      width:100%;
+      height: 300px; /* móvil */
+      display:block;
+      object-fit:cover;
+    }
+    @media (min-width: 680px){
+      .slide-media{ height: 360px; }
+    }
     .cap{
-      position:absolute; left:14px; right:14px; bottom:12px;
-      background:rgba(255,255,255,.80); backdrop-filter: blur(6px);
-      border:1px solid rgba(255,255,255,.8);
+      position:absolute; left:10px; right:10px; bottom:10px;
+      background:rgba(255,255,255,.84); backdrop-filter: blur(12px);
+      border:1px solid rgba(255,255,255,.95);
       border-radius:14px; padding:10px 12px;
       color:#333; display:flex; justify-content:space-between; gap:10px; align-items:center;
+      font-size:.95rem;
     }
     .cap small{ color:#666; }
-    .car-controls{ display:flex; justify-content:space-between; align-items:center; margin-top:12px; gap:10px; }
+
+    .car-controls{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      margin-top:10px;
+      gap:10px;
+      flex-wrap:wrap;
+    }
     .dots{ display:flex; gap:8px; justify-content:center; flex:1; }
     .dot{ width:9px; height:9px; border-radius:99px; border:1px solid #d9d9d9; background:#fff; cursor:pointer; }
     .dot.active{ background:var(--accent); border-color:var(--accent); }
 
     /* ===== Formularios ===== */
-    .field{ display:flex; flex-direction:column; gap:6px; margin:10px 0; }
-    .field label{ font-size:.92rem; color:var(--muted); }
+    .field{ display:flex; flex-direction:column; gap:6px; margin:10px 0 0; }
+    .field label{ font-size:.92rem; color:#606060; }
     .field input, .field select, .field textarea{
-      border:1px solid var(--line);
+      border:1px solid rgba(0,0,0,.10);
       border-radius:14px;
       padding:12px 12px;
       font-size:1rem;
       outline:none;
-      background:#fff;
+      background:rgba(255,255,255,.92);
+      backdrop-filter: blur(8px);
+      width:100%;
     }
     .field textarea{ min-height:120px; resize:vertical; }
-    .status{ margin-top:10px; color:var(--muted); }
+    .status{ margin-top:10px; color:#666; }
 
     /* ===== Paleta ===== */
     .palette{ display:flex; gap:10px; flex-wrap:wrap; margin-top:10px; }
-    .sw{ width:44px; height:44px; border-radius:14px; border:1px solid rgba(0,0,0,.08); box-shadow:0 6px 16px rgba(0,0,0,.06); }
+    .sw{
+      width:42px; height:42px; border-radius:14px;
+      border:1px solid rgba(0,0,0,.10);
+      box-shadow:0 6px 16px rgba(0,0,0,.06);
+    }
 
     /* ===== Imágenes ===== */
-    .img-round{ width:100%; border-radius:18px; border:1px solid var(--line); box-shadow: var(--shadow); display:block; }
+    .img-round{
+      width:100%;
+      border-radius:18px;
+      border:1px solid rgba(0,0,0,.10);
+      box-shadow: var(--softshadow);
+      display:block;
+    }
 
-    /* ===== Buenos deseos (bonito) ===== */
+    /* ===== Buenos deseos ===== */
     .wish-head{
       display:flex; gap:10px; flex-wrap:wrap;
       align-items:center; justify-content:space-between;
-      margin-top:2px;
     }
     .hint-pill{
       font-size:.85rem;
       color:#555;
       padding:8px 12px;
       border-radius:999px;
-      border:1px solid rgba(0,0,0,.08);
-      background:rgba(246,247,255,.80);
+      border:1px solid rgba(0,0,0,.10);
+      background:rgba(246,247,255,.88);
+      backdrop-filter: blur(10px);
     }
     .counter{ font-size:.85rem; color:#666; }
     .wish-grid{
       display:grid;
-      grid-template-columns: 1fr;
+      grid-template-columns: 1fr; /* móvil */
       gap:10px;
-      margin-top:10px;
+      margin-top:8px;
     }
-    @media (min-width: 780px){
+    @media (min-width: 820px){
       .wish-grid{ grid-template-columns: 1fr 1fr; }
     }
     .wish-card{
-      border:1px solid var(--line);
+      border:1px solid rgba(0,0,0,.10);
       border-radius:18px;
-      padding:12px 12px;
-      background:linear-gradient(180deg,#fff, #fbfbff);
-      box-shadow: 0 8px 18px rgba(0,0,0,.05);
+      padding:12px;
+      background: rgba(255,255,255,.84);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 8px 18px rgba(0,0,0,.06);
     }
     .wish-card .top{
       display:flex;
@@ -312,24 +392,19 @@
       align-items:baseline;
       margin-bottom:6px;
     }
-    .wish-card .name{ font-weight:800; color:#444; }
+    .wish-card .name{ font-weight:800; color:#333; }
     .wish-card .date{ font-size:.8rem; color:#777; white-space:nowrap; }
-    .wish-card .msg{
-      color:#555; line-height:1.45;
-      white-space:pre-wrap; word-break:break-word;
-    }
+    .wish-card .msg{ color:#555; line-height:1.45; white-space:pre-wrap; word-break:break-word; }
+
     .skeleton{
       border-radius:18px;
-      border:1px solid var(--line);
+      border:1px solid rgba(0,0,0,.08);
       background: linear-gradient(90deg, #f3f3f6 25%, #ffffff 37%, #f3f3f6 63%);
       background-size: 400% 100%;
       animation: shimmer 1.2s ease infinite;
       height: 92px;
     }
-    @keyframes shimmer{
-      0%{ background-position: 100% 0; }
-      100%{ background-position: 0 0; }
-    }
+    @keyframes shimmer{ 0%{ background-position: 100% 0; } 100%{ background-position: 0 0; } }
 
     /* ===== Destello al pasar página ===== */
     .sparkle-flash{
@@ -338,29 +413,48 @@
       pointer-events:none;
       opacity:0;
       background:
-        radial-gradient(400px 200px at 25% 40%, rgba(255,255,255,.8), transparent 60%),
-        radial-gradient(450px 250px at 75% 60%, rgba(255,220,230,.65), transparent 60%),
-        radial-gradient(500px 280px at 50% 50%, rgba(210,220,255,.55), transparent 60%);
+        radial-gradient(420px 240px at 25% 40%, rgba(255,255,255,.8), transparent 62%),
+        radial-gradient(470px 280px at 75% 60%, rgba(255,220,235,.55), transparent 60%),
+        radial-gradient(520px 320px at 50% 50%, rgba(200,220,255,.50), transparent 62%);
       z-index: 9998;
       transition: opacity 220ms ease;
     }
     .sparkle-flash.on{ opacity:1; }
 
-    /* ===== Navegación ===== */
+    /* ✅ Nav sticky en móvil (siempre visible) */
     .navbar{
       max-width: var(--bookW);
-      margin: 12px auto 0;
+      margin: 10px auto 0;
       display:flex;
       justify-content:space-between;
       gap:10px;
       flex-wrap:wrap;
       align-items:center;
+
+      position: sticky;
+      bottom: 10px;
+      z-index: 30;
+      padding: 8px;
+      border-radius: 18px;
+      background: rgba(255,255,255,.75);
+      backdrop-filter: blur(12px);
+      border:1px solid rgba(0,0,0,.08);
+      box-shadow: 0 12px 28px rgba(0,0,0,.12);
+    }
+
+    /* ✅ Ajustes extra para pantallas muy pequeñas */
+    @media (max-width: 360px){
+      .face{ padding:12px; }
+      .panel{ padding:10px; border-radius:16px; }
+      .btn{ padding:11px 12px; }
+      .slide-media{ height: 260px; }
     }
 
     @media (prefers-reduced-motion: reduce){
       .page.turning{ transition:none; }
       .track{ transition:none; }
       .sparkle-flash{ display:none; }
+      .ring-svg{ animation:none; }
     }
   </style>
 </head>
@@ -430,8 +524,8 @@
     </div>
 
     <div class="quick-links">
-      <a class="btn soft" href="https://adelili7.github.io/nuestraboda/" target="_self" rel="noopener">Abrir GitHub</a>
-      <a class="btn" href="https://bodaerick.my.canva.site/nuestraboda" target="_blank" rel="noopener">Abrir versión Canva</a>
+      <a class="btn soft block" href="https://adelili7.github.io/nuestraboda/" target="_self" rel="noopener">Abrir GitHub</a>
+      <a class="btn block" href="https://bodaerick.my.canva.site/nuestraboda" target="_blank" rel="noopener">Abrir versión Canva</a>
     </div>
   </section>
 
@@ -442,43 +536,55 @@
         <span class="badge" id="pageIndicator">Página 1</span>
       </div>
       <div class="right">
-        <a class="btn soft" href="https://adelili7.github.io/nuestraboda/" target="_self" rel="noopener">Volver a GitHub</a>
-        <a class="btn" href="https://bodaerick.my.canva.site/nuestraboda" target="_blank" rel="noopener">Abrir Canva</a>
+        <a class="btn soft" href="https://adelili7.github.io/nuestraboda/" target="_self" rel="noopener">GitHub</a>
+        <a class="btn" href="https://bodaerick.my.canva.site/nuestraboda" target="_blank" rel="noopener">Canva</a>
         <a class="btn dark" href="#cover" id="backToCover">⟵ Portada</a>
       </div>
     </div>
 
     <div class="book" id="book">
-
       <!-- Página 1 -->
       <div class="page turning" data-page="1">
         <div class="face front">
-          <h2>“Lo que Dios ha unido, que no lo separe el hombre.”</h2>
-          <p><strong>Mateo 19:6</strong></p>
-          <span class="chip">Bienvenidos a nuestra boda</span>
-          <div class="divider"></div>
-          <p>Usa Anterior/Siguiente para pasar páginas como libro real ✨</p>
+          <div class="content">
+            <div class="panel">
+              <h2>“Lo que Dios ha unido, que no lo separe el hombre.”</h2>
+              <p><strong>Mateo 19:6</strong></p>
+              <div class="divider"></div>
+              <span class="chip">Bienvenidos a nuestra boda</span>
+              <span class="chip">Flipbook</span>
+              <span class="chip">Con amor</span>
+            </div>
+            <div class="panel">
+              <p>Usa <strong>Anterior / Siguiente</strong> para avanzar o retroceder como libro real. ✨</p>
+            </div>
+          </div>
         </div>
 
         <div class="face back">
-          <h2>Mejores momentos de los novios</h2>
-          <p>“Tu amor es lo que he anhelado y el regalo que Dios me ha dado”.</p>
-
-          <div class="carousel" id="car1">
-            <div class="track">
-              <div class="slide"><img src="momento1.jpg" alt="Momento 1"><div class="cap"><strong>Momento 1</strong><small>Erick & Esther</small></div></div>
-              <div class="slide"><img src="momento2.jpg" alt="Momento 2"><div class="cap"><strong>Momento 2</strong><small>Erick & Esther</small></div></div>
-              <div class="slide"><img src="momento3.jpg" alt="Momento 3"><div class="cap"><strong>Momento 3</strong><small>Erick & Esther</small></div></div>
-              <div class="slide"><img src="momento4.jpg" alt="Momento 4"><div class="cap"><strong>Momento 4</strong><small>Erick & Esther</small></div></div>
-              <div class="slide"><img src="momento5.jpg" alt="Momento 5"><div class="cap"><strong>Momento 5</strong><small>Erick & Esther</small></div></div>
-              <div class="slide"><img src="momento6.jpg" alt="Momento 6"><div class="cap"><strong>Momento 6</strong><small>Erick & Esther</small></div></div>
+          <div class="content">
+            <div class="panel">
+              <h2>Mejores momentos de los novios</h2>
+              <p>“Tu amor es lo que he anhelado y el regalo que Dios me ha dado”.</p>
             </div>
-          </div>
+            <div class="panel">
+              <div class="carousel" id="car1">
+                <div class="track">
+                  <div class="slide"><img class="slide-media moment" data-base="momento1" src="momento1.jpg" alt="Momento 1"><div class="cap"><strong>Momento 1</strong><small>Erick & Esther</small></div></div>
+                  <div class="slide"><img class="slide-media moment" data-base="momento2" src="momento2.jpg" alt="Momento 2"><div class="cap"><strong>Momento 2</strong><small>Erick & Esther</small></div></div>
+                  <div class="slide"><img class="slide-media moment" data-base="momento3" src="momento3.jpg" alt="Momento 3"><div class="cap"><strong>Momento 3</strong><small>Erick & Esther</small></div></div>
+                  <div class="slide"><img class="slide-media moment" data-base="momento4" src="momento4.jpg" alt="Momento 4"><div class="cap"><strong>Momento 4</strong><small>Erick & Esther</small></div></div>
+                  <div class="slide"><img class="slide-media moment" data-base="momento5" src="momento5.jpg" alt="Momento 5"><div class="cap"><strong>Momento 5</strong><small>Erick & Esther</small></div></div>
+                  <div class="slide"><img class="slide-media moment" data-base="momento6" src="momento6.jpg" alt="Momento 6"><div class="cap"><strong>Momento 6</strong><small>Erick & Esther</small></div></div>
+                </div>
+              </div>
 
-          <div class="car-controls">
-            <button class="btn" type="button" id="carPrev">⟵</button>
-            <div class="dots" id="dots-car1"></div>
-            <button class="btn" type="button" id="carNext">⟶</button>
+              <div class="car-controls">
+                <button class="btn" type="button" id="carPrev">⟵</button>
+                <div class="dots" id="dots-car1"></div>
+                <button class="btn" type="button" id="carNext">⟶</button>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -486,27 +592,22 @@
       <!-- Página 2 -->
       <div class="page turning" data-page="2">
         <div class="face front">
-          <h2>Confirmación de asistencia</h2>
-          <p>Confirma tu asistencia y número de invitados. Se guardará automáticamente en nuestra lista.</p>
+          <div class="content">
+            <div class="panel">
+              <h2>Confirmación de asistencia</h2>
+              <p>Confirma tu asistencia y número de invitados. Se guardará automáticamente en nuestra lista.</p>
+            </div>
 
-          <form id="rsvpForm">
-            <div class="row">
-              <div class="col">
+            <div class="panel">
+              <form id="rsvpForm">
                 <div class="field">
                   <label>Nombre completo</label>
                   <input name="nombre" required placeholder="Tu nombre"/>
                 </div>
-              </div>
-              <div class="col">
                 <div class="field">
                   <label>WhatsApp / Teléfono</label>
                   <input name="telefono" placeholder="+52..."/>
                 </div>
-              </div>
-            </div>
-
-            <div class="row">
-              <div class="col">
                 <div class="field">
                   <label>¿Asistirás?</label>
                   <select name="asistencia" required>
@@ -515,66 +616,65 @@
                     <option value="No">No</option>
                   </select>
                 </div>
-              </div>
-              <div class="col">
                 <div class="field">
                   <label>Número de invitados (incluyéndote)</label>
                   <input name="invitados" type="number" min="1" max="10" value="1" required />
                 </div>
-              </div>
+
+                <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:12px;">
+                  <button class="btn dark block" type="submit">Confirmar</button>
+                </div>
+
+                <div class="status" id="rsvpStatus"></div>
+              </form>
+
+              <p style="margin-top:10px; font-size:.92rem;">
+                Si aún no conectas RSVP, pega tu URL /exec en <strong>RSVP_WEBAPP</strong> dentro del script.
+              </p>
             </div>
-
-            <button class="btn dark" type="submit">Confirmar</button>
-            <div class="status" id="rsvpStatus"></div>
-          </form>
-
-          <div class="divider"></div>
-          <p style="font-size:.92rem;">
-            Si aún no conectas el endpoint RSVP, pega tu URL /exec en <strong>RSVP_WEBAPP</strong> (en el script).
-          </p>
+          </div>
         </div>
 
         <div class="face back">
-          <div class="wish-head">
-            <h2 style="margin:0;">Buenos deseos</h2>
-            <span class="hint-pill">Se guardan en Google Sheets ✨</span>
-          </div>
-          <p>Déjanos un mensaje bonito. ¡Nos encantará leerlo!</p>
+          <div class="content">
+            <div class="panel">
+              <div class="wish-head">
+                <h2 style="margin:0;">Buenos deseos</h2>
+                <span class="hint-pill">Se guardan en Google Sheets ✨</span>
+              </div>
+              <p>Déjanos un mensaje bonito. ¡Nos encantará leerlo!</p>
+            </div>
 
-          <form id="wishForm">
-            <div class="row">
-              <div class="col">
+            <div class="panel">
+              <form id="wishForm">
                 <div class="field">
                   <label>Tu nombre</label>
                   <input name="nombre" id="wishName" required placeholder="Tu nombre"/>
                 </div>
-              </div>
-              <div class="col">
                 <div class="field">
                   <label>¿De parte de quién?</label>
                   <input name="de" id="wishFrom" placeholder="Familia / Amigos / etc. (opcional)"/>
                 </div>
+                <div class="field">
+                  <label>Tu mensaje</label>
+                  <textarea name="mensaje" id="wishMsg" required maxlength="220" placeholder="Escribe tus buenos deseos..."></textarea>
+                  <div class="wish-head" style="margin-top:8px;">
+                    <span class="counter" id="msgCount">0/220</span>
+                    <span class="counter" id="wishLive">Actualizando…</span>
+                  </div>
+                </div>
+
+                <button class="btn dark block" type="submit" id="wishSendBtn">Enviar deseo</button>
+                <div class="status" id="wishStatus"></div>
+              </form>
+
+              <div class="divider"></div>
+              <h3>Mensajes</h3>
+              <div class="wish-grid" id="wishFeed">
+                <div class="skeleton"></div>
+                <div class="skeleton"></div>
               </div>
             </div>
-
-            <div class="field">
-              <label>Tu mensaje</label>
-              <textarea name="mensaje" id="wishMsg" required maxlength="220" placeholder="Escribe tus buenos deseos..."></textarea>
-              <div class="wish-head" style="margin-top:6px;">
-                <span class="counter" id="msgCount">0/220</span>
-                <span class="counter" id="wishLive">Actualizando…</span>
-              </div>
-            </div>
-
-            <button class="btn dark" type="submit" id="wishSendBtn">Enviar deseo</button>
-            <div class="status" id="wishStatus"></div>
-          </form>
-
-          <div class="divider"></div>
-          <h3>Mensajes</h3>
-          <div class="wish-grid" id="wishFeed">
-            <div class="skeleton"></div>
-            <div class="skeleton"></div>
           </div>
         </div>
       </div>
@@ -582,14 +682,15 @@
       <!-- Página 3 -->
       <div class="page turning" data-page="3">
         <div class="face front">
-          <h2>Tipo de vestimenta formal</h2>
-          <p>Te recomendamos la siguiente paleta de colores; <strong>dejemos el blanco para la novia.</strong></p>
-
-          <div class="row">
-            <div class="col">
-              <img class="img-round" src="vestimenta_formal.jpg" alt="Vestimenta formal">
+          <div class="content">
+            <div class="panel">
+              <h2>Tipo de vestimenta formal</h2>
+              <p>Te recomendamos la siguiente paleta de colores; <strong>dejemos el blanco para la novia.</strong></p>
             </div>
-            <div class="col">
+            <div class="panel">
+              <img class="img-round" src="vestimenta_formal.jpg" alt="Vestimenta formal">
+              <div class="divider"></div>
+              <h3 style="margin-bottom:8px;">Paleta sugerida</h3>
               <div class="palette">
                 <div class="sw" title="Azul" style="background:#1f4fa3"></div>
                 <div class="sw" title="Celeste" style="background:#8fc5ff"></div>
@@ -599,63 +700,77 @@
                 <div class="sw" title="Plateado" style="background:linear-gradient(135deg,#f5f5f5,#bdbdbd,#f0f0f0)"></div>
                 <div class="sw" title="Rosa" style="background:#f2a8c6"></div>
               </div>
-
-              <div style="margin-top:14px">
-                <span class="chip">Formal</span>
-                <span class="chip">Elegante</span>
-                <span class="chip">Sin blanco</span>
-              </div>
             </div>
           </div>
         </div>
 
         <div class="face back">
-          <h2>Contacta a los novios</h2>
-          <p>Para dudas rápidas, aquí estamos.</p>
+          <div class="content">
+            <div class="panel">
+              <h2>Contacta a los novios</h2>
+              <p>Para dudas rápidas, aquí estamos.</p>
+            </div>
 
-          <div class="row">
-            <a class="btn dark" target="_blank" rel="noopener"
-               href="https://wa.me/527341361227?text=Hola%20Esther%2C%20tengo%20una%20duda%20sobre%20la%20boda%20%F0%9F%92%8D">
-              WhatsApp Esther (+52 7341361227)
-            </a>
+            <div class="panel">
+              <a class="btn dark block" target="_blank" rel="noopener"
+                 href="https://wa.me/527341361227?text=Hola%20Esther%2C%20tengo%20una%20duda%20sobre%20la%20boda%20%F0%9F%92%8D">
+                WhatsApp Esther (+52 7341361227)
+              </a>
 
-            <a class="btn dark" target="_blank" rel="noopener"
-               href="https://wa.me/12504606724?text=Hola%20Erick%2C%20tengo%20una%20duda%20sobre%20la%20boda%20%F0%9F%92%8D">
-              WhatsApp Erick (+1 250 460 6724)
-            </a>
+              <div style="height:10px"></div>
+
+              <a class="btn dark block" target="_blank" rel="noopener"
+                 href="https://wa.me/12504606724?text=Hola%20Erick%2C%20tengo%20una%20duda%20sobre%20la%20boda%20%F0%9F%92%8D">
+                WhatsApp Erick (+1 250 460 6724)
+              </a>
+
+              <div class="divider"></div>
+
+              <h2>Comparte la invitación</h2>
+              <p>WhatsApp / Facebook / Instagram (copia el link).</p>
+
+              <a class="btn soft block" target="_blank" rel="noopener" id="shareWA">Compartir WhatsApp</a>
+              <div style="height:10px"></div>
+              <a class="btn soft block" target="_blank" rel="noopener" id="shareFB">Compartir Facebook</a>
+              <div style="height:10px"></div>
+              <button class="btn soft block" type="button" id="copyBtn">Copiar link</button>
+
+              <div class="status" id="copyStatus"></div>
+
+              <div class="divider"></div>
+              <a class="btn block" href="https://bodaerick.my.canva.site/nuestraboda" target="_blank" rel="noopener">Abrir versión Canva</a>
+            </div>
           </div>
-
-          <div class="divider"></div>
-
-          <h2>Comparte la invitación</h2>
-          <p>WhatsApp / Facebook / Instagram (copia el link).</p>
-
-          <div class="row" style="gap:10px;">
-            <a class="btn soft" target="_blank" rel="noopener" id="shareWA">Compartir WhatsApp</a>
-            <a class="btn soft" target="_blank" rel="noopener" id="shareFB">Compartir Facebook</a>
-            <button class="btn soft" type="button" id="copyBtn">Copiar link</button>
-          </div>
-          <div class="status" id="copyStatus"></div>
-
-          <div class="divider"></div>
-
-          <a class="btn" href="https://bodaerick.my.canva.site/nuestraboda" target="_blank" rel="noopener">Abrir versión Canva</a>
         </div>
       </div>
 
       <!-- Página 4 -->
       <div class="page turning" data-page="4">
         <div class="face front">
-          <h2 style="font-size:1.95rem;">Con amor eterno Esther y Erick</h2>
-          <p>Gracias por acompañarnos en este día tan especial.</p>
-          <img class="img-round" src="momento7.jpg" alt="Momento 7">
+          <div class="content">
+            <div class="panel">
+              <h2 style="font-size:clamp(1.6rem,5.2vw,2.1rem);">Con amor eterno Esther y Erick</h2>
+              <p>Gracias por acompañarnos en este día tan especial.</p>
+            </div>
+            <div class="panel">
+              <img class="img-round" src="momento7.jpg" alt="Momento 7">
+            </div>
+          </div>
         </div>
+
         <div class="face back">
-          <h2>¡Nos vemos pronto!</h2>
-          <p>Gracias por ser parte de nuestra historia. 💍✨</p>
-          <a class="btn dark" href="#cover" id="endBackCover">Volver a Portada</a>
+          <div class="content">
+            <div class="panel">
+              <h2>¡Nos vemos pronto!</h2>
+              <p>Gracias por ser parte de nuestra historia. 💍✨</p>
+            </div>
+            <div class="panel">
+              <a class="btn dark block" href="#cover" id="endBackCover">Volver a Portada</a>
+            </div>
+          </div>
         </div>
       </div>
+
     </div>
 
     <div class="navbar">
@@ -668,11 +783,8 @@
     /***********************
      * CONFIG ENDPOINTS
      ***********************/
-    // ✅ Buenos deseos (TU URL)
     const WISH_WEBAPP = "https://script.google.com/macros/s/AKfycbycclsBpSIa1J8IW2MRcSflm0GLCQ9CwY9aOcXt-r2cXtDU2hveS4trtrz-FeczYvmxzg/exec";
-
-    // ⚠️ RSVP: pega aquí TU URL /exec de RSVP cuando la tengas
-    const RSVP_WEBAPP = "";
+    const RSVP_WEBAPP = ""; // pega tu /exec aquí
 
     const cover = document.getElementById("cover");
     const bookWrap = document.getElementById("bookWrap");
@@ -682,29 +794,28 @@
     const clickAudio = document.getElementById("audioClick");
     const sparkleFlash = document.getElementById("sparkleFlash");
 
-    // Wishes UI
     const wishMsg = document.getElementById("wishMsg");
     const msgCount = document.getElementById("msgCount");
     const wishLive = document.getElementById("wishLive");
     const wishSendBtn = document.getElementById("wishSendBtn");
 
+    let coverParticlesMode = true;
+
     document.addEventListener("DOMContentLoaded", async ()=>{
       try { await marcha?.play(); } catch(e) {}
-
       initCarousel();
       setupShare();
       initParticles();
       initHeartTrail();
       initBook();
+      attachImageFallbacks();
 
-      // contador de caracteres deseos
       if (wishMsg && msgCount){
         const upd = ()=> msgCount.textContent = `${wishMsg.value.length}/220`;
         wishMsg.addEventListener("input", upd);
         upd();
       }
 
-      // carga + refresh deseos
       loadWishFeed(true);
       setInterval(()=>loadWishFeed(false), 8000);
 
@@ -718,19 +829,12 @@
       try { await marcha?.play(); } catch(e) {}
     });
 
-    /***********************
-     * PORTADA -> ABRIR LIBRO
-     ***********************/
-    let coverParticlesMode = true;
-
     async function openFromCover(){
       try { marcha?.pause(); } catch(e) {}
       try { await clickAudio?.play(); } catch(e) {}
-
       cover.style.display = "none";
       bookWrap.style.display = "block";
       coverParticlesMode = false;
-
       updateNav();
       window.scrollTo({top:0, behavior:"instant"});
     }
@@ -750,15 +854,9 @@
     function initBook(){
       pages = Array.from(document.querySelectorAll(".page"));
       pages.forEach((p, i)=>{ p.style.zIndex = String(100 - i); });
-
       prevBtn.addEventListener("click", ()=>flipPrev());
       nextBtn.addEventListener("click", ()=>flipNext());
-
-      backToCover.addEventListener("click", (e)=>{
-        e.preventDefault();
-        resetToCover();
-      });
-
+      backToCover.addEventListener("click", (e)=>{ e.preventDefault(); resetToCover(); });
       updateNav();
     }
 
@@ -766,11 +864,9 @@
       pages.forEach((p)=>p.classList.remove("turned"));
       currentIndex = 0;
       updateNav();
-
       bookWrap.style.display = "none";
       cover.style.display = "flex";
       coverParticlesMode = true;
-
       try { marcha?.play(); } catch(e) {}
       window.scrollTo({top:0, behavior:"instant"});
     }
@@ -828,18 +924,40 @@
       carPrevBtn.addEventListener("click", ()=>carGo(carIdx-1));
       carNextBtn.addEventListener("click", ()=>carGo(carIdx+1));
 
-      // swipe simple
+      // swipe
       let startX=0, dx=0, touching=false;
       const root = document.getElementById("car1");
       root.addEventListener("touchstart",(e)=>{touching=true; startX=e.touches[0].clientX; dx=0;},{passive:true});
       root.addEventListener("touchmove",(e)=>{ if(!touching) return; dx=e.touches[0].clientX-startX; },{passive:true});
       root.addEventListener("touchend",()=>{ touching=false; if (Math.abs(dx)>40){ dx<0?carGo(carIdx+1):carGo(carIdx-1); } });
     }
+
     function carGo(i){
       if (!carSlides.length) return;
       carIdx = (i + carSlides.length) % carSlides.length;
       carTrack.style.transform = `translateX(${-carIdx*100}%)`;
       carDots.forEach((d, idx)=>d.classList.toggle("active", idx===carIdx));
+    }
+
+    /***********************
+     * FALLBACK IMÁGENES
+     ***********************/
+    function attachImageFallbacks(){
+      const imgs = document.querySelectorAll("img.moment");
+      imgs.forEach(img=>{
+        img.addEventListener("error", function handler(){
+          img.removeEventListener("error", handler);
+          const base = img.dataset.base || "";
+          const candidates = [`${base}.jpeg`, `${base} .jpg`, `${base} .jpeg`];
+          let idx = 0;
+          const tryNext = ()=>{
+            if (idx >= candidates.length) return;
+            img.src = candidates[idx++];
+            img.addEventListener("error", tryNext, { once:true });
+          };
+          tryNext();
+        }, { once:true });
+      });
     }
 
     /***********************
@@ -849,12 +967,10 @@
       e.preventDefault();
       const status = document.getElementById("rsvpStatus");
       status.textContent = "Enviando…";
-
       if (!RSVP_WEBAPP){
         status.textContent = "Falta conectar el link /exec del RSVP en el código (RSVP_WEBAPP).";
         return;
       }
-
       const fd = new FormData(e.target);
       try{
         const res = await fetch(RSVP_WEBAPP, { method:"POST", body: fd });
@@ -862,7 +978,7 @@
         status.textContent = "¡Listo! Tu confirmación fue registrada. 💍";
         e.target.reset();
       }catch(err){
-        status.textContent = "No se pudo enviar. Intenta de nuevo o revisa tu conexión.";
+        status.textContent = "No se pudo enviar. Intenta de nuevo.";
       }
     });
 
@@ -877,7 +993,7 @@
       wishSendBtn.style.opacity = ".7";
 
       const fd = new FormData(e.target);
-      fd.append("action", "wish");
+      fd.append("action","wish");
 
       try{
         const res = await fetch(WISH_WEBAPP, { method:"POST", body: fd });
@@ -889,7 +1005,7 @@
         status.textContent = "¡Gracias! Tu mensaje fue guardado ✨";
         e.target.reset();
         msgCount.textContent = "0/220";
-        await loadWishFeed(false, true);
+        await loadWishFeed(false,true);
       }catch(err){
         status.textContent = "No se pudo enviar. Intenta de nuevo.";
       }finally{
@@ -900,7 +1016,7 @@
 
     async function fetchWishList(){
       const url = WISH_WEBAPP + "?action=listWishes&limit=30";
-      const res = await fetch(url, { method:"GET" });
+      const res = await fetch(url);
       if (!res.ok) throw new Error("HTTP " + res.status);
       const json = await res.json();
       const rows = Array.isArray(json.data) ? json.data : (Array.isArray(json.items) ? json.items : []);
@@ -918,10 +1034,8 @@
           const d = new Date(rawDate);
           dateStr = isNaN(d.getTime())
             ? String(rawDate)
-            : d.toLocaleString("es-MX", { dateStyle:"medium", timeStyle:"short" });
-        }catch(e){
-          dateStr = String(rawDate);
-        }
+            : d.toLocaleString("es-MX",{dateStyle:"medium",timeStyle:"short"});
+        }catch(e){ dateStr = String(rawDate); }
       }
       return { name, from, msg, dateStr };
     }
@@ -930,19 +1044,12 @@
       const wrap = document.getElementById("wishFeed");
       if (!wrap) return;
 
-      if (firstLoad){
-        wishLive.textContent = "Cargando…";
-        wrap.innerHTML = `<div class="skeleton"></div><div class="skeleton"></div>`;
-      } else {
-        wishLive.textContent = "Actualizando…";
-      }
+      wishLive.textContent = firstLoad ? "Cargando…" : "Actualizando…";
+      if (firstLoad) wrap.innerHTML = `<div class="skeleton"></div><div class="skeleton"></div>`;
 
       try{
         const rows = await fetchWishList();
-        const normalized = rows
-          .map(normalizeWishRow)
-          .filter(x => (x.msg || "").trim().length > 0);
-
+        const normalized = rows.map(normalizeWishRow).filter(x => (x.msg || "").trim().length > 0);
         const latest = normalized.slice(-30).reverse();
 
         wrap.innerHTML = "";
@@ -954,10 +1061,10 @@
 
         latest.forEach(w=>{
           const card = document.createElement("div");
-          card.className = "wish-card";
+          card.className="wish-card";
           card.innerHTML = `
             <div class="top">
-              <div class="name">${escapeHtml(w.name)}${w.from ? ` <span style="font-weight:500;color:#777">(${escapeHtml(w.from)})</span>`:""}</div>
+              <div class="name">${escapeHtml(w.name)}${w.from ? ` <span style="font-weight:600;color:#777">(${escapeHtml(w.from)})</span>`:""}</div>
               <div class="date">${w.dateStr ? escapeHtml(w.dateStr) : ""}</div>
             </div>
             <div class="msg">${escapeHtml(w.msg)}</div>
@@ -968,14 +1075,7 @@
         wishLive.textContent = afterSend ? "¡Publicado!" : "Listo";
         if (afterSend) setTimeout(()=>wishLive.textContent="Listo", 1200);
       }catch(e){
-        wrap.innerHTML = `
-          <div class="wish-card">
-            <div class="name">Mensajes</div>
-            <div class="msg">
-              Se guardan al enviar, pero tu script debe devolver JSON por GET con <b>action=listWishes</b>.
-            </div>
-          </div>
-        `;
+        wrap.innerHTML = `<div class="wish-card"><div class="name">Mensajes</div><div class="msg">Tu script debe responder JSON con action=listWishes.</div></div>`;
         wishLive.textContent = "Sin lectura";
       }
     }
@@ -995,18 +1095,13 @@
     function setupShare(){
       const inviteUrl = location.href.split("#")[0];
       const shareText = encodeURIComponent("¡Estás invitado a nuestra boda! 💍✨");
-      const wa = document.getElementById("shareWA");
-      const fb = document.getElementById("shareFB");
-      const copyBtn = document.getElementById("copyBtn");
-      const copyStatus = document.getElementById("copyStatus");
-
-      wa.href = `https://wa.me/?text=${shareText}%20${encodeURIComponent(inviteUrl)}`;
-      fb.href = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(inviteUrl)}`;
-
-      copyBtn.addEventListener("click", async ()=>{
+      document.getElementById("shareWA").href = `https://wa.me/?text=${shareText}%20${encodeURIComponent(inviteUrl)}`;
+      document.getElementById("shareFB").href = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(inviteUrl)}`;
+      document.getElementById("copyBtn").addEventListener("click", async ()=>{
+        const copyStatus = document.getElementById("copyStatus");
         try{
           await navigator.clipboard.writeText(inviteUrl);
-          copyStatus.textContent = "Link copiado ✅ (pégalo en Instagram/WhatsApp).";
+          copyStatus.textContent = "Link copiado ✅";
         }catch(e){
           copyStatus.textContent = "No pude copiar automáticamente. Copia manual: " + inviteUrl;
         }
@@ -1020,20 +1115,19 @@
     const pCtx = pCanvas.getContext("2d");
     let pW=0, pH=0, pDpr=1;
     let particles = [];
-
     const PARTICLE_COLORS = [
-      "rgba(125,170,255,0.85)",  // azul
-      "rgba(236,183,198,0.85)",  // rose gold
-      "rgba(255,255,255,0.90)",  // blanco
-      "rgba(220,220,220,0.85)"   // plateado
+      "rgba(125,170,255,0.85)",
+      "rgba(236,183,198,0.85)",
+      "rgba(255,255,255,0.90)",
+      "rgba(220,220,220,0.85)"
     ];
 
     function pResize(){
       pDpr = Math.max(1, window.devicePixelRatio || 1);
       pW = Math.floor(window.innerWidth);
       pH = Math.floor(window.innerHeight);
-      pCanvas.width = Math.floor(pW * pDpr);
-      pCanvas.height = Math.floor(pH * pDpr);
+      pCanvas.width = Math.floor(pW*pDpr);
+      pCanvas.height = Math.floor(pH*pDpr);
       pCanvas.style.width = pW+"px";
       pCanvas.style.height = pH+"px";
       pCtx.setTransform(pDpr,0,0,pDpr,0,0);
@@ -1054,26 +1148,22 @@
       pResize();
       window.addEventListener("resize", pResize, {passive:true});
       for(let i=0;i<70;i++) spawnParticle();
-
       function tick(){
         pCtx.clearRect(0,0,pW,pH);
-        const targetCount = coverParticlesMode ? 85 : 18;
+        const targetCount = coverParticlesMode ? 90 : 18;
         while(particles.length < targetCount) spawnParticle();
         while(particles.length > targetCount) particles.shift();
-
         for(let i=particles.length-1;i>=0;i--){
           const p = particles[i];
           p.tw += 0.03;
           p.x += p.vx + Math.sin(p.tw)*0.25;
           p.y -= p.vy;
           p.a *= 0.998;
-
           pCtx.globalAlpha = Math.max(0, Math.min(1, p.a));
           pCtx.fillStyle = p.col;
           pCtx.beginPath();
           pCtx.arc(p.x, p.y, p.r, 0, Math.PI*2);
           pCtx.fill();
-
           if (p.y < -60 || p.x < -60 || p.x > pW+60) particles[i] = {
             x: Math.random()*pW,
             y: pH + Math.random()*80,
@@ -1091,14 +1181,12 @@
     }
 
     /***********************
-     * CURSOR MÁGICO CORAZONES
-     * (plata, rosa, dorado, verde)
+     * CURSOR MÁGICO CORAZONES (azul, plata, dorado, verde)
      ***********************/
     const hCanvas = document.getElementById("heartsCanvas");
     const hCtx = hCanvas.getContext("2d");
     let hW=0, hH=0, hDpr=1;
-
-    const HEART_COLORS = ["#c0c0c0", "#ff4fa3", "#d4af37", "#2ecc71"];
+    const HEART_COLORS = ["#3b82f6", "#c0c0c0", "#d4af37", "#2ecc71"];
     const hearts = [];
     let lastX=null, lastY=null, lastT=0;
 
@@ -1106,8 +1194,8 @@
       hDpr = Math.max(1, window.devicePixelRatio || 1);
       hW = Math.floor(window.innerWidth);
       hH = Math.floor(window.innerHeight);
-      hCanvas.width = Math.floor(hW * hDpr);
-      hCanvas.height = Math.floor(hH * hDpr);
+      hCanvas.width = Math.floor(hW*hDpr);
+      hCanvas.height = Math.floor(hH*hDpr);
       hCanvas.style.width = hW+"px";
       hCanvas.style.height = hH+"px";
       hCtx.setTransform(hDpr,0,0,hDpr,0,0);
@@ -1119,7 +1207,7 @@
       ctx.bezierCurveTo(-s*0.95, s*0.35, -s*0.6, -s*0.15, 0, s*0.35);
       ctx.closePath();
     }
-    function addHearts(x,y, strength=1){
+    function addHearts(x,y,strength=1){
       const count = Math.min(6, Math.max(1, Math.floor(strength*3)));
       for(let i=0;i<count;i++){
         hearts.push({
@@ -1130,67 +1218,54 @@
           rot: (Math.random()*1.2-0.6),
           vr: (Math.random()*0.08-0.04),
           size: 8 + Math.random()*10,
-          life: 0.8 + Math.random()*0.6,
+          life: 0.85 + Math.random()*0.7,
           age: 0,
           col: HEART_COLORS[Math.floor(Math.random()*HEART_COLORS.length)],
-          a: 0.75 + Math.random()*0.2
+          a: 0.78 + Math.random()*0.18
         });
       }
     }
     function initHeartTrail(){
       hResize();
       window.addEventListener("resize", hResize, {passive:true});
-
       function move(x,y){
         const now = performance.now();
-        if (lastX===null){
-          lastX=x; lastY=y; lastT=now;
-          addHearts(x,y,1);
-          return;
-        }
+        if (lastX===null){ lastX=x; lastY=y; lastT=now; addHearts(x,y,1); return; }
         const dx=x-lastX, dy=y-lastY;
         const dist=Math.hypot(dx,dy);
-        const speed = dist / Math.max(8, (now-lastT));
-        const steps = Math.max(1, Math.floor(dist/10));
+        const speed = dist / Math.max(8,(now-lastT));
+        const steps = Math.max(1, Math.floor(dist/12));
         for(let i=0;i<steps;i++){
-          const ix = lastX + dx*(i/steps);
-          const iy = lastY + dy*(i/steps);
-          addHearts(ix,iy, 1 + speed*10);
+          addHearts(lastX + dx*(i/steps), lastY + dy*(i/steps), 1 + speed*10);
         }
         lastX=x; lastY=y; lastT=now;
       }
-
       window.addEventListener("mousemove",(e)=>move(e.clientX,e.clientY),{passive:true});
       window.addEventListener("touchmove",(e)=>{
         if(!e.touches || !e.touches[0]) return;
         move(e.touches[0].clientX, e.touches[0].clientY);
       },{passive:true});
-
       function tick(){
-        const dt = 0.016;
+        const dt=0.016;
         hCtx.clearRect(0,0,hW,hH);
-
         for(let i=hearts.length-1;i>=0;i--){
-          const p = hearts[i];
+          const p=hearts[i];
           p.age += dt;
-          if (p.age >= p.life){ hearts.splice(i,1); continue; }
-
-          p.vy += 0.7*dt;
+          if (p.age>=p.life){ hearts.splice(i,1); continue; }
+          p.vy += 0.75*dt;
           p.x += p.vx*60*dt;
           p.y += p.vy*60*dt;
           p.rot += p.vr*60*dt;
-
           const k = 1 - (p.age/p.life);
           const a = p.a * Math.max(0, Math.min(1, k));
-
           hCtx.save();
           hCtx.translate(p.x,p.y);
           hCtx.rotate(p.rot);
           hCtx.globalAlpha = a;
           hCtx.shadowColor = p.col;
-          hCtx.shadowBlur = 10;
+          hCtx.shadowBlur = 12;
           hCtx.fillStyle = p.col;
-          heartPath(hCtx, p.size*(0.7+0.6*k));
+          heartPath(hCtx, p.size*(0.72+0.55*k));
           hCtx.fill();
           hCtx.restore();
         }
@@ -1200,4 +1275,4 @@
     }
   </script>
 </body>
-</html>
+</html> 
