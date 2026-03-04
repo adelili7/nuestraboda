@@ -14,9 +14,9 @@
       --softshadow: 0 12px 28px rgba(0,0,0,.12);
       --accent:#7aa2ff;
 
-      /* ✅ FORMATO VERTICAL TIPO INSTAGRAM */
-      --bookW: min(430px, calc(100vw - 16px));         /* ancho tipo “story” */
-      --bookH: min(calc(100svh - 190px), calc(var(--bookW) * 16 / 9)); /* 9:16 */
+      /* ✅ Formato vertical tipo Instagram (Story 9:16) */
+      --bookW: min(430px, calc(100vw - 16px));
+      --bookH: min(calc(100svh - 210px), calc(var(--bookW) * 16 / 9));
     }
 
     *{ box-sizing:border-box; }
@@ -29,8 +29,8 @@
       overflow-x:hidden;
     }
 
-    /* Canvases */
-    #particlesCanvas, #heartsCanvas{
+    /* FX canvases */
+    #coverSparkles, #heartsCanvas{
       position:fixed; inset:0;
       width:100vw; height:100vh;
       pointer-events:none;
@@ -40,10 +40,7 @@
 
     /* Buttons */
     .btn{
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      gap:10px;
+      display:inline-flex; align-items:center; justify-content:center; gap:10px;
       border:1px solid rgba(0,0,0,.12);
       background:rgba(255,255,255,.94);
       backdrop-filter: blur(10px);
@@ -76,10 +73,28 @@
       position:relative;
       overflow:hidden;
       background:
-        radial-gradient(1100px 600px at 18% 15%, rgba(138,160,255,.22), transparent 60%),
-        radial-gradient(900px 550px at 82% 85%, rgba(242,168,198,.18), transparent 60%),
-        var(--bg);
+        radial-gradient(1100px 600px at 18% 15%, rgba(78,120,255,.18), transparent 60%),
+        radial-gradient(900px 550px at 82% 85%, rgba(255,214,140,.14), transparent 60%),
+        #0b1020;
+      color:#fff;
       z-index:10;
+    }
+    .cover::before{
+      content:"";
+      position:absolute; inset:0;
+      background:
+        radial-gradient(900px 520px at 50% 45%, rgba(255,255,255,.06), transparent 60%),
+        linear-gradient(180deg, rgba(0,0,0,.35), rgba(0,0,0,.75));
+      z-index:0;
+    }
+    .cover-inner{
+      position:relative;
+      z-index:1;
+      width:min(520px, 100%);
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap:12px;
     }
 
     .ring-hit{
@@ -89,88 +104,95 @@
       -webkit-tap-highlight-color:transparent;
       touch-action: manipulation;
     }
-
     .ring-svg{
-      width: min(220px, 54vw);
+      width: min(220px, 56vw);
       display:block;
       user-select:none;
       animation:pulse 2.6s infinite ease-in-out;
       pointer-events:none;
-      filter: drop-shadow(0 0 18px rgba(120,150,255,.70));
+      filter: drop-shadow(0 0 22px rgba(102,160,255,.70));
     }
-    @keyframes pulse{
-      0%,100%{ transform:scale(1); }
-      50%{ transform:scale(1.065); }
-    }
+    @keyframes pulse{ 0%,100%{ transform:scale(1);} 50%{ transform:scale(1.065);} }
 
     .cover-title{
       font-family:"Playfair Display","Georgia",serif;
-      font-size: clamp(1.95rem, 6vw, 2.7rem);
-      margin:14px 0 6px;
-      color:#4f4f4f;
-      letter-spacing:.2px;
+      font-size: clamp(1.7rem, 6vw, 2.35rem);
+      margin:0;
+      letter-spacing:.25px;
+      text-shadow: 0 0 24px rgba(120,170,255,.25);
     }
     .cover-sub{
-      margin:0 0 10px;
-      color:#6f6f6f;
-      font-size: clamp(.98rem, 3.6vw, 1.08rem);
+      margin:0;
+      font-size: clamp(.98rem, 3.7vw, 1.08rem);
+      color: rgba(255,255,255,.88);
     }
-
-    .sound-help{
-      margin-top:12px;
-      font-size: clamp(.92rem, 3.4vw, 1rem);
-      color:#555;
-      max-width:560px;
-      line-height:1.5;
-    }
-    .sound-help button{
-      margin-top:10px;
-      border:1px solid #ddd;
-      background:#fff;
-      padding:10px 14px;
-      border-radius:999px;
-      cursor:pointer;
-      touch-action: manipulation;
-    }
-
-    .quick-links{
-      margin-top:14px;
+    .cover-actions{
       display:flex;
       gap:10px;
       flex-wrap:wrap;
       justify-content:center;
-      width:min(620px, 100%);
+      width:100%;
+      margin-top:6px;
     }
-    .quick-links a, .quick-links button{ flex: 1 1 240px; }
-    @media (max-width: 420px){
-      .quick-links a, .quick-links button{ flex: 1 1 100%; }
+    .cover-actions .btn{ flex: 1 1 220px; }
+
+    /* Countdown */
+    .countdown-wrap{ margin-top:18px; width:100%; }
+    .countdown-title{
+      font-size:.95rem;
+      letter-spacing:.2px;
+      color: rgba(255,255,255,.85);
+      margin:0 0 8px;
+    }
+    .countdown{
+      display:grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap:10px;
+      width:100%;
+    }
+    .cd-box{
+      border:1px solid rgba(255,255,255,.16);
+      background: rgba(255,255,255,.08);
+      backdrop-filter: blur(12px);
+      border-radius:18px;
+      padding:12px 10px;
+      box-shadow: 0 18px 40px rgba(0,0,0,.28);
+      position:relative;
+      overflow:hidden;
+    }
+    .cd-box::after{
+      content:"";
+      position:absolute; inset:-40px;
+      background:
+        radial-gradient(240px 120px at 30% 30%, rgba(255,215,90,.16), transparent 55%),
+        radial-gradient(240px 120px at 70% 70%, rgba(120,170,255,.16), transparent 55%);
+      filter: blur(1px);
+    }
+    .cd-num{
+      position:relative;
+      font-size: clamp(1.3rem, 6vw, 1.75rem);
+      font-weight:900;
+      color:#fff;
+      text-shadow: 0 0 18px rgba(255,215,90,.22), 0 0 18px rgba(120,170,255,.18);
+    }
+    .cd-lbl{
+      position:relative;
+      margin-top:4px;
+      font-size:.85rem;
+      color: rgba(255,255,255,.85);
     }
 
     /* Book wrapper */
-    .book-wrap{
-      display:none;
-      padding:12px 8px 18px;
-      position:relative;
-      z-index:20;
-    }
-
+    .book-wrap{ display:none; padding:12px 8px 18px; position:relative; z-index:20; }
     .book-topbar{
       max-width: var(--bookW);
       margin: 0 auto 10px;
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-      align-items:center;
-      justify-content:space-between;
+      display:flex; gap:10px; flex-wrap:wrap; align-items:center; justify-content:space-between;
     }
-    .book-topbar .left, .book-topbar .right{
-      display:flex; gap:10px; flex-wrap:wrap; align-items:center;
-    }
+    .book-topbar .left, .book-topbar .right{ display:flex; gap:10px; flex-wrap:wrap; align-items:center; }
     .badge{
-      color:#222;
-      font-size:.92rem;
-      padding:10px 14px;
-      border-radius:999px;
+      color:#222; font-size:.92rem;
+      padding:10px 14px; border-radius:999px;
       border:1px solid rgba(0,0,0,.12);
       background:rgba(255,255,255,.94);
       backdrop-filter: blur(10px);
@@ -185,10 +207,8 @@
       position:relative;
       perspective: 2200px;
     }
-
     .sheet{
-      position:absolute;
-      inset:0;
+      position:absolute; inset:0;
       transform-style: preserve-3d;
       transform-origin: left center;
       border-radius:22px;
@@ -206,10 +226,10 @@
       padding:14px;
       overflow:auto;
       -webkit-overflow-scrolling: touch;
-      padding-bottom: 92px; /* espacio para navbar sticky */
+      padding-bottom: 92px;
 
-      /* ✅ fondo real en tu repo */
-      background-image: url("fondo1.webp");
+      /* ✅ fondo en secciones (jpg) + fallback a webp */
+      background-image: url("fondo1.jpg"), url("fondo1.webp");
       background-size: cover;
       background-position: center;
       background-repeat:no-repeat;
@@ -225,10 +245,8 @@
       z-index:0;
     }
     .content{
-      position:relative;
-      z-index:1;
-      display:flex;
-      flex-direction:column;
+      position:relative; z-index:1;
+      display:flex; flex-direction:column;
       gap:12px;
       min-height:100%;
       padding-bottom: 8px;
@@ -241,9 +259,8 @@
       letter-spacing:.2px;
       text-shadow: 0 1px 0 rgba(255,255,255,.45);
     }
-    h2{ font-size: clamp(1.2rem, 4.4vw, 1.65rem); }
-    h3{ font-size: clamp(1.02rem, 3.8vw, 1.28rem); }
-
+    h2{ font-size: clamp(1.15rem, 4.4vw, 1.55rem); }
+    h3{ font-size: clamp(1.02rem, 3.8vw, 1.25rem); }
     p{
       margin:0;
       color:#222;
@@ -259,14 +276,7 @@
       box-shadow: 0 14px 30px rgba(0,0,0,.10);
       padding:14px;
     }
-
-    .divider{
-      height:1px;
-      background:linear-gradient(90deg, transparent, rgba(120,120,160,.28), transparent);
-      margin:10px 0;
-    }
-
-    /* ✅ Imagen vertical bonita */
+    .divider{ height:1px; background:linear-gradient(90deg, transparent, rgba(120,120,160,.28), transparent); margin:10px 0; }
     .img-round{
       width:100%;
       border-radius:18px;
@@ -276,34 +286,18 @@
       object-fit:cover;
     }
 
-    /* Carrusel (scroll-snap) */
-    .carousel{
-      border-radius:18px;
-      border:1px solid rgba(0,0,0,.12);
-      overflow:hidden;
-      background:#f6f7fb;
-    }
+    /* Carousel */
+    .carousel{ border-radius:18px; border:1px solid rgba(0,0,0,.12); overflow:hidden; background:#f6f7fb; }
     .snap{
-      display:flex;
-      overflow-x:auto;
+      display:flex; overflow-x:auto;
       scroll-snap-type: x mandatory;
       scroll-behavior:smooth;
       -webkit-overflow-scrolling: touch;
       scrollbar-width:none;
     }
     .snap::-webkit-scrollbar{ display:none; }
-
-    .snap .item{
-      min-width:100%;
-      scroll-snap-align:center;
-      position:relative;
-    }
-    .snap img{
-      width:100%;
-      height: min(56vh, 360px);
-      object-fit:cover;
-      display:block;
-    }
+    .snap .item{ min-width:100%; scroll-snap-align:center; position:relative; }
+    .snap img{ width:100%; height: min(56vh, 360px); object-fit:cover; display:block; }
     .cap{
       position:absolute; left:10px; right:10px; bottom:10px;
       background:rgba(255,255,255,.90); backdrop-filter: blur(12px);
@@ -311,18 +305,12 @@
       border-radius:14px;
       padding:10px 12px;
       display:flex; justify-content:space-between; gap:10px; align-items:center;
-      font-size:.95rem;
-      color:#111;
+      font-size:.95rem; color:#111;
     }
     .cap small{ color:#555; }
-
     .car-controls{
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      margin-top:10px;
-      gap:10px;
-      flex-wrap:wrap;
+      display:flex; justify-content:space-between; align-items:center;
+      margin-top:10px; gap:10px; flex-wrap:wrap;
     }
     .dots{ display:flex; gap:8px; justify-content:center; flex:1; }
     .dot{ width:9px; height:9px; border-radius:99px; border:1px solid #d9d9d9; background:#fff; cursor:pointer; }
@@ -347,10 +335,8 @@
     /* Wishes feed */
     .wish-head{ display:flex; gap:10px; flex-wrap:wrap; align-items:center; justify-content:space-between; }
     .hint-pill{
-      font-size:.85rem;
-      color:#222;
-      padding:8px 12px;
-      border-radius:999px;
+      font-size:.85rem; color:#222;
+      padding:8px 12px; border-radius:999px;
       border:1px solid rgba(0,0,0,.12);
       background:rgba(246,247,255,.96);
     }
@@ -378,30 +364,13 @@
     }
     @keyframes shimmer{ 0%{ background-position: 100% 0; } 100%{ background-position: 0 0; } }
 
-    /* Sparkle flash */
-    .sparkle-flash{
-      position:fixed; inset:0; pointer-events:none; opacity:0;
-      background:
-        radial-gradient(420px 240px at 25% 40%, rgba(255,255,255,.85), transparent 62%),
-        radial-gradient(470px 280px at 75% 60%, rgba(255,235,200,.45), transparent 60%),
-        radial-gradient(520px 320px at 50% 50%, rgba(200,220,255,.55), transparent 62%);
-      z-index: 9998;
-      transition: opacity 220ms ease;
-    }
-    .sparkle-flash.on{ opacity:1; }
-
-    /* Sticky nav */
+    /* Navbar */
     .navbar{
       max-width: var(--bookW);
       margin: 10px auto 0;
-      display:flex;
-      justify-content:space-between;
-      gap:10px;
-      flex-wrap:wrap;
-      align-items:center;
-
-      position: sticky;
-      bottom: 10px;
+      display:flex; justify-content:space-between;
+      gap:10px; flex-wrap:wrap; align-items:center;
+      position: sticky; bottom: 10px;
       z-index: 30;
       padding: 8px;
       border-radius: 18px;
@@ -411,26 +380,38 @@
       box-shadow: 0 14px 30px rgba(0,0,0,.12);
     }
 
-    @media (max-width: 360px){
-      .page{ padding:12px; padding-bottom: 96px; }
-      .panel{ padding:12px; border-radius:16px; }
-      .btn{ padding:11px 12px; }
-      .snap img{ height: 260px; }
+    /* Canva heart (2D) */
+    .canva-heart{
+      display:flex; align-items:center; justify-content:center;
+      gap:10px;
+      border:1px solid rgba(0,0,0,.12);
+      border-radius:18px;
+      padding:14px;
+      background: rgba(255,255,255,.96);
+      box-shadow: 0 14px 30px rgba(0,0,0,.10);
     }
-
-    @media (prefers-reduced-motion: reduce){
-      .sheet.turning{ transition:none; }
-      .sparkle-flash{ display:none; }
-      .ring-svg{ animation:none; }
-      .snap{ scroll-behavior:auto; }
+    .heart-btn{
+      border:0;
+      background:transparent;
+      cursor:pointer;
+      padding:0;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap:8px;
+      touch-action: manipulation;
     }
+    .heart-svg{
+      width:min(150px, 45vw);
+      filter: drop-shadow(0 10px 22px rgba(242,168,198,.22));
+      animation: heartPulse 1.8s ease-in-out infinite;
+    }
+    @keyframes heartPulse{ 0%,100%{ transform: scale(1);} 50%{ transform: scale(1.06);} }
   </style>
 </head>
 
 <body>
-  <div class="sparkle-flash" id="sparkleFlash"></div>
-
-  <canvas id="particlesCanvas"></canvas>
+  <canvas id="coverSparkles"></canvas>
   <canvas id="heartsCanvas"></canvas>
 
   <!-- Audio -->
@@ -442,72 +423,72 @@
   </audio>
 
   <!-- PORTADA -->
-  <section class="cover" id="cover">
-    <button class="ring-hit" id="ringButton" type="button" aria-label="Abrir invitación">
-      <svg class="ring-svg" viewBox="0 0 200 200" aria-hidden="true">
-        <defs>
-          <linearGradient id="silverGlow" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stop-color="#ffffff"/>
-            <stop offset="45%" stop-color="#e6e6e6"/>
-            <stop offset="70%" stop-color="#bfbfbf"/>
-            <stop offset="100%" stop-color="#f7f7f7"/>
-          </linearGradient>
-          <radialGradient id="blueDiamond">
-            <stop offset="0%" stop-color="#eef5ff"/>
-            <stop offset="65%" stop-color="#79aaff"/>
-            <stop offset="100%" stop-color="#1f43b8"/>
-          </radialGradient>
-          <filter id="sparkle" x="-40%" y="-40%" width="180%" height="180%">
-            <feGaussianBlur stdDeviation="2" result="blur"/>
-            <feMerge>
-              <feMergeNode in="blur"/>
-              <feMergeNode in="SourceGraphic"/>
-            </feMerge>
-          </filter>
-        </defs>
+  <section class="cover" id="cover" aria-label="Portada">
+    <div class="cover-inner">
+      <button class="ring-hit" id="ringButton" type="button" aria-label="Abrir invitación">
+        <!-- Anillo 2D plateado + diamante azul -->
+        <svg class="ring-svg" viewBox="0 0 200 200" aria-hidden="true">
+          <defs>
+            <linearGradient id="silverGlow" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#ffffff"/>
+              <stop offset="45%" stop-color="#e6e6e6"/>
+              <stop offset="70%" stop-color="#bfbfbf"/>
+              <stop offset="100%" stop-color="#f7f7f7"/>
+            </linearGradient>
+            <radialGradient id="blueDiamond">
+              <stop offset="0%" stop-color="#eef5ff"/>
+              <stop offset="65%" stop-color="#79aaff"/>
+              <stop offset="100%" stop-color="#1f43b8"/>
+            </radialGradient>
+            <filter id="sparkle" x="-40%" y="-40%" width="180%" height="180%">
+              <feGaussianBlur stdDeviation="2" result="blur"/>
+              <feMerge>
+                <feMergeNode in="blur"/>
+                <feMergeNode in="SourceGraphic"/>
+              </feMerge>
+            </filter>
+          </defs>
 
-        <circle cx="100" cy="118" r="55" fill="none" stroke="url(#silverGlow)" stroke-width="14"/>
-        <polygon points="100,22 132,56 100,92 68,56"
-          fill="url(#blueDiamond)"
-          style="filter: drop-shadow(0 0 10px rgba(122,162,255,.95));"
-        />
-        <g filter="url(#sparkle)">
-          <path d="M100 6 L103 16 L113 19 L103 22 L100 32 L97 22 L87 19 L97 16 Z" fill="#ffffff" opacity="0.9">
-            <animate attributeName="opacity" values="0.1;0.95;0.2" dur="1.8s" repeatCount="indefinite"/>
-          </path>
-          <path d="M155 45 L157 52 L164 54 L157 56 L155 63 L153 56 L146 54 L153 52 Z" fill="#ffffff" opacity="0.85">
-            <animate attributeName="opacity" values="0.2;0.9;0.2" dur="2.2s" repeatCount="indefinite"/>
-          </path>
-        </g>
-      </svg>
-    </button>
+          <circle cx="100" cy="118" r="55" fill="none" stroke="url(#silverGlow)" stroke-width="14"/>
+          <polygon points="100,22 132,56 100,92 68,56"
+            fill="url(#blueDiamond)"
+            style="filter: drop-shadow(0 0 10px rgba(122,162,255,.95));"
+          />
+          <g filter="url(#sparkle)">
+            <path d="M100 6 L103 16 L113 19 L103 22 L100 32 L97 22 L87 19 L97 16 Z" fill="#ffffff" opacity="0.9">
+              <animate attributeName="opacity" values="0.1;0.95;0.2" dur="1.8s" repeatCount="indefinite"/>
+            </path>
+            <path d="M155 45 L157 52 L164 54 L157 56 L155 63 L153 56 L146 54 L153 52 Z" fill="#ffd27a" opacity="0.8">
+              <animate attributeName="opacity" values="0.2;0.9;0.2" dur="2.2s" repeatCount="indefinite"/>
+            </path>
+          </g>
+        </svg>
+      </button>
 
-    <h1 class="cover-title">¡Sí, acepto!</h1>
-    <p class="cover-sub">Da clic en el anillo para abrir</p>
+      <h1 class="cover-title">¡Sí, acepto!</h1>
+      <p class="cover-sub">Da clic en el anillo</p>
 
-    <div class="sound-help">
-      Si no escuchas música (por configuración del teléfono), toca aquí:
-      <div><button type="button" id="soundBtn">Activar sonido</button></div>
-    </div>
+      <div class="cover-actions">
+        <button class="btn soft block" type="button" id="toggleMusicBtn">⏸ Pausar marcha nupcial</button>
+        <a class="btn soft block" href="https://adelili7.github.io/nuestraboda/" target="_self" rel="noopener">Abrir GitHub</a>
+      </div>
 
-    <!-- ✅ NUEVO: pausar/reanudar marcha nupcial -->
-    <div class="quick-links">
-      <button class="btn soft block" type="button" id="toggleMusicBtn">⏸ Pausar marcha nupcial</button>
-      <a class="btn soft block" href="https://adelili7.github.io/nuestraboda/" target="_self" rel="noopener">
-        Abrir GitHub
-      </a>
-      <a class="btn block" href="https://bodaerick.my.canva.site/nuestraboda" target="_blank" rel="noopener">
-        Clic en esta invitación (Canva)
-      </a>
+      <div class="countdown-wrap" aria-label="Cuenta regresiva">
+        <p class="countdown-title">Cuenta regresiva al 21 de Marzo de 2026 • 1:00 PM</p>
+        <div class="countdown">
+          <div class="cd-box"><div class="cd-num" id="cdDays">—</div><div class="cd-lbl">Días</div></div>
+          <div class="cd-box"><div class="cd-num" id="cdHours">—</div><div class="cd-lbl">Horas</div></div>
+          <div class="cd-box"><div class="cd-num" id="cdMins">—</div><div class="cd-lbl">Min</div></div>
+          <div class="cd-box"><div class="cd-num" id="cdSecs">—</div><div class="cd-lbl">Seg</div></div>
+        </div>
+      </div>
     </div>
   </section>
 
   <!-- LIBRO -->
   <section class="book-wrap" id="bookWrap">
     <div class="book-topbar">
-      <div class="left">
-        <span class="badge" id="pageIndicator">Página 1</span>
-      </div>
+      <div class="left"><span class="badge" id="pageIndicator">Página 1</span></div>
       <div class="right">
         <a class="btn soft" href="https://adelili7.github.io/nuestraboda/" target="_self" rel="noopener">GitHub</a>
         <a class="btn" href="https://bodaerick.my.canva.site/nuestraboda" target="_blank" rel="noopener">Canva</a>
@@ -516,7 +497,7 @@
     </div>
 
     <div class="book" id="book">
-      <!-- Sheet 1: Biblia + ✅ momento1.jpg -->
+      <!-- 1 -->
       <div class="sheet turning" data-i="0" style="z-index:80">
         <div class="page">
           <div class="content">
@@ -527,19 +508,14 @@
               <p>Bienvenidos a nuestra boda 💍✨</p>
             </div>
 
-            <!-- ✅ agregado -->
             <div class="panel">
-              <img class="img-round" src="momento1.jpg" alt="Momento 1 (portada interna)">
-            </div>
-
-            <div class="panel">
-              <p>Usa <strong>Anterior / Siguiente</strong> para avanzar y retroceder.</p>
+              <img class="img-round" src="momento1.jpg" alt="Momento 1">
             </div>
           </div>
         </div>
       </div>
 
-      <!-- Sheet 2: Carrusel -->
+      <!-- 2 Carrusel -->
       <div class="sheet turning" data-i="1" style="z-index:79">
         <div class="page">
           <div class="content">
@@ -565,22 +541,18 @@
                 <div class="dots" id="dots-car1"></div>
                 <button class="btn" type="button" id="carNext">⟶</button>
               </div>
-
-              <p style="margin-top:8px; font-size:.93rem; color:#333;">
-                Puedes deslizar con el dedo para ver más fotos.
-              </p>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- Sheet 3: RSVP -->
+      <!-- 3 RSVP -->
       <div class="sheet turning" data-i="2" style="z-index:78">
         <div class="page">
           <div class="content">
             <div class="panel">
               <h2>Confirmación de asistencia</h2>
-              <p>Confirma tu asistencia y número de invitados. Se guardará automáticamente en nuestra lista.</p>
+              <p>Confirma tu asistencia y número de invitados.</p>
             </div>
 
             <div class="panel">
@@ -606,15 +578,18 @@
                   <input name="invitados" type="number" min="1" max="10" value="1" required />
                 </div>
 
-                <button class="btn dark block" type="submit">Confirmar</button>
+                <button class="btn dark block" type="submit" id="rsvpBtn">Confirmar</button>
                 <div class="status" id="rsvpStatus"></div>
               </form>
+
+              <div class="divider"></div>
+              <a class="btn soft block" id="rsvpDownload" target="_blank" rel="noopener">Descargar / Ver lista (CSV)</a>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- Sheet 4: Buenos deseos -->
+      <!-- 4 Buenos deseos -->
       <div class="sheet turning" data-i="3" style="z-index:77">
         <div class="page">
           <div class="content">
@@ -623,7 +598,7 @@
                 <h2>Buenos deseos</h2>
                 <span class="hint-pill">Se guardan en Google Sheets ✨</span>
               </div>
-              <p>Déjanos un mensaje bonito. ¡Nos encantará leerlo!</p>
+              <p>Déjanos un mensaje bonito.</p>
             </div>
 
             <div class="panel">
@@ -650,14 +625,9 @@
               </form>
 
               <div class="divider"></div>
-
-              <a class="btn soft block" target="_blank" rel="noopener"
-                 href="https://script.google.com/macros/s/AKfycbwY2G6aHz1-W9Sk3CUspgJYNf2EhEchr_gNk4mvaZS4wXn7sKIfIV3Qy-Wje2UCKdgC/exec">
-                Descargar / Ver mensajes
-              </a>
+              <a class="btn soft block" id="wishDownload" target="_blank" rel="noopener">Descargar / Ver mensajes (CSV)</a>
 
               <div class="divider"></div>
-
               <h3>Mensajes en tiempo real</h3>
               <div class="wish-grid" id="wishFeed">
                 <div class="skeleton"></div>
@@ -668,35 +638,31 @@
         </div>
       </div>
 
-      <!-- Sheet 5: Vestimenta (✅ sin vestimenta_formal.jpg, ahora momento8.jpg) -->
+      <!-- 5 Vestimenta + WhatsApp + compartir -->
       <div class="sheet turning" data-i="4" style="z-index:76">
         <div class="page">
           <div class="content">
             <div class="panel">
               <h2>Tipo de vestimenta formal</h2>
-              <p>Te recomendamos la siguiente paleta de colores; <strong>dejemos el blanco para la novia.</strong></p>
+              <p>Te recomendamos la siguiente paleta; <strong>dejemos el blanco para la novia.</strong></p>
             </div>
 
             <div class="panel">
-              <!-- ✅ nuevo: momento8.jpg (SUBIRLO AL REPO) -->
-              <img class="img-round" src="momento8.jpg" alt="Vestimenta / inspiración (momento8)">
-              <div class="divider"></div>
-
               <h3>Paleta sugerida</h3>
               <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:10px;">
-                <div title="Azul" style="width:42px;height:42px;border-radius:14px;border:1px solid rgba(0,0,0,.12);background:#1f4fa3;box-shadow:0 6px 16px rgba(0,0,0,.08)"></div>
-                <div title="Celeste" style="width:42px;height:42px;border-radius:14px;border:1px solid rgba(0,0,0,.12);background:#8fc5ff;box-shadow:0 6px 16px rgba(0,0,0,.08)"></div>
-                <div title="Gris" style="width:42px;height:42px;border-radius:14px;border:1px solid rgba(0,0,0,.12);background:#8e8e8e;box-shadow:0 6px 16px rgba(0,0,0,.08)"></div>
-                <div title="Verde" style="width:42px;height:42px;border-radius:14px;border:1px solid rgba(0,0,0,.12);background:#2e8b57;box-shadow:0 6px 16px rgba(0,0,0,.08)"></div>
-                <div title="Beige" style="width:42px;height:42px;border-radius:14px;border:1px solid rgba(0,0,0,.12);background:#d9c7a3;box-shadow:0 6px 16px rgba(0,0,0,.08)"></div>
-                <div title="Plateado" style="width:42px;height:42px;border-radius:14px;border:1px solid rgba(0,0,0,.12);background:linear-gradient(135deg,#f5f5f5,#bdbdbd,#f0f0f0);box-shadow:0 6px 16px rgba(0,0,0,.08)"></div>
-                <div title="Rosa" style="width:42px;height:42px;border-radius:14px;border:1px solid rgba(0,0,0,.12);background:#f2a8c6;box-shadow:0 6px 16px rgba(0,0,0,.08)"></div>
+                <div title="Azul" style="width:42px;height:42px;border-radius:14px;border:1px solid rgba(0,0,0,.12);background:#1f4fa3"></div>
+                <div title="Celeste" style="width:42px;height:42px;border-radius:14px;border:1px solid rgba(0,0,0,.12);background:#8fc5ff"></div>
+                <div title="Gris" style="width:42px;height:42px;border-radius:14px;border:1px solid rgba(0,0,0,.12);background:#8e8e8e"></div>
+                <div title="Verde" style="width:42px;height:42px;border-radius:14px;border:1px solid rgba(0,0,0,.12);background:#2e8b57"></div>
+                <div title="Beige" style="width:42px;height:42px;border-radius:14px;border:1px solid rgba(0,0,0,.12);background:#d9c7a3"></div>
+                <div title="Plateado" style="width:42px;height:42px;border-radius:14px;border:1px solid rgba(0,0,0,.12);background:linear-gradient(135deg,#f5f5f5,#bdbdbd,#f0f0f0)"></div>
+                <div title="Rosa" style="width:42px;height:42px;border-radius:14px;border:1px solid rgba(0,0,0,.12);background:#f2a8c6"></div>
               </div>
             </div>
 
             <div class="panel">
               <h2>Contacta a los novios</h2>
-              <p>Para dudas rápidas, aquí estamos.</p>
+              <p>Para dudas rápidas:</p>
               <div class="divider"></div>
 
               <a class="btn dark block" target="_blank" rel="noopener"
@@ -714,26 +680,23 @@
               <div class="divider"></div>
 
               <h2>Comparte la invitación</h2>
-              <p>WhatsApp / Facebook / Instagram (copia el link).</p>
-
               <a class="btn soft block" target="_blank" rel="noopener" id="shareWA">Compartir WhatsApp</a>
               <div style="height:10px"></div>
               <a class="btn soft block" target="_blank" rel="noopener" id="shareFB">Compartir Facebook</a>
               <div style="height:10px"></div>
               <button class="btn soft block" type="button" id="copyBtn">Copiar link</button>
-
               <div class="status" id="copyStatus"></div>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- Sheet 6: Cierre -->
+      <!-- 6 Cierre + corazón 2D a Canva -->
       <div class="sheet turning" data-i="5" style="z-index:75">
         <div class="page">
           <div class="content">
             <div class="panel">
-              <h2 style="font-size:clamp(1.6rem,5.2vw,2.1rem);">Con amor eterno Esther y Erick</h2>
+              <h2 style="font-size:clamp(1.55rem,5.2vw,2.05rem);">Con amor eterno Esther y Erick</h2>
               <p>Gracias por acompañarnos en este día tan especial.</p>
             </div>
 
@@ -741,16 +704,30 @@
               <img class="img-round" src="momento7.jpg" alt="Momento 7">
             </div>
 
+            <div class="canva-heart">
+              <button class="heart-btn" id="openCanvaHeart" type="button" aria-label="Abrir invitación Canva">
+                <svg class="heart-svg" viewBox="0 0 200 180" aria-hidden="true">
+                  <defs>
+                    <linearGradient id="hg" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stop-color="#ffd27a"/>
+                      <stop offset="50%" stop-color="#f2a8c6"/>
+                      <stop offset="100%" stop-color="#79aaff"/>
+                    </linearGradient>
+                  </defs>
+                  <path d="M100 170 C 20 115, 10 70, 35 45 C 55 25, 85 30, 100 55 C 115 30, 145 25, 165 45 C 190 70, 180 115, 100 170 Z"
+                        fill="url(#hg)" opacity="0.95"/>
+                </svg>
+                <div style="font-weight:900; color:#111;">Da clic aquí</div>
+                <div style="font-size:.95rem; color:#333;">Abrir invitación en Canva</div>
+              </button>
+            </div>
+
             <div class="panel">
-              <h2>¡Nos vemos pronto!</h2>
-              <p>Gracias por ser parte de nuestra historia. 💍✨</p>
-              <div class="divider"></div>
               <a class="btn dark block" href="#cover" id="endBackCover">Volver a Portada</a>
             </div>
           </div>
         </div>
       </div>
-
     </div>
 
     <div class="navbar">
@@ -760,59 +737,64 @@
   </section>
 
   <script>
-    // ENDPOINTS
-    const RSVP_WEBAPP = "https://script.google.com/macros/s/AKfycbwJ7HydZZ9mlLbaUZHjo6X2Pc0bVKMI7-WBNmxRNWGh_u_EC4hDQeMO5tcxjjqP4pme2g/exec";
-    const WISH_WEBAPP = "https://script.google.com/macros/s/AKfycbwYzbEn329_cruOu9LXCk07h24mLwg3kqH0GdlYfRpaNsdbILL0AF35HT1WpFjkGQ1tIg/exec";
+    /***********************
+     * ✅ TUS ENDPOINTS /exec (integrados)
+     ***********************/
+    const RSVP_WEBAPP = "https://script.google.com/macros/s/AKfycbyGDyLe_mKEVMn8biNQJM1h_iGGoDgJvqRNbkKEC2cr_sjSQY9xbiq0bf3w4QySoJgGmw/exec";
+    const WISH_WEBAPP = "https://script.google.com/macros/s/AKfycbwg8ca2wZe0Wy3cKevAm6mwGZEbvM5rOgVEIPky9a0aG_pJO6pJvRYFp5F1TZ8sMHfc/exec";
+    const CANVA_URL = "https://bodaerick.my.canva.site/nuestraboda";
 
+    // DOM
     const cover = document.getElementById("cover");
     const bookWrap = document.getElementById("bookWrap");
     const ringButton = document.getElementById("ringButton");
-    const soundBtn = document.getElementById("soundBtn");
     const toggleMusicBtn = document.getElementById("toggleMusicBtn");
 
     const marcha = document.getElementById("marchaNupcial");
     const clickAudio = document.getElementById("audioClick");
-    const sparkleFlash = document.getElementById("sparkleFlash");
 
+    // Countdown elems
+    const cdDays  = document.getElementById("cdDays");
+    const cdHours = document.getElementById("cdHours");
+    const cdMins  = document.getElementById("cdMins");
+    const cdSecs  = document.getElementById("cdSecs");
+
+    // Wishes elems
     const wishMsg = document.getElementById("wishMsg");
     const msgCount = document.getElementById("msgCount");
     const wishLive = document.getElementById("wishLive");
     const wishSendBtn = document.getElementById("wishSendBtn");
 
-    let coverParticlesMode = true;
+    // Download links
+    const rsvpDownload = document.getElementById("rsvpDownload");
+    const wishDownload = document.getElementById("wishDownload");
 
-    // ✅ Botón pause / play
-    let isPaused = false;
-    function updateMusicLabel(){
-      toggleMusicBtn.textContent = isPaused ? "▶ Reanudar marcha nupcial" : "⏸ Pausar marcha nupcial";
+    // Helpers
+    async function tryPlay(aud){
+      if (!aud) return false;
+      try{ await aud.play(); return true; }catch(e){ return false; }
     }
-    updateMusicLabel();
-
-    toggleMusicBtn.addEventListener("click", async ()=>{
-      try{
-        if (marcha.paused){
-          await marcha.play();
-          isPaused = false;
-        }else{
-          marcha.pause();
-          isPaused = true;
-        }
-        updateMusicLabel();
-      }catch(e){
-        // Si el navegador bloquea, usa "Activar sonido"
-        isPaused = marcha.paused;
-        updateMusicLabel();
-      }
-    });
+    function unlockAudio(){
+      tryPlay(marcha);
+      window.removeEventListener("pointerdown", unlockAudio);
+      window.removeEventListener("touchstart", unlockAudio);
+    }
+    window.addEventListener("pointerdown", unlockAudio, {once:true});
+    window.addEventListener("touchstart", unlockAudio, {once:true, passive:true});
 
     document.addEventListener("DOMContentLoaded", async ()=>{
-      try { await marcha?.play(); } catch(e) {}
+      // CSV download links (si tu Apps Script soporta action=csv)
+      rsvpDownload.href = RSVP_WEBAPP + "?action=csv";
+      wishDownload.href = WISH_WEBAPP + "?action=csv";
 
+      await tryPlay(marcha);
+
+      initCountdown();
       initBook();
       initCarousel();
       setupShare();
-      initParticles();
-      initHeartTrail();
+      initCoverSparkles();
+      initHeartTrail(); // verde, plata, azul, dorado
 
       if (wishMsg && msgCount){
         const upd = ()=> msgCount.textContent = `${wishMsg.value.length}/220`;
@@ -820,47 +802,99 @@
         upd();
       }
 
-      loadWishFeed(true);
-      setInterval(()=>loadWishFeed(false), 8000);
-
-      document.getElementById("endBackCover")?.addEventListener("click",(e)=>{
-        e.preventDefault();
-        resetToCover();
-      });
+      // feed de deseos (JSONP)
+      loadWishesJSONP(true);
+      setInterval(()=>loadWishesJSONP(false), 9000);
     });
 
-    soundBtn.addEventListener("click", async ()=>{
-      try { await marcha?.play(); isPaused = false; updateMusicLabel(); } catch(e) {}
+    /***********************
+     * Cover pause/resume march
+     ***********************/
+    let isPaused = false;
+    function updateMusicLabel(){
+      toggleMusicBtn.textContent = isPaused ? "▶ Reanudar marcha nupcial" : "⏸ Pausar marcha nupcial";
+    }
+    updateMusicLabel();
+
+    toggleMusicBtn.addEventListener("click", async ()=>{
+      if (!marcha) return;
+      try{
+        if (marcha.paused){ await marcha.play(); isPaused=false; }
+        else{ marcha.pause(); isPaused=true; }
+      }catch(e){
+        isPaused = marcha.paused;
+      }
+      updateMusicLabel();
     });
 
+    /***********************
+     * Ring click:
+     * - pause march
+     * - open page 1
+     * - start unmundodiferente.mp3
+     ***********************/
     async function openFromCover(){
-      try { marcha?.pause(); isPaused = true; updateMusicLabel(); } catch(e) {}
-      try { await clickAudio?.play(); } catch(e) {}
+      try{ marcha.pause(); isPaused=true; updateMusicLabel(); }catch(e){}
+      try{ clickAudio.currentTime = 0; await clickAudio.play(); }catch(e){}
+
       cover.style.display = "none";
       bookWrap.style.display = "block";
-      coverParticlesMode = false;
-      updateNav();
       window.scrollTo({top:0, behavior:"instant"});
+      updateNav();
     }
     ringButton.addEventListener("click", (e)=>{ e.preventDefault(); openFromCover(); }, {passive:false});
     ringButton.addEventListener("touchend", (e)=>{ e.preventDefault(); openFromCover(); }, {passive:false});
 
-    // FLIPBOOK
+    /***********************
+     * Countdown: 21 Mar 2026 1:00 PM (MX time -06:00)
+     ***********************/
+    function pad2(n){ return String(n).padStart(2,"0"); }
+    function initCountdown(){
+      const target = new Date("2026-03-21T13:00:00-06:00");
+      function tick(){
+        const now = new Date();
+        let diff = target.getTime() - now.getTime();
+        if (diff < 0) diff = 0;
+
+        const sec = Math.floor(diff/1000);
+        const days = Math.floor(sec / 86400);
+        const hrs  = Math.floor((sec % 86400) / 3600);
+        const mins = Math.floor((sec % 3600) / 60);
+        const secs = sec % 60;
+
+        cdDays.textContent  = days;
+        cdHours.textContent = pad2(hrs);
+        cdMins.textContent  = pad2(mins);
+        cdSecs.textContent  = pad2(secs);
+      }
+      tick();
+      setInterval(tick, 1000);
+    }
+
+    /***********************
+     * Flipbook
+     ***********************/
     const sheets = Array.from(document.querySelectorAll(".sheet"));
     let current = 0;
     const prevBtn = document.getElementById("prevBtn");
     const nextBtn = document.getElementById("nextBtn");
     const pageIndicator = document.getElementById("pageIndicator");
     const backToCover = document.getElementById("backToCover");
+    const endBackCover = document.getElementById("endBackCover");
 
     function initBook(){
       prevBtn.addEventListener("click", flipPrev);
       nextBtn.addEventListener("click", flipNext);
       backToCover.addEventListener("click", (e)=>{ e.preventDefault(); resetToCover(); });
+      endBackCover.addEventListener("click", (e)=>{ e.preventDefault(); resetToCover(); });
 
       sheets.forEach(s => s.classList.remove("turned"));
       current = 0;
       updateNav();
+
+      document.getElementById("openCanvaHeart")?.addEventListener("click", ()=>{
+        window.open(CANVA_URL, "_blank", "noopener");
+      });
     }
 
     function resetToCover(){
@@ -869,32 +903,32 @@
       updateNav();
       bookWrap.style.display = "none";
       cover.style.display = "flex";
-      coverParticlesMode = true;
-      try { marcha?.play(); isPaused=false; updateMusicLabel(); } catch(e) {}
+      tryPlay(marcha).then(ok=>{
+        if(ok){ isPaused=false; updateMusicLabel(); }
+      });
       window.scrollTo({top:0, behavior:"instant"});
-    }
-
-    function flashSparkle(){
-      sparkleFlash.classList.add("on");
-      setTimeout(()=>sparkleFlash.classList.remove("on"), 220);
     }
 
     function flipNext(){
       if (current >= sheets.length) return;
+
       sheets[current].classList.add("turned");
-      flashSparkle();
       current++;
       updateNav();
-    }
 
+      // Intento “auto” al llegar a la última sección:
+      // (solo funciona si el navegador permite popups en este clic)
+      if (current === sheets.length - 0) {
+        // current === sheets.length significa ya no hay más páginas
+      }
+      if (current === sheets.length - 0) return;
+    }
     function flipPrev(){
       if (current <= 0) return;
       current--;
       sheets[current].classList.remove("turned");
-      flashSparkle();
       updateNav();
     }
-
     function updateNav(){
       const shown = Math.min(current + 1, sheets.length);
       pageIndicator.textContent = `Página ${shown} / ${sheets.length}`;
@@ -902,7 +936,9 @@
       nextBtn.disabled = (current === sheets.length);
     }
 
-    // CARRUSEL
+    /***********************
+     * Carousel
+     ***********************/
     let carIdx = 0;
     const snap = document.getElementById("snap1");
     const items = Array.from(snap.querySelectorAll(".item"));
@@ -944,32 +980,38 @@
       snap.scrollTo({ left: carIdx * w, behavior: "smooth" });
       setDots();
     }
-
     function setDots(){
       const dots = Array.from(dotsWrap.querySelectorAll(".dot"));
       dots.forEach((d, i)=> d.classList.toggle("active", i===carIdx));
     }
 
-    // RSVP
+    /***********************
+     * RSVP submit (POST no-cors)
+     ***********************/
     document.getElementById("rsvpForm")?.addEventListener("submit", async (e)=>{
       e.preventDefault();
       const status = document.getElementById("rsvpStatus");
+      const btn = document.getElementById("rsvpBtn");
       status.textContent = "Enviando…";
+      btn.disabled = true;
 
       const fd = new FormData(e.target);
       fd.append("action","rsvp");
 
       try{
-        const res = await fetch(RSVP_WEBAPP, { method:"POST", body: fd });
-        if (!res.ok) throw new Error("HTTP "+res.status);
+        await fetch(RSVP_WEBAPP, { method:"POST", body: fd, mode:"no-cors" });
         status.textContent = "¡Listo! Tu confirmación fue registrada. 💍";
         e.target.reset();
       }catch(err){
-        status.textContent = "No se pudo enviar. Intenta de nuevo.";
+        status.textContent = "No se pudo enviar. Revisa tu Apps Script.";
+      }finally{
+        btn.disabled = false;
       }
     });
 
-    // BUENOS DESEOS
+    /***********************
+     * WISH submit (POST no-cors)
+     ***********************/
     document.getElementById("wishForm")?.addEventListener("submit", async (e)=>{
       e.preventDefault();
       const status = document.getElementById("wishStatus");
@@ -980,89 +1022,90 @@
       fd.append("action","wish");
 
       try{
-        const res = await fetch(WISH_WEBAPP, { method:"POST", body: fd });
-        if (!res.ok) throw new Error("HTTP "+res.status);
-        const data = await res.json().catch(()=>({ ok:true }));
-        if (data.ok === false) throw new Error(data.error || "Error al guardar");
-
+        await fetch(WISH_WEBAPP, { method:"POST", body: fd, mode:"no-cors" });
         status.textContent = "¡Gracias! Tu mensaje fue guardado ✨";
         e.target.reset();
         msgCount.textContent = "0/220";
-        await loadWishFeed(false,true);
+        loadWishesJSONP(false, true);
       }catch(err){
-        status.textContent = "No se pudo enviar. Intenta de nuevo.";
+        status.textContent = "No se pudo enviar. Revisa tu Apps Script.";
       }finally{
         wishSendBtn.disabled = false;
       }
     });
 
-    async function fetchWishList(){
-      const url = WISH_WEBAPP + "?action=listWishes&limit=30";
-      const res = await fetch(url);
-      if (!res.ok) throw new Error("HTTP " + res.status);
-      const json = await res.json();
-      const rows = Array.isArray(json.data) ? json.data : (Array.isArray(json.items) ? json.items : []);
-      return rows;
-    }
-
-    function normalizeWishRow(r){
-      const name = (r.nombre || r.name || "Invitado").toString();
-      const from = (r.de || r.from || "").toString();
-      const msg  = (r.mensaje || r.message || r.text || "").toString();
-      const rawDate = (r.timestampISO || r.fecha || r.date || r.time || "");
-      let dateStr = "";
-      if (rawDate){
-        try{
-          const d = new Date(rawDate);
-          dateStr = isNaN(d.getTime())
-            ? String(rawDate)
-            : d.toLocaleString("es-MX",{dateStyle:"medium",timeStyle:"short"});
-        }catch(e){ dateStr = String(rawDate); }
-      }
-      return { name, from, msg, dateStr };
-    }
-
-    async function loadWishFeed(firstLoad=false, afterSend=false){
+    /***********************
+     * JSONP Wishes feed (evita CORS)
+     * Requiere que tu Apps Script soporte:
+     *   GET ?action=listWishes&limit=30&callback=xxx
+     ***********************/
+    let jsonpCounter = 0;
+    function loadWishesJSONP(firstLoad=false, afterSend=false){
       const wrap = document.getElementById("wishFeed");
       if (!wrap) return;
 
       wishLive.textContent = firstLoad ? "Cargando…" : "Actualizando…";
       if (firstLoad) wrap.innerHTML = `<div class="skeleton"></div><div class="skeleton"></div>`;
 
-      try{
-        const rows = await fetchWishList();
-        const normalized = rows.map(normalizeWishRow).filter(x => (x.msg || "").trim().length > 0);
-        const latest = normalized.slice(-30).reverse();
-
-        wrap.innerHTML = "";
-        if (!latest.length){
-          wrap.innerHTML = `<div class="wish-card"><div class="name">Aún no hay mensajes</div><div class="msg">Sé el primero en dejar un buen deseo ✨</div></div>`;
-          wishLive.textContent = "Listo";
-          return;
+      const cbName = "__wishes_cb_" + (++jsonpCounter);
+      window[cbName] = (data)=>{
+        try{
+          const rows = Array.isArray(data?.data) ? data.data : [];
+          renderWishes(rows, wrap);
+          wishLive.textContent = afterSend ? "¡Publicado!" : "Listo";
+          if (afterSend) setTimeout(()=>wishLive.textContent="Listo", 1200);
+        }finally{
+          delete window[cbName];
         }
+      };
 
-        latest.forEach(w=>{
-          const card = document.createElement("div");
-          card.className="wish-card";
-          card.innerHTML = `
-            <div class="top">
-              <div class="name">${escapeHtml(w.name)}${w.from ? ` <span style="font-weight:700;color:#555">(${escapeHtml(w.from)})</span>`:""}</div>
-              <div class="date">${w.dateStr ? escapeHtml(w.dateStr) : ""}</div>
-            </div>
-            <div class="msg">${escapeHtml(w.msg)}</div>
-          `;
-          wrap.appendChild(card);
-        });
-
-        wishLive.textContent = afterSend ? "¡Publicado!" : "Listo";
-        if (afterSend) setTimeout(()=>wishLive.textContent="Listo", 1200);
-      }catch(e){
-        wrap.innerHTML = `<div class="wish-card"><div class="name">Mensajes</div><div class="msg">Tu Apps Script debe devolver JSON por GET con action=listWishes.</div></div>`;
+      const s = document.createElement("script");
+      s.src = `${WISH_WEBAPP}?action=listWishes&limit=30&callback=${encodeURIComponent(cbName)}&_=${Date.now()}`;
+      s.async = true;
+      s.onerror = ()=>{
+        wrap.innerHTML = `<div class="wish-card"><div class="name">Mensajes</div><div class="msg">No se pudo leer el feed. Tu Apps Script debe soportar JSONP (callback).</div></div>`;
         wishLive.textContent = "Sin lectura";
-      }
+        delete window[cbName];
+      };
+      document.body.appendChild(s);
+      setTimeout(()=>{ try{ s.remove(); }catch(e){} }, 8000);
     }
 
-    function escapeHtml(str){
+    function renderWishes(rows, wrap){
+      const normalized = rows
+        .map(r=>({
+          name: (r.nombre||"Invitado")+"",
+          from: (r.de||"")+"",
+          msg:  (r.mensaje||"")+"",
+          t:    (r.timestampISO||r.fecha||"")+"",
+        }))
+        .filter(x => x.msg.trim().length);
+
+      wrap.innerHTML = "";
+      if (!normalized.length){
+        wrap.innerHTML = `<div class="wish-card"><div class="name">Aún no hay mensajes</div><div class="msg">Sé el primero en dejar un buen deseo ✨</div></div>`;
+        return;
+      }
+
+      normalized.slice(0,30).forEach(w=>{
+        let dateStr = "";
+        try{
+          dateStr = w.t ? new Date(w.t).toLocaleString("es-MX",{dateStyle:"medium",timeStyle:"short"}) : "";
+        }catch(e){ dateStr = ""; }
+        const card = document.createElement("div");
+        card.className="wish-card";
+        card.innerHTML = `
+          <div class="top">
+            <div class="name">${esc(w.name)}${w.from ? ` <span style="font-weight:700;color:#555">(${esc(w.from)})</span>`:""}</div>
+            <div class="date">${dateStr ? esc(dateStr) : ""}</div>
+          </div>
+          <div class="msg">${esc(w.msg)}</div>
+        `;
+        wrap.appendChild(card);
+      });
+    }
+
+    function esc(str){
       return String(str)
         .replaceAll("&","&amp;")
         .replaceAll("<","&lt;")
@@ -1071,7 +1114,9 @@
         .replaceAll("'","&#039;");
     }
 
-    // SHARE
+    /***********************
+     * Share
+     ***********************/
     function setupShare(){
       const inviteUrl = location.href.split("#")[0];
       const shareText = encodeURIComponent("¡Estás invitado a nuestra boda! 💍✨");
@@ -1088,84 +1133,80 @@
       });
     }
 
-    // PARTÍCULAS PORTADA
-    const pCanvas = document.getElementById("particlesCanvas");
-    const pCtx = pCanvas.getContext("2d");
-    let pW=0, pH=0, pDpr=1;
-    let particles = [];
-    const PARTICLE_COLORS = [
-      "rgba(59,130,246,0.85)",   // azul
-      "rgba(255,255,255,0.85)",  // blanco
-      "rgba(212,175,55,0.65)",   // dorado
-      "rgba(192,192,192,0.75)"   // plateado
-    ];
+    /***********************
+     * Cover sparkles (azul + dorado)
+     ***********************/
+    const sCanvas = document.getElementById("coverSparkles");
+    const sCtx = sCanvas.getContext("2d");
+    let sW=0, sH=0, sDpr=1;
+    const sparkleCols = ["rgba(255,215,90,0.85)","rgba(120,170,255,0.85)","rgba(255,255,255,0.65)"];
+    let sparkles = [];
 
-    function pResize(){
-      pDpr = Math.max(1, window.devicePixelRatio || 1);
-      pW = Math.floor(window.innerWidth);
-      pH = Math.floor(window.innerHeight);
-      pCanvas.width = Math.floor(pW*pDpr);
-      pCanvas.height = Math.floor(pH*pDpr);
-      pCanvas.style.width = pW+"px";
-      pCanvas.style.height = pH+"px";
-      pCtx.setTransform(pDpr,0,0,pDpr,0,0);
+    function sResize(){
+      sDpr = Math.max(1, window.devicePixelRatio || 1);
+      sW = Math.floor(window.innerWidth);
+      sH = Math.floor(window.innerHeight);
+      sCanvas.width = Math.floor(sW*sDpr);
+      sCanvas.height = Math.floor(sH*sDpr);
+      sCanvas.style.width = sW+"px";
+      sCanvas.style.height = sH+"px";
+      sCtx.setTransform(sDpr,0,0,sDpr,0,0);
     }
-    function spawnParticle(){
-      particles.push({
-        x: Math.random()*pW,
-        y: pH + Math.random()*80,
-        r: 1.6 + Math.random()*3.8,
-        vy: 0.45 + Math.random()*1.2,
-        vx: -0.35 + Math.random()*0.7,
-        a: 0.25 + Math.random()*0.7,
-        col: PARTICLE_COLORS[Math.floor(Math.random()*PARTICLE_COLORS.length)],
-        tw: Math.random()*Math.PI*2
+    function spawnSparkle(){
+      sparkles.push({
+        x: Math.random()*sW,
+        y: Math.random()*sH,
+        r: 0.8 + Math.random()*2.4,
+        a: 0.15 + Math.random()*0.7,
+        tw: Math.random()*Math.PI*2,
+        col: sparkleCols[(Math.random()*sparkleCols.length)|0],
+        vy: -0.15 - Math.random()*0.55
       });
     }
-    function initParticles(){
-      pResize();
-      window.addEventListener("resize", pResize, {passive:true});
-      for(let i=0;i<80;i++) spawnParticle();
+    function initCoverSparkles(){
+      sResize();
+      window.addEventListener("resize", sResize, {passive:true});
+      for(let i=0;i<140;i++) spawnSparkle();
+
       function tick(){
-        pCtx.clearRect(0,0,pW,pH);
-        const targetCount = coverParticlesMode ? 95 : 10;
-        while(particles.length < targetCount) spawnParticle();
-        while(particles.length > targetCount) particles.shift();
-
-        for(let i=particles.length-1;i>=0;i--){
-          const p = particles[i];
+        sCtx.clearRect(0,0,sW,sH);
+        for(let i=sparkles.length-1;i>=0;i--){
+          const p = sparkles[i];
           p.tw += 0.03;
-          p.x += p.vx + Math.sin(p.tw)*0.25;
-          p.y -= p.vy;
-          p.a *= 0.998;
+          p.y += p.vy;
+          const twinkle = 0.35 + Math.abs(Math.sin(p.tw))*0.75;
 
-          pCtx.globalAlpha = Math.max(0, Math.min(1, p.a));
-          pCtx.fillStyle = p.col;
-          pCtx.beginPath();
-          pCtx.arc(p.x, p.y, p.r, 0, Math.PI*2);
-          pCtx.fill();
+          sCtx.globalAlpha = p.a * twinkle;
+          sCtx.fillStyle = p.col;
+          sCtx.beginPath();
+          sCtx.arc(p.x, p.y, p.r, 0, Math.PI*2);
+          sCtx.fill();
 
-          if (p.y < -60 || p.x < -60 || p.x > pW+60) particles[i] = {
-            x: Math.random()*pW,
-            y: pH + Math.random()*80,
-            r: 1.6 + Math.random()*3.8,
-            vy: 0.45 + Math.random()*1.2,
-            vx: -0.35 + Math.random()*0.7,
-            a: 0.25 + Math.random()*0.7,
-            col: PARTICLE_COLORS[Math.floor(Math.random()*PARTICLE_COLORS.length)],
-            tw: Math.random()*Math.PI*2
-          };
+          if (p.y < -30){
+            sparkles[i] = {
+              x: Math.random()*sW,
+              y: sH + Math.random()*60,
+              r: 0.8 + Math.random()*2.4,
+              a: 0.15 + Math.random()*0.7,
+              tw: Math.random()*Math.PI*2,
+              col: sparkleCols[(Math.random()*sparkleCols.length)|0],
+              vy: -0.15 - Math.random()*0.55
+            };
+          }
         }
         requestAnimationFrame(tick);
       }
       requestAnimationFrame(tick);
     }
 
-    // CURSOR MÁGICO CORAZONES
+    /***********************
+     * Cursor mágico corazones: verde, plata, azul, dorado
+     ***********************/
     const hCanvas = document.getElementById("heartsCanvas");
     const hCtx = hCanvas.getContext("2d");
     let hW=0, hH=0, hDpr=1;
-    const HEART_COLORS = ["#3b82f6", "#ffffff", "#d4af37", "#2ecc71"];
+
+    const HEART_COLORS = ["#2ecc71","#c0c0c0","#3b82f6","#d4af37"];
     const hearts = [];
     let lastX=null, lastY=null, lastT=0;
 
@@ -1199,7 +1240,7 @@
           size: 8 + Math.random()*10,
           life: 0.85 + Math.random()*0.7,
           age: 0,
-          col: HEART_COLORS[Math.floor(Math.random()*HEART_COLORS.length)],
+          col: HEART_COLORS[(Math.random()*HEART_COLORS.length)|0],
           a: 0.78 + Math.random()*0.20
         });
       }
@@ -1259,4 +1300,4 @@
     }
   </script>
 </body>
-</html> 
+</html>
