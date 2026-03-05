@@ -2,8 +2,13 @@
 <html lang="es">
 <head>
   <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover"/>
   <title>Nuestra Boda — Erick & Esther</title>
+
+  <!-- Tipografías premium -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
 
   <style>
     :root{
@@ -15,7 +20,7 @@
       --accent:#7aa2ff;
 
       /* ✅ Formato vertical tipo Instagram (Story 9:16) */
-      --bookW: min(430px, calc(100vw - 16px));
+      --bookW: min(430px, calc(100vw - 18px));
       --bookH: min(calc(100svh - 210px), calc(var(--bookW) * 16 / 9));
     }
 
@@ -27,6 +32,8 @@
       color:var(--txt);
       font-family: system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
       overflow-x:hidden;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
 
     /* FX canvases */
@@ -44,6 +51,7 @@
       border:1px solid rgba(0,0,0,.12);
       background:rgba(255,255,255,.94);
       backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
       padding:12px 14px;
       border-radius:999px;
       cursor:pointer;
@@ -54,6 +62,7 @@
       transition:transform .12s ease, box-shadow .12s ease, opacity .12s ease;
       touch-action: manipulation;
       white-space:nowrap;
+      -webkit-tap-highlight-color: transparent;
     }
     .btn:hover{ transform: translateY(-1px); box-shadow: 0 18px 36px rgba(0,0,0,.16); }
     .btn:disabled{ opacity:.55; cursor:not-allowed; }
@@ -63,19 +72,19 @@
 
     /* Cover */
     .cover{
-      min-height:100vh;
+      min-height:100svh;
       display:flex;
       flex-direction:column;
       align-items:center;
       justify-content:center;
       text-align:center;
-      padding:26px 16px;
+      padding:28px 16px calc(28px + env(safe-area-inset-bottom));
       position:relative;
       overflow:hidden;
       background:
-        radial-gradient(1100px 600px at 18% 15%, rgba(78,120,255,.18), transparent 60%),
+        radial-gradient(1100px 600px at 18% 15%, rgba(78,120,255,.20), transparent 60%),
         radial-gradient(900px 550px at 82% 85%, rgba(255,214,140,.14), transparent 60%),
-        #0b1020;
+        #070b18;
       color:#fff;
       z-index:10;
     }
@@ -84,13 +93,13 @@
       position:absolute; inset:0;
       background:
         radial-gradient(900px 520px at 50% 45%, rgba(255,255,255,.06), transparent 60%),
-        linear-gradient(180deg, rgba(0,0,0,.35), rgba(0,0,0,.75));
+        linear-gradient(180deg, rgba(0,0,0,.25), rgba(0,0,0,.78));
       z-index:0;
     }
     .cover-inner{
       position:relative;
       z-index:1;
-      width:min(520px, 100%);
+      width:min(560px, 100%);
       display:flex;
       flex-direction:column;
       align-items:center;
@@ -101,8 +110,8 @@
       border:0; background:transparent;
       padding:0; margin:0;
       cursor:pointer;
-      -webkit-tap-highlight-color:transparent;
       touch-action: manipulation;
+      -webkit-tap-highlight-color: transparent;
     }
     .ring-svg{
       width: min(220px, 56vw);
@@ -110,21 +119,21 @@
       user-select:none;
       animation:pulse 2.6s infinite ease-in-out;
       pointer-events:none;
-      filter: drop-shadow(0 0 22px rgba(102,160,255,.70));
+      filter: drop-shadow(0 0 26px rgba(102,160,255,.78));
     }
-    @keyframes pulse{ 0%,100%{ transform:scale(1);} 50%{ transform:scale(1.065);} }
+    @keyframes pulse{ 0%,100%{ transform:scale(1);} 50%{ transform:scale(1.07);} }
 
     .cover-title{
       font-family:"Playfair Display","Georgia",serif;
-      font-size: clamp(1.7rem, 6vw, 2.35rem);
+      font-size: clamp(1.7rem, 6vw, 2.45rem);
       margin:0;
       letter-spacing:.25px;
-      text-shadow: 0 0 24px rgba(120,170,255,.25);
+      text-shadow: 0 0 28px rgba(120,170,255,.25);
     }
     .cover-sub{
       margin:0;
-      font-size: clamp(.98rem, 3.7vw, 1.08rem);
-      color: rgba(255,255,255,.88);
+      font-size: clamp(1.02rem, 3.8vw, 1.12rem);
+      color: rgba(255,255,255,.90);
     }
     .cover-actions{
       display:flex;
@@ -132,17 +141,17 @@
       flex-wrap:wrap;
       justify-content:center;
       width:100%;
-      margin-top:6px;
+      margin-top:8px;
     }
-    .cover-actions .btn{ flex: 1 1 220px; }
+    .cover-actions .btn{ flex: 1 1 230px; }
 
-    /* Countdown */
-    .countdown-wrap{ margin-top:18px; width:100%; }
+    /* Countdown premium */
+    .countdown-wrap{ margin-top:16px; width:100%; }
     .countdown-title{
       font-size:.95rem;
       letter-spacing:.2px;
-      color: rgba(255,255,255,.85);
-      margin:0 0 8px;
+      color: rgba(255,255,255,.86);
+      margin:0 0 10px;
     }
     .countdown{
       display:grid;
@@ -154,6 +163,7 @@
       border:1px solid rgba(255,255,255,.16);
       background: rgba(255,255,255,.08);
       backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
       border-radius:18px;
       padding:12px 10px;
       box-shadow: 0 18px 40px rgba(0,0,0,.28);
@@ -162,24 +172,35 @@
     }
     .cd-box::after{
       content:"";
-      position:absolute; inset:-40px;
+      position:absolute; inset:-60px;
       background:
-        radial-gradient(240px 120px at 30% 30%, rgba(255,215,90,.16), transparent 55%),
-        radial-gradient(240px 120px at 70% 70%, rgba(120,170,255,.16), transparent 55%);
-      filter: blur(1px);
+        radial-gradient(260px 140px at 30% 30%, rgba(255,215,90,.16), transparent 55%),
+        radial-gradient(260px 140px at 70% 70%, rgba(120,170,255,.16), transparent 55%);
+      filter: blur(2px);
+      animation: cdGlow 3.6s ease-in-out infinite;
+    }
+    @keyframes cdGlow{
+      0%,100%{ transform: translate3d(0,0,0) rotate(0deg); opacity:.9; }
+      50%{ transform: translate3d(10px,-6px,0) rotate(6deg); opacity:1; }
     }
     .cd-num{
       position:relative;
-      font-size: clamp(1.3rem, 6vw, 1.75rem);
+      font-size: clamp(1.35rem, 6vw, 1.8rem);
       font-weight:900;
       color:#fff;
-      text-shadow: 0 0 18px rgba(255,215,90,.22), 0 0 18px rgba(120,170,255,.18);
+      text-shadow: 0 0 20px rgba(255,215,90,.22), 0 0 20px rgba(120,170,255,.18);
+      transform: translateZ(0);
+      animation: numPop 1.2s ease-in-out infinite;
+    }
+    @keyframes numPop{
+      0%,100%{ transform: scale(1); }
+      50%{ transform: scale(1.03); }
     }
     .cd-lbl{
       position:relative;
       margin-top:4px;
-      font-size:.85rem;
-      color: rgba(255,255,255,.85);
+      font-size:.86rem;
+      color: rgba(255,255,255,.86);
     }
 
     /* Book wrapper */
@@ -196,16 +217,17 @@
       border:1px solid rgba(0,0,0,.12);
       background:rgba(255,255,255,.94);
       backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
       box-shadow: var(--softshadow);
     }
 
-    /* Flipbook (sin espejo) */
+    /* Flipbook */
     .book{
       width: var(--bookW);
       height: var(--bookH);
       margin: 0 auto;
       position:relative;
-      perspective: 2200px;
+      perspective: 2400px;
     }
     .sheet{
       position:absolute; inset:0;
@@ -218,7 +240,7 @@
       background:#fff;
       will-change: transform;
     }
-    .sheet.turning{ transition: transform 820ms cubic-bezier(.2,.85,.12,1); }
+    .sheet.turning{ transition: transform 860ms cubic-bezier(.2,.85,.12,1); }
     .sheet.turned{ transform: rotateY(-180deg); }
 
     .page{
@@ -228,7 +250,6 @@
       -webkit-overflow-scrolling: touch;
       padding-bottom: 92px;
 
-      /* ✅ fondo en secciones (jpg) + fallback a webp */
       background-image: url("fondo1.jpg"), url("fondo1.webp");
       background-size: cover;
       background-position: center;
@@ -242,6 +263,7 @@
       position:absolute; inset:0;
       background: rgba(255,255,255,.92);
       backdrop-filter: blur(2px);
+      -webkit-backdrop-filter: blur(2px);
       z-index:0;
     }
     .content{
@@ -259,20 +281,20 @@
       letter-spacing:.2px;
       text-shadow: 0 1px 0 rgba(255,255,255,.45);
     }
-    h2{ font-size: clamp(1.15rem, 4.4vw, 1.55rem); }
-    h3{ font-size: clamp(1.02rem, 3.8vw, 1.25rem); }
+    h2{ font-size: clamp(1.18rem, 4.6vw, 1.6rem); }
+    h3{ font-size: clamp(1.04rem, 3.9vw, 1.28rem); }
     p{
       margin:0;
-      color:#222;
-      line-height:1.58;
-      font-size: clamp(.98rem, 3.7vw, 1.06rem);
+      color:#1c1c1c;
+      line-height:1.6;
+      font-size: clamp(1.00rem, 3.8vw, 1.07rem);
       text-shadow: 0 1px 0 rgba(255,255,255,.35);
     }
 
     .panel{
       border:1px solid rgba(0,0,0,.12);
       border-radius:18px;
-      background: rgba(255,255,255,.96);
+      background: rgba(255,255,255,.965);
       box-shadow: 0 14px 30px rgba(0,0,0,.10);
       padding:14px;
     }
@@ -284,6 +306,29 @@
       box-shadow: var(--softshadow);
       display:block;
       object-fit:cover;
+    }
+
+    /* Premium page sparkle overlay (on flip) */
+    .page-sparkle{
+      position: fixed;
+      inset: 0;
+      pointer-events:none;
+      z-index: 20000;
+      opacity: 0;
+      background:
+        radial-gradient(320px 220px at 30% 30%, rgba(255,215,90,.22), transparent 60%),
+        radial-gradient(340px 240px at 70% 65%, rgba(120,170,255,.22), transparent 60%),
+        radial-gradient(260px 180px at 50% 40%, rgba(255,255,255,.16), transparent 62%);
+      filter: blur(0.5px);
+      transform: translateZ(0);
+    }
+    .page-sparkle.on{
+      animation: sparkleFlash 820ms ease;
+    }
+    @keyframes sparkleFlash{
+      0%{ opacity:0; }
+      25%{ opacity:.85; }
+      100%{ opacity:0; }
     }
 
     /* Carousel */
@@ -301,6 +346,7 @@
     .cap{
       position:absolute; left:10px; right:10px; bottom:10px;
       background:rgba(255,255,255,.90); backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
       border:1px solid rgba(255,255,255,.95);
       border-radius:14px;
       padding:10px 12px;
@@ -376,6 +422,7 @@
       border-radius: 18px;
       background: rgba(255,255,255,.86);
       backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
       border:1px solid rgba(0,0,0,.10);
       box-shadow: 0 14px 30px rgba(0,0,0,.12);
     }
@@ -400,6 +447,7 @@
       align-items:center;
       gap:8px;
       touch-action: manipulation;
+      -webkit-tap-highlight-color: transparent;
     }
     .heart-svg{
       width:min(150px, 45vw);
@@ -407,12 +455,52 @@
       animation: heartPulse 1.8s ease-in-out infinite;
     }
     @keyframes heartPulse{ 0%,100%{ transform: scale(1);} 50%{ transform: scale(1.06);} }
+
+    /* “Nuestro gran día” */
+    .fancy-title{
+      font-family: "Great Vibes", cursive;
+      font-size: clamp(2.05rem, 7.2vw, 2.85rem);
+      line-height: 1.02;
+      margin: 0;
+      color:#111;
+      text-shadow: 0 2px 10px rgba(255,215,90,.18);
+    }
+    .fancy-sub{
+      font-family: "Playfair Display", serif;
+      font-size: clamp(1.05rem, 4.2vw, 1.26rem);
+      color:#1a1a1a;
+    }
+    .event-grid{ display:grid; gap:12px; }
+    .event-card{
+      border:1px solid rgba(0,0,0,.12);
+      border-radius:18px;
+      background: rgba(255,255,255,.96);
+      box-shadow: 0 14px 30px rgba(0,0,0,.10);
+      padding:14px;
+    }
+    .event-meta{ display:grid; gap:6px; margin-top:8px; color:#222; font-size: 1.02rem; line-height:1.45; }
+    .map-embed{
+      width:100%;
+      height: 260px;
+      border:0;
+      border-radius:18px;
+      box-shadow: 0 12px 26px rgba(0,0,0,.12);
+      overflow:hidden;
+    }
+    .kicker{
+      display:inline-flex; align-items:center; gap:8px;
+      font-weight:900; color:#111; font-size: .95rem;
+      padding:8px 12px; border-radius:999px;
+      border:1px solid rgba(0,0,0,.12);
+      background: rgba(246,247,255,.96);
+    }
   </style>
 </head>
 
 <body>
   <canvas id="coverSparkles"></canvas>
   <canvas id="heartsCanvas"></canvas>
+  <div id="pageSparkle" class="page-sparkle" aria-hidden="true"></div>
 
   <!-- Audio -->
   <audio id="marchaNupcial" autoplay loop>
@@ -497,8 +585,18 @@
     </div>
 
     <div class="book" id="book">
-      <!-- 1 -->
-      <div class="sheet turning" data-i="0" style="z-index:80">
+      <!-- Orden solicitado:
+        1) Bienvenida
+        2) Nuestro gran día (mapas)
+        3) Vestimenta + WhatsApps
+        4) Carrusel
+        5) RSVP
+        6) Buenos deseos
+        7) Cierre
+      -->
+
+      <!-- 1 Bienvenida -->
+      <div class="sheet turning" data-i="0" style="z-index:90">
         <div class="page">
           <div class="content">
             <div class="panel">
@@ -515,8 +613,98 @@
         </div>
       </div>
 
-      <!-- 2 Carrusel -->
-      <div class="sheet turning" data-i="1" style="z-index:79">
+      <!-- 2 Nuestro gran día -->
+      <div class="sheet turning" data-i="1" style="z-index:89">
+        <div class="page">
+          <div class="content">
+            <div class="panel">
+              <div class="kicker">💫 21 de Marzo 2026</div>
+              <h2 class="fancy-title" style="margin-top:10px;">Nuestro gran día</h2>
+              <p class="fancy-sub" style="margin-top:6px;">
+                Te esperamos en <strong>Nuestro gran día</strong>. ✨
+              </p>
+            </div>
+
+            <div class="event-grid">
+              <!-- Ceremonia -->
+              <div class="event-card">
+                <h3>⛪ Ceremonia Religiosa — 1:00 PM</h3>
+                <div class="event-meta">
+                  <div><strong>Iglesia:</strong> Iglesia Cristiana Apostólica de Jesús Pentecostés A. R. “Eben-Ezer”</div>
+                  <div><strong>Dirección:</strong> Moctezuma 36, 62980 Tlaquiltenango, Morelos</div>
+                </div>
+                <div class="divider"></div>
+                <iframe class="map-embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+                  src="https://www.google.com/maps?q=Moctezuma%2036,%2062980%20Tlaquiltenango,%20Morelos&output=embed"></iframe>
+                <div style="height:10px"></div>
+                <a class="btn soft block" target="_blank" rel="noopener"
+                  href="https://maps.app.goo.gl/c9cfWhbrFtGwvoc58">Abrir mapa de Ceremonia</a>
+              </div>
+
+              <!-- Recepción -->
+              <div class="event-card">
+                <h3>🎉 Recepción — 3:00 PM</h3>
+                <div class="event-meta">
+                  <div><strong>Lugar:</strong> Colonia Gabriel Tepepa</div>
+                  <div><strong>Dirección:</strong> Prolongación Nicolás Bravo, Tlaquiltenango, Morelos</div>
+                </div>
+                <div class="divider"></div>
+                <iframe class="map-embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+                  src="https://www.google.com/maps?q=Colonia%20Gabriel%20Tepepa,%20Prolongaci%C3%B3n%20Nicol%C3%A1s%20Bravo,%20Tlaquiltenango,%20Morelos&output=embed"></iframe>
+                <div style="height:10px"></div>
+                <a class="btn soft block" target="_blank" rel="noopener"
+                  href="https://maps.app.goo.gl/ZF73bjGrkZddYpun6">Abrir mapa de Recepción</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3 Vestimenta + WhatsApps -->
+      <div class="sheet turning" data-i="2" style="z-index:88">
+        <div class="page">
+          <div class="content">
+            <div class="panel">
+              <h2>Tipo de vestimenta formal</h2>
+              <p>Te recomendamos la siguiente paleta; <strong>dejemos el blanco para la novia.</strong></p>
+            </div>
+
+            <div class="panel">
+              <h3>Paleta sugerida</h3>
+              <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:10px;">
+                <div title="Azul" style="width:42px;height:42px;border-radius:14px;border:1px solid rgba(0,0,0,.12);background:#1f4fa3"></div>
+                <div title="Celeste" style="width:42px;height:42px;border-radius:14px;border:1px solid rgba(0,0,0,.12);background:#8fc5ff"></div>
+                <div title="Gris" style="width:42px;height:42px;border-radius:14px;border:1px solid rgba(0,0,0,.12);background:#8e8e8e"></div>
+                <div title="Verde" style="width:42px;height:42px;border-radius:14px;border:1px solid rgba(0,0,0,.12);background:#2e8b57"></div>
+                <div title="Beige" style="width:42px;height:42px;border-radius:14px;border:1px solid rgba(0,0,0,.12);background:#d9c7a3"></div>
+                <div title="Plateado" style="width:42px;height:42px;border-radius:14px;border:1px solid rgba(0,0,0,.12);background:linear-gradient(135deg,#f5f5f5,#bdbdbd,#f0f0f0)"></div>
+                <div title="Rosa" style="width:42px;height:42px;border-radius:14px;border:1px solid rgba(0,0,0,.12);background:#f2a8c6"></div>
+              </div>
+            </div>
+
+            <div class="panel">
+              <h2>Contacta a los novios</h2>
+              <p>Para dudas rápidas:</p>
+              <div class="divider"></div>
+
+              <a class="btn dark block" target="_blank" rel="noopener"
+                href="https://wa.me/527341361227?text=Hola%20Esther%2C%20tengo%20una%20duda%20sobre%20la%20boda%20%F0%9F%92%8D">
+                WhatsApp Esther (+52 7341361227)
+              </a>
+
+              <div style="height:10px"></div>
+
+              <a class="btn dark block" target="_blank" rel="noopener"
+                href="https://wa.me/12504606724?text=Hola%20Erick%2C%20tengo%20una%20duda%20sobre%20la%20boda%20%F0%9F%92%8D">
+                WhatsApp Erick (+1 250 460 6724)
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4 Carrusel -->
+      <div class="sheet turning" data-i="3" style="z-index:87">
         <div class="page">
           <div class="content">
             <div class="panel">
@@ -546,8 +734,8 @@
         </div>
       </div>
 
-      <!-- 3 RSVP -->
-      <div class="sheet turning" data-i="2" style="z-index:78">
+      <!-- 5 RSVP -->
+      <div class="sheet turning" data-i="4" style="z-index:86">
         <div class="page">
           <div class="content">
             <div class="panel">
@@ -589,8 +777,8 @@
         </div>
       </div>
 
-      <!-- 4 Buenos deseos -->
-      <div class="sheet turning" data-i="3" style="z-index:77">
+      <!-- 6 Buenos deseos -->
+      <div class="sheet turning" data-i="5" style="z-index:85">
         <div class="page">
           <div class="content">
             <div class="panel">
@@ -638,61 +826,8 @@
         </div>
       </div>
 
-      <!-- 5 Vestimenta + WhatsApp + compartir -->
-      <div class="sheet turning" data-i="4" style="z-index:76">
-        <div class="page">
-          <div class="content">
-            <div class="panel">
-              <h2>Tipo de vestimenta formal</h2>
-              <p>Te recomendamos la siguiente paleta; <strong>dejemos el blanco para la novia.</strong></p>
-            </div>
-
-            <div class="panel">
-              <h3>Paleta sugerida</h3>
-              <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:10px;">
-                <div title="Azul" style="width:42px;height:42px;border-radius:14px;border:1px solid rgba(0,0,0,.12);background:#1f4fa3"></div>
-                <div title="Celeste" style="width:42px;height:42px;border-radius:14px;border:1px solid rgba(0,0,0,.12);background:#8fc5ff"></div>
-                <div title="Gris" style="width:42px;height:42px;border-radius:14px;border:1px solid rgba(0,0,0,.12);background:#8e8e8e"></div>
-                <div title="Verde" style="width:42px;height:42px;border-radius:14px;border:1px solid rgba(0,0,0,.12);background:#2e8b57"></div>
-                <div title="Beige" style="width:42px;height:42px;border-radius:14px;border:1px solid rgba(0,0,0,.12);background:#d9c7a3"></div>
-                <div title="Plateado" style="width:42px;height:42px;border-radius:14px;border:1px solid rgba(0,0,0,.12);background:linear-gradient(135deg,#f5f5f5,#bdbdbd,#f0f0f0)"></div>
-                <div title="Rosa" style="width:42px;height:42px;border-radius:14px;border:1px solid rgba(0,0,0,.12);background:#f2a8c6"></div>
-              </div>
-            </div>
-
-            <div class="panel">
-              <h2>Contacta a los novios</h2>
-              <p>Para dudas rápidas:</p>
-              <div class="divider"></div>
-
-              <a class="btn dark block" target="_blank" rel="noopener"
-                 href="https://wa.me/527341361227?text=Hola%20Esther%2C%20tengo%20una%20duda%20sobre%20la%20boda%20%F0%9F%92%8D">
-                WhatsApp Esther (+52 7341361227)
-              </a>
-
-              <div style="height:10px"></div>
-
-              <a class="btn dark block" target="_blank" rel="noopener"
-                 href="https://wa.me/12504606724?text=Hola%20Erick%2C%20tengo%20una%20duda%20sobre%20la%20boda%20%F0%9F%92%8D">
-                WhatsApp Erick (+1 250 460 6724)
-              </a>
-
-              <div class="divider"></div>
-
-              <h2>Comparte la invitación</h2>
-              <a class="btn soft block" target="_blank" rel="noopener" id="shareWA">Compartir WhatsApp</a>
-              <div style="height:10px"></div>
-              <a class="btn soft block" target="_blank" rel="noopener" id="shareFB">Compartir Facebook</a>
-              <div style="height:10px"></div>
-              <button class="btn soft block" type="button" id="copyBtn">Copiar link</button>
-              <div class="status" id="copyStatus"></div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- 6 Cierre + corazón 2D a Canva -->
-      <div class="sheet turning" data-i="5" style="z-index:75">
+      <!-- 7 Cierre -->
+      <div class="sheet turning" data-i="6" style="z-index:84">
         <div class="page">
           <div class="content">
             <div class="panel">
@@ -738,42 +873,40 @@
 
   <script>
     /***********************
-     * ✅ TUS ENDPOINTS /exec (integrados)
+     * ENDPOINTS (tus Apps Script)
      ***********************/
     const RSVP_WEBAPP = "https://script.google.com/macros/s/AKfycbyGDyLe_mKEVMn8biNQJM1h_iGGoDgJvqRNbkKEC2cr_sjSQY9xbiq0bf3w4QySoJgGmw/exec";
     const WISH_WEBAPP = "https://script.google.com/macros/s/AKfycbwg8ca2wZe0Wy3cKevAm6mwGZEbvM5rOgVEIPky9a0aG_pJO6pJvRYFp5F1TZ8sMHfc/exec";
     const CANVA_URL = "https://bodaerick.my.canva.site/nuestraboda";
 
-    // DOM
     const cover = document.getElementById("cover");
     const bookWrap = document.getElementById("bookWrap");
     const ringButton = document.getElementById("ringButton");
     const toggleMusicBtn = document.getElementById("toggleMusicBtn");
+    const pageSparkle = document.getElementById("pageSparkle");
 
     const marcha = document.getElementById("marchaNupcial");
     const clickAudio = document.getElementById("audioClick");
 
-    // Countdown elems
     const cdDays  = document.getElementById("cdDays");
     const cdHours = document.getElementById("cdHours");
     const cdMins  = document.getElementById("cdMins");
     const cdSecs  = document.getElementById("cdSecs");
 
-    // Wishes elems
     const wishMsg = document.getElementById("wishMsg");
     const msgCount = document.getElementById("msgCount");
     const wishLive = document.getElementById("wishLive");
     const wishSendBtn = document.getElementById("wishSendBtn");
 
-    // Download links
     const rsvpDownload = document.getElementById("rsvpDownload");
     const wishDownload = document.getElementById("wishDownload");
 
-    // Helpers
     async function tryPlay(aud){
       if (!aud) return false;
       try{ await aud.play(); return true; }catch(e){ return false; }
     }
+
+    // iOS/Android: desbloqueo de audio en primer toque
     function unlockAudio(){
       tryPlay(marcha);
       window.removeEventListener("pointerdown", unlockAudio);
@@ -783,7 +916,6 @@
     window.addEventListener("touchstart", unlockAudio, {once:true, passive:true});
 
     document.addEventListener("DOMContentLoaded", async ()=>{
-      // CSV download links (si tu Apps Script soporta action=csv)
       rsvpDownload.href = RSVP_WEBAPP + "?action=csv";
       wishDownload.href = WISH_WEBAPP + "?action=csv";
 
@@ -792,9 +924,8 @@
       initCountdown();
       initBook();
       initCarousel();
-      setupShare();
-      initCoverSparkles();
-      initHeartTrail(); // verde, plata, azul, dorado
+      initCoverSparklesPremium();  // partículas flotantes premium
+      initHeartTrail();
 
       if (wishMsg && msgCount){
         const upd = ()=> msgCount.textContent = `${wishMsg.value.length}/220`;
@@ -802,14 +933,11 @@
         upd();
       }
 
-      // feed de deseos (JSONP)
       loadWishesJSONP(true);
       setInterval(()=>loadWishesJSONP(false), 9000);
     });
 
-    /***********************
-     * Cover pause/resume march
-     ***********************/
+    // botón pausa/reanuda
     let isPaused = false;
     function updateMusicLabel(){
       toggleMusicBtn.textContent = isPaused ? "▶ Reanudar marcha nupcial" : "⏸ Pausar marcha nupcial";
@@ -827,13 +955,9 @@
       updateMusicLabel();
     });
 
-    /***********************
-     * Ring click:
-     * - pause march
-     * - open page 1
-     * - start unmundodiferente.mp3
-     ***********************/
+    // al abrir desde portada: pausa marcha + inicia unmundodiferente
     async function openFromCover(){
+      flashSparkle();
       try{ marcha.pause(); isPaused=true; updateMusicLabel(); }catch(e){}
       try{ clickAudio.currentTime = 0; await clickAudio.play(); }catch(e){}
 
@@ -845,9 +969,15 @@
     ringButton.addEventListener("click", (e)=>{ e.preventDefault(); openFromCover(); }, {passive:false});
     ringButton.addEventListener("touchend", (e)=>{ e.preventDefault(); openFromCover(); }, {passive:false});
 
-    /***********************
-     * Countdown: 21 Mar 2026 1:00 PM (MX time -06:00)
-     ***********************/
+    // Sparkle premium al cambiar página
+    function flashSparkle(){
+      if (!pageSparkle) return;
+      pageSparkle.classList.remove("on");
+      // reflow
+      void pageSparkle.offsetWidth;
+      pageSparkle.classList.add("on");
+    }
+
     function pad2(n){ return String(n).padStart(2,"0"); }
     function initCountdown(){
       const target = new Date("2026-03-21T13:00:00-06:00");
@@ -871,9 +1001,7 @@
       setInterval(tick, 1000);
     }
 
-    /***********************
-     * Flipbook
-     ***********************/
+    // Flipbook controls
     const sheets = Array.from(document.querySelectorAll(".sheet"));
     let current = 0;
     const prevBtn = document.getElementById("prevBtn");
@@ -898,6 +1026,7 @@
     }
 
     function resetToCover(){
+      flashSparkle();
       sheets.forEach(s => s.classList.remove("turned"));
       current = 0;
       updateNav();
@@ -911,20 +1040,14 @@
 
     function flipNext(){
       if (current >= sheets.length) return;
-
+      flashSparkle();
       sheets[current].classList.add("turned");
       current++;
       updateNav();
-
-      // Intento “auto” al llegar a la última sección:
-      // (solo funciona si el navegador permite popups en este clic)
-      if (current === sheets.length - 0) {
-        // current === sheets.length significa ya no hay más páginas
-      }
-      if (current === sheets.length - 0) return;
     }
     function flipPrev(){
       if (current <= 0) return;
+      flashSparkle();
       current--;
       sheets[current].classList.remove("turned");
       updateNav();
@@ -936,17 +1059,17 @@
       nextBtn.disabled = (current === sheets.length);
     }
 
-    /***********************
-     * Carousel
-     ***********************/
+    // Carrusel
     let carIdx = 0;
     const snap = document.getElementById("snap1");
-    const items = Array.from(snap.querySelectorAll(".item"));
+    const items = snap ? Array.from(snap.querySelectorAll(".item")) : [];
     const dotsWrap = document.getElementById("dots-car1");
     const carPrevBtn = document.getElementById("carPrev");
     const carNextBtn = document.getElementById("carNext");
 
     function initCarousel(){
+      if (!snap || !dotsWrap || !items.length) return;
+
       dotsWrap.innerHTML = "";
       items.forEach((_, i)=>{
         const d = document.createElement("button");
@@ -956,8 +1079,8 @@
         dotsWrap.appendChild(d);
       });
 
-      carPrevBtn.addEventListener("click", ()=> goTo(carIdx - 1));
-      carNextBtn.addEventListener("click", ()=> goTo(carIdx + 1));
+      carPrevBtn?.addEventListener("click", ()=> goTo(carIdx - 1));
+      carNextBtn?.addEventListener("click", ()=> goTo(carIdx + 1));
 
       let ticking = false;
       snap.addEventListener("scroll", ()=>{
@@ -985,9 +1108,7 @@
       dots.forEach((d, i)=> d.classList.toggle("active", i===carIdx));
     }
 
-    /***********************
-     * RSVP submit (POST no-cors)
-     ***********************/
+    // RSVP submit
     document.getElementById("rsvpForm")?.addEventListener("submit", async (e)=>{
       e.preventDefault();
       const status = document.getElementById("rsvpStatus");
@@ -1009,9 +1130,7 @@
       }
     });
 
-    /***********************
-     * WISH submit (POST no-cors)
-     ***********************/
+    // Wish submit
     document.getElementById("wishForm")?.addEventListener("submit", async (e)=>{
       e.preventDefault();
       const status = document.getElementById("wishStatus");
@@ -1034,11 +1153,7 @@
       }
     });
 
-    /***********************
-     * JSONP Wishes feed (evita CORS)
-     * Requiere que tu Apps Script soporte:
-     *   GET ?action=listWishes&limit=30&callback=xxx
-     ***********************/
+    // JSONP feed (si tu Apps Script lo soporta)
     let jsonpCounter = 0;
     function loadWishesJSONP(firstLoad=false, afterSend=false){
       const wrap = document.getElementById("wishFeed");
@@ -1115,31 +1230,19 @@
     }
 
     /***********************
-     * Share
-     ***********************/
-    function setupShare(){
-      const inviteUrl = location.href.split("#")[0];
-      const shareText = encodeURIComponent("¡Estás invitado a nuestra boda! 💍✨");
-      document.getElementById("shareWA").href = `https://wa.me/?text=${shareText}%20${encodeURIComponent(inviteUrl)}`;
-      document.getElementById("shareFB").href = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(inviteUrl)}`;
-      document.getElementById("copyBtn").addEventListener("click", async ()=>{
-        const copyStatus = document.getElementById("copyStatus");
-        try{
-          await navigator.clipboard.writeText(inviteUrl);
-          copyStatus.textContent = "Link copiado ✅ (pégalo en Instagram/WhatsApp)";
-        }catch(e){
-          copyStatus.textContent = "No pude copiar automáticamente. Copia manual: " + inviteUrl;
-        }
-      });
-    }
-
-    /***********************
-     * Cover sparkles (azul + dorado)
+     * PORTADA PREMIUM: partículas flotantes + destellos
+     * Colores: azul / rose gold / blanco / plata
      ***********************/
     const sCanvas = document.getElementById("coverSparkles");
     const sCtx = sCanvas.getContext("2d");
     let sW=0, sH=0, sDpr=1;
-    const sparkleCols = ["rgba(255,215,90,0.85)","rgba(120,170,255,0.85)","rgba(255,255,255,0.65)"];
+    const sparkleCols = [
+      "rgba(120,170,255,0.88)",     // azul
+      "rgba(255,215,90,0.82)",      // dorado
+      "rgba(255,255,255,0.68)",     // blanco
+      "rgba(242,168,198,0.66)",     // rose-gold
+      "rgba(192,192,192,0.70)"      // plata
+    ];
     let sparkles = [];
 
     function sResize(){
@@ -1156,25 +1259,30 @@
       sparkles.push({
         x: Math.random()*sW,
         y: Math.random()*sH,
-        r: 0.8 + Math.random()*2.4,
-        a: 0.15 + Math.random()*0.7,
+        r: 0.9 + Math.random()*2.6,
+        a: 0.12 + Math.random()*0.55,
         tw: Math.random()*Math.PI*2,
         col: sparkleCols[(Math.random()*sparkleCols.length)|0],
-        vy: -0.15 - Math.random()*0.55
+        vy: -0.10 - Math.random()*0.50,
+        vx: (Math.random()*0.20 - 0.10),
       });
     }
-    function initCoverSparkles(){
+
+    function initCoverSparklesPremium(){
       sResize();
       window.addEventListener("resize", sResize, {passive:true});
-      for(let i=0;i<140;i++) spawnSparkle();
+      sparkles = [];
+      for(let i=0;i<170;i++) spawnSparkle();
 
       function tick(){
         sCtx.clearRect(0,0,sW,sH);
+
         for(let i=sparkles.length-1;i>=0;i--){
           const p = sparkles[i];
-          p.tw += 0.03;
+          p.tw += 0.028;
           p.y += p.vy;
-          const twinkle = 0.35 + Math.abs(Math.sin(p.tw))*0.75;
+          p.x += p.vx;
+          const twinkle = 0.30 + Math.abs(Math.sin(p.tw))*0.80;
 
           sCtx.globalAlpha = p.a * twinkle;
           sCtx.fillStyle = p.col;
@@ -1182,15 +1290,29 @@
           sCtx.arc(p.x, p.y, p.r, 0, Math.PI*2);
           sCtx.fill();
 
-          if (p.y < -30){
+          // mini "cross sparkle"
+          if (twinkle > 0.95 && Math.random() < 0.03){
+            sCtx.globalAlpha = 0.25;
+            sCtx.strokeStyle = p.col;
+            sCtx.lineWidth = 1;
+            sCtx.beginPath();
+            sCtx.moveTo(p.x - 6, p.y);
+            sCtx.lineTo(p.x + 6, p.y);
+            sCtx.moveTo(p.x, p.y - 6);
+            sCtx.lineTo(p.x, p.y + 6);
+            sCtx.stroke();
+          }
+
+          if (p.y < -40 || p.x < -40 || p.x > sW+40){
             sparkles[i] = {
               x: Math.random()*sW,
-              y: sH + Math.random()*60,
-              r: 0.8 + Math.random()*2.4,
-              a: 0.15 + Math.random()*0.7,
+              y: sH + Math.random()*70,
+              r: 0.9 + Math.random()*2.6,
+              a: 0.12 + Math.random()*0.55,
               tw: Math.random()*Math.PI*2,
               col: sparkleCols[(Math.random()*sparkleCols.length)|0],
-              vy: -0.15 - Math.random()*0.55
+              vy: -0.10 - Math.random()*0.50,
+              vx: (Math.random()*0.20 - 0.10),
             };
           }
         }
@@ -1231,14 +1353,14 @@
       const count = Math.min(6, Math.max(1, Math.floor(strength*3)));
       for(let i=0;i<count;i++){
         hearts.push({
-          x: x + (Math.random()*4-2),
-          y: y + (Math.random()*4-2),
-          vx: (Math.random()*1.2-0.6),
-          vy: -(0.8 + Math.random()*1.2),
+          x: x + (Math.random()*5-2.5),
+          y: y + (Math.random()*5-2.5),
+          vx: (Math.random()*1.3-0.65),
+          vy: -(0.9 + Math.random()*1.4),
           rot: (Math.random()*1.2-0.6),
           vr: (Math.random()*0.08-0.04),
-          size: 8 + Math.random()*10,
-          life: 0.85 + Math.random()*0.7,
+          size: 8 + Math.random()*11,
+          life: 0.90 + Math.random()*0.75,
           age: 0,
           col: HEART_COLORS[(Math.random()*HEART_COLORS.length)|0],
           a: 0.78 + Math.random()*0.20
@@ -1300,4 +1422,4 @@
     }
   </script>
 </body>
-</html>
+</html> 
