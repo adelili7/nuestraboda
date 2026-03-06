@@ -1,4 +1,4 @@
-<!doctype html>
+ <!doctype html>
 <html lang="es">
 <head>
   <meta charset="utf-8"/>
@@ -17,10 +17,6 @@
       --shadow: 0 18px 44px rgba(0,0,0,.14);
       --softshadow: 0 12px 28px rgba(0,0,0,.10);
       --accent:#7aa2ff;
-      --gold:#d4af37;
-      --silver:#c0c0c0;
-      --green:#2e8b57;
-      --blue:#3b82f6;
 
       --bookW: min(430px, calc(100vw - 18px));
       --topH: 60px;
@@ -82,9 +78,9 @@
       border-color:rgba(0,0,0,.08);
     }
     .btn.ghost{
-      background: rgba(245,246,255,.92);
+      background: linear-gradient(135deg, rgba(245,246,255,.98), rgba(255,255,255,.92));
       border-color: rgba(0,0,0,.08);
-      box-shadow:none;
+      box-shadow: 0 8px 18px rgba(0,0,0,.06);
     }
     .btn.block{ width:100%; }
 
@@ -240,7 +236,6 @@
       gap:8px;
       align-items:center;
     }
-
     .badge{
       color:#222;
       font-size:.92rem;
@@ -309,16 +304,20 @@
       font-family:"Playfair Display","Georgia",serif;
       margin:0;
       color:#141414;
-      letter-spacing:.2px;
+      letter-spacing:.3px;
+      text-wrap:balance;
     }
-    h2{ font-size: clamp(1.25rem, 4.9vw, 1.72rem); font-weight:700; }
-    h3{ font-size: clamp(1.08rem, 4.0vw, 1.32rem); font-weight:700; }
+    h2{ font-size: clamp(1.35rem, 5vw, 1.9rem); font-weight:700; }
+    h3{ font-size: clamp(1.12rem, 4.1vw, 1.38rem); font-weight:700; }
 
     p{
       margin:0;
-      color:#1c1c1c;
-      line-height:1.62;
-      font-size: clamp(1.00rem, 3.9vw, 1.08rem);
+      color:#1f1f1f;
+      line-height:1.68;
+      font-size: clamp(1.02rem, 4vw, 1.10rem);
+      font-family:"Cormorant Garamond",serif;
+      font-weight:600;
+      letter-spacing:.15px;
     }
 
     .panel{
@@ -333,7 +332,6 @@
       background:linear-gradient(90deg, transparent, rgba(120,120,160,.28), transparent);
       margin:10px 0;
     }
-
     .img-round{
       width:100%;
       border-radius:18px;
@@ -355,12 +353,16 @@
       bottom: calc(10px + env(safe-area-inset-bottom));
       z-index: 30;
       padding: 8px;
-      border-radius: 22px;
-      background: rgba(255,255,255,.86);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border:1px solid rgba(0,0,0,.10);
-      box-shadow: 0 14px 30px rgba(0,0,0,.12);
+      border-radius: 24px;
+      background: rgba(255,255,255,.82);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border:1px solid rgba(0,0,0,.08);
+      box-shadow: 0 16px 34px rgba(0,0,0,.10);
+    }
+    .navbar .btn{
+      flex:1;
+      min-width:0;
     }
 
     .carousel{
@@ -569,6 +571,25 @@
       letter-spacing:.4px;
     }
 
+    .heart-btn{
+      border:0;
+      background:transparent;
+      cursor:pointer;
+      padding:0;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap:8px;
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .heart-svg{
+      width:min(150px, 45vw);
+      filter: drop-shadow(0 10px 22px rgba(242,168,198,.22));
+      animation: heartPulse 1.8s ease-in-out infinite;
+    }
+    @keyframes heartPulse{ 0%,100%{ transform: scale(1);} 50%{ transform: scale(1.06);} }
+
     @media (max-width: 420px){
       .book-topbar .right a:nth-child(1){ display:none; }
     }
@@ -654,22 +675,43 @@
 
     <div class="book" id="book">
 
-      <!-- 1 Bienvenida -->
       <div class="sheet turning" data-i="0" style="z-index:90">
         <div class="page"><div class="content">
-          <div class="panel">
+          <div class="panel" style="text-align:center;">
             <h2>“Lo que Dios ha unido, que no lo separe el hombre.”</h2>
             <p><strong>Mateo 19:6</strong></p>
             <div class="divider"></div>
             <p>Bienvenidos a nuestra boda 💍✨</p>
           </div>
+
           <div class="panel">
             <img class="img-round" src="momento1.jpg" alt="Momento 1">
+          </div>
+
+          <div class="panel" style="text-align:center;">
+            <button class="heart-btn" id="openCanvaHeartPage1" type="button" aria-label="Abrir detalles en Canva">
+              <svg class="heart-svg" viewBox="0 0 200 180" aria-hidden="true">
+                <defs>
+                  <linearGradient id="heartGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#ffd27a"/>
+                    <stop offset="50%" stop-color="#f2a8c6"/>
+                    <stop offset="100%" stop-color="#79aaff"/>
+                  </linearGradient>
+                </defs>
+                <path d="M100 170 C 20 115, 10 70, 35 45 C 55 25, 85 30, 100 55 C 115 30, 145 25, 165 45 C 190 70, 180 115, 100 170 Z"
+                      fill="url(#heartGrad1)" opacity="0.96"/>
+              </svg>
+            </button>
+
+            <div style="height:10px;"></div>
+
+            <button class="btn dark block" type="button" id="openCanvaDetailsBtn">
+              Da clic en el corazón para conocer los detalles de nuestra boda
+            </button>
           </div>
         </div></div>
       </div>
 
-      <!-- 2 Nuestro gran día -->
       <div class="sheet turning" data-i="1" style="z-index:89">
         <div class="page"><div class="content">
           <div class="panel">
@@ -710,7 +752,6 @@
         </div></div>
       </div>
 
-      <!-- 3 Vestimenta + WhatsApps -->
       <div class="sheet turning" data-i="2" style="z-index:88">
         <div class="page"><div class="content">
           <div class="panel">
@@ -747,7 +788,6 @@
         </div></div>
       </div>
 
-      <!-- 4 Carrusel -->
       <div class="sheet turning" data-i="3" style="z-index:87">
         <div class="page"><div class="content">
           <div class="panel">
@@ -776,7 +816,6 @@
         </div></div>
       </div>
 
-      <!-- 5 RSVP -->
       <div class="sheet turning" data-i="4" style="z-index:86">
         <div class="page"><div class="content">
           <div class="panel">
@@ -817,7 +856,6 @@
         </div></div>
       </div>
 
-      <!-- 6 Buenos deseos -->
       <div class="sheet turning" data-i="5" style="z-index:85">
         <div class="page"><div class="content">
           <div class="panel">
@@ -864,10 +902,9 @@
         </div></div>
       </div>
 
-      <!-- 7 Cierre -->
       <div class="sheet turning" data-i="6" style="z-index:84">
         <div class="page"><div class="content">
-          <div class="panel">
+          <div class="panel" style="text-align:center;">
             <h2 style="font-size:clamp(1.6rem,5.4vw,2.1rem);">Con amor eterno Esther y Erick</h2>
             <p>Gracias por acompañarnos en este día tan especial.</p>
           </div>
@@ -877,7 +914,17 @@
           <div class="panel">
             <button class="btn dark block" type="button" id="openCanva">Abrir invitación en Canva 💛</button>
             <div style="height:10px"></div>
-            <button class="btn soft block" type="button" id="endBackCover">Volver a Portada</button>
+            <a class="btn soft block" href="https://adelili7.github.io/nuestraboda/">Regresar</a>
+            <div style="height:10px"></div>
+            <a class="btn dark block" target="_blank" rel="noopener"
+               href="https://wa.me/527341361227?text=Hola%20Esther%2C%20tengo%20una%20duda%20sobre%20la%20boda%20%F0%9F%92%8D">
+              WhatsApp Esther (+52 7341361227)
+            </a>
+            <div style="height:10px"></div>
+            <a class="btn dark block" target="_blank" rel="noopener"
+               href="https://wa.me/12504606724?text=Hola%20Erick%2C%20tengo%20una%20duda%20sobre%20la%20boda%20%F0%9F%92%8D">
+              WhatsApp Erick (+1 250 460 6724)
+            </a>
           </div>
         </div></div>
       </div>
@@ -890,8 +937,8 @@
   </section>
 
   <script>
-    const RSVP_WEBAPP = "https://script.google.com/macros/s/AKfycbxcox9y7H0689QyPj3_463PMzdQIBqDGIPRXwhRUS1YK-MGncV92tGQ6g2YZtuj1eUNiQ/exec";
-    const WISH_WEBAPP = "https://script.google.com/macros/s/AKfycbw3H011LZhrYa5rpXAu_z8105qvRCZq9cLeirntK9aJjj07BoOx8rwZoa-0q6Yc_dgQ/exec";
+    const RSVP_WEBAPP = "https://script.google.com/macros/s/AKfycbyFa440eQLUAd6dpvnDa2Q0yCb17OdnMwkw6w2aRXB5ydJTg8Dtq8r3yYUwSIIinDMe9w/exec";
+    const WISH_WEBAPP = "https://script.google.com/macros/s/AKfycbwLqGGC4cVYGx-xyvzmW2-dFF4aRJhEqZlQ0fQU--WNEmSH2BAB2eVM15jNHd1yYElS/exec";
     const CANVA_URL = "https://bodaerick.my.canva.site/nuestraboda";
 
     const cover = document.getElementById("cover");
@@ -1016,6 +1063,12 @@
       document.getElementById("openCanva")?.addEventListener("click", ()=>{
         window.open(CANVA_URL, "_blank", "noopener");
       });
+      document.getElementById("openCanvaHeartPage1")?.addEventListener("click", ()=>{
+        window.open(CANVA_URL, "_blank", "noopener");
+      });
+      document.getElementById("openCanvaDetailsBtn")?.addEventListener("click", ()=>{
+        window.open(CANVA_URL, "_blank", "noopener");
+      });
 
       sheets.forEach(s => s.classList.remove("turned"));
       current = 0;
@@ -1106,16 +1159,26 @@
       status.textContent = "Enviando…";
       btn.disabled = true;
 
-      const fd = new FormData(e.target);
-      fd.append("action","rsvp");
-      fd.append("ua", navigator.userAgent);
+      const form = e.target;
+      const payload = new URLSearchParams();
+      payload.append("action", "rsvp");
+      payload.append("nombre", form.nombre.value || "");
+      payload.append("telefono", form.telefono.value || "");
+      payload.append("asistencia", form.asistencia.value || "");
+      payload.append("invitados", form.invitados.value || "");
+      payload.append("ua", navigator.userAgent || "");
 
       try{
-        await fetch(RSVP_WEBAPP, { method:"POST", body: fd });
-        status.textContent = "¡Listo! Tu confirmación fue registrada. 💍";
-        e.target.reset();
+        await fetch(RSVP_WEBAPP, {
+          method: "POST",
+          mode: "no-cors",
+          headers: { "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8" },
+          body: payload.toString()
+        });
+        status.textContent = "¡Listo! Tu confirmación fue enviada. 💍";
+        form.reset();
       }catch(err){
-        status.textContent = "No se pudo enviar. Revisa que tu Apps Script esté público.";
+        status.textContent = "No se pudo enviar. Revisa que tu Apps Script esté publicado como aplicación web con acceso para Cualquiera.";
       }finally{
         btn.disabled = false;
       }
@@ -1124,22 +1187,34 @@
     document.getElementById("wishForm")?.addEventListener("submit", async (e)=>{
       e.preventDefault();
       const status = document.getElementById("wishStatus");
+      const btn = document.getElementById("wishSendBtn");
       status.textContent = "Enviando…";
-      wishSendBtn.disabled = true;
+      btn.disabled = true;
 
-      const fd = new FormData(e.target);
-      fd.append("action","wish");
+      const form = e.target;
+      const payload = new URLSearchParams();
+      payload.append("action", "wish");
+      payload.append("nombre", form.nombre.value || "");
+      payload.append("de", form.de.value || "");
+      payload.append("mensaje", form.mensaje.value || "");
 
       try{
-        await fetch(WISH_WEBAPP, { method:"POST", body: fd });
-        status.textContent = "¡Gracias! Tu mensaje fue guardado ✨";
-        e.target.reset();
-        msgCount.textContent = "0/220";
-        loadWishesJSONP(false, true);
+        await fetch(WISH_WEBAPP, {
+          method: "POST",
+          mode: "no-cors",
+          headers: { "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8" },
+          body: payload.toString()
+        });
+        status.textContent = "¡Gracias! Tu mensaje fue enviado ✨";
+        form.reset();
+        document.getElementById("msgCount").textContent = "0/220";
+        setTimeout(() => {
+          loadWishesJSONP(false, true);
+        }, 1200);
       }catch(err){
-        status.textContent = "No se pudo enviar. Revisa que tu Apps Script esté público.";
+        status.textContent = "No se pudo enviar. Revisa que tu Apps Script esté publicado como aplicación web con acceso para Cualquiera.";
       }finally{
-        wishSendBtn.disabled = false;
+        btn.disabled = false;
       }
     });
 
@@ -1380,4 +1455,4 @@
     }
   </script>
 </body>
-</html> 
+</html>
