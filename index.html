@@ -937,8 +937,8 @@
   </section>
 
   <script>
-    const RSVP_WEBAPP = "https://script.google.com/macros/s/AKfycbyFa440eQLUAd6dpvnDa2Q0yCb17OdnMwkw6w2aRXB5ydJTg8Dtq8r3yYUwSIIinDMe9w/exec";
-    const WISH_WEBAPP = "https://script.google.com/macros/s/AKfycbwLqGGC4cVYGx-xyvzmW2-dFF4aRJhEqZlQ0fQU--WNEmSH2BAB2eVM15jNHd1yYElS/exec";
+    const RSVP_WEBAPP = "https://script.google.com/macros/s/AKfycbxvQ_Go2mcmyiP8Hn8FIZdqGnpj2nU2IsdhOjhohf7G_7dkl2ta0dyvZiYHj0v9v1oA_g/exec";
+    const WISH_WEBAPP = "https://script.google.com/macros/s/AKfycbznnxMp3e-iiO-E75NsMnubvHhAcEv_MdKgFJjBXM-_ScfrTI0T3jGojqRZFATocsyz/exec";
     const CANVA_URL = "https://bodaerick.my.canva.site/nuestraboda";
 
     const cover = document.getElementById("cover");
@@ -1051,14 +1051,12 @@
     const nextBtn = document.getElementById("nextBtn");
     const pageIndicator = document.getElementById("pageIndicator");
     const backToCover = document.getElementById("backToCover");
-    const endBackCover = document.getElementById("endBackCover");
 
     function initBook(){
       prevBtn.addEventListener("click", flipPrev);
       nextBtn.addEventListener("click", flipNext);
 
       backToCover?.addEventListener("click", (e)=>{ e.preventDefault(); resetToCover(); });
-      endBackCover?.addEventListener("click", ()=> resetToCover());
 
       document.getElementById("openCanva")?.addEventListener("click", ()=>{
         window.open(CANVA_URL, "_blank", "noopener");
